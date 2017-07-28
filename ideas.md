@@ -1,7 +1,7 @@
-PokeManager
-Purpose: let users record the Pokemon they have caught and various details about them
+## PokeManager
+#### Purpose: let users record the Pokemon they have caught and various details about them
 
-Information user can record/see about their pokemon Pokemon:
+#### Information user can record/see about their pokemon Pokemon:
 - Species species
 - String nickname
 - Move[] moves (has to be a subset of species moveset)
@@ -16,25 +16,25 @@ Information user can record/see about their pokemon Pokemon:
 - Type[] weak_against (calculated from Types)
 - Type[] strong_against  (calculated from Types)
 
-Battles model:
+#### Battles model:
 - DateTime battle_date
 - Species opponent_species
 - Integer opponent_level
 
-Other models I think I would need: (wouldn’t be modifiable by the user)
-Species model:
+### Other models I think I would need: (wouldn’t be modifiable by the user)
+#### Species model:
 - String name
 - Image picture
 - Move[] moveset
 - Type[] types
 - Integer baseHP
 
-Types model:
+#### Types model:
 - String name
 - Type[] strong_against
 - Type[] weak_against
 
-Moves model:
+#### Moves model:
 - String name
 - Integer power
 - Type type
