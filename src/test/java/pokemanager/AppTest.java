@@ -14,7 +14,7 @@ public class AppTest {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final PrintStream pw = new PrintStream(out);
-    private final BoxSpy box = new BoxSpy();
+    private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
 
     @Test
     public void TestItCallsRetrieveOnBox() {

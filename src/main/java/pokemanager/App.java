@@ -30,8 +30,9 @@ public class App {
         return box.retrieve();
     }
 
-    public static void main(String[] args) {
-        App app = new App(System.in, System.out, new Box());
+    public static void main(String[] args) throws FileNotFoundException {
+        FileInputStream data = new FileInputStream("/Users/sam/Documents/pokemanager/data/data");
+        App app = new App(System.in, System.out, new Box(data));
         while (true) {
                 app.acceptInput();
         }
