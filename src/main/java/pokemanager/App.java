@@ -24,7 +24,7 @@ public class App {
 
     private void outputStartMessage() {
         out.println("Commands:\n'box' to see stored Pokemon" +
-                "\n'store NAME' to store a Pokemon" +
+                "\n'store SPECIES NICKNAME' to store a Pokemon" +
                 "\n'save' to save your stored Pokemon for next time");
     }
 
@@ -50,7 +50,7 @@ public class App {
     }
 
     private void save() throws IOException {
-        String contents = box.retrieve();
+        String contents = box.getDataString();
         FileWriter fw = new FileWriter(storageFilename);
         fw.write(contents);
         fw.close();

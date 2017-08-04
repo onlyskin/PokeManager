@@ -30,7 +30,7 @@ public class AppTest {
         InputStream input = new ByteArrayInputStream("box".getBytes());
         App app = new App(input, pw, box, "");
         app.acceptInput();
-        assertEquals("Bulbasaur\n", out.toString());
+        assertEquals("Bulbasaur\nHana\n", out.toString());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class AppTest {
     }
 
     @Test
-    public void TestWritesBoxRetrieveToOutputWhenUserInputsSave() throws IOException {
+    public void TestCallsGetDataStringOnBoxWhenUserInputsSave() throws IOException {
         InputStream input = new ByteArrayInputStream("save".getBytes());
         File tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
@@ -51,8 +51,8 @@ public class AppTest {
         app.acceptInput();
 
         String tempFileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
-        assertTrue(box.retrieveCalled);
-        assertEquals(tempFileContents, "Bulbasaur");
+        assertTrue(box.getDataStringCalled);
+        assertEquals(tempFileContents, "Bulbasaur\nHana");
     }
 
     public String inputStreamToString(InputStream inputStream) {

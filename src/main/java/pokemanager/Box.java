@@ -22,11 +22,21 @@ public class Box {
     }
 
     public String retrieve() {
+        String output = "";
+        for (int i=0; i<stored.size(); i+=2) {
+            output = output + stored.get(i+1) + "\n(" + stored.get(i) + ")\n";
+        }
+        return output;
+    }
+
+    public String getDataString() {
         return String.join("\n", stored);
     }
 
     public void store(String pokemon) {
-        stored.add(pokemon);
+        String[] fields = pokemon.split(" ");
+        stored.add(fields[0]);
+        stored.add(fields[1]);
     }
 
     private String inputStreamToString(InputStream inputStream) {
