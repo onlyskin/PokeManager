@@ -3,10 +3,8 @@ package pokemanager;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -16,27 +14,50 @@ public class AppTest {
     private final PrintStream pw = new PrintStream(out);
     private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
 
+    public AppTest() throws IOException {
+    }
+
     @Test
-    public void TestItCallsRetrieveOnBox() {
+    public void TestItCallsRetrieveOnBoxWhenUserInputsBox() throws Exception {
         InputStream input = new ByteArrayInputStream("box".getBytes());
-        App app = new App(input, pw, box);
+        App app = new App(input, pw, box, "");
         app.acceptInput();
         assertTrue(box.retrieveCalled);
     }
 
     @Test
-    public void TestItPrintsRetrievedContents() {
+    public void TestItPrintsRetrievedContentsWhenUserInputsBox() throws Exception {
         InputStream input = new ByteArrayInputStream("box".getBytes());
-        App app = new App(input, pw, box);
+        App app = new App(input, pw, box, "");
         app.acceptInput();
         assertEquals("Bulbasaur\n", out.toString());
     }
 
     @Test
-    public void TestItCallsStoreWithPokemonNameOnBox() {
+    public void TestItCallsStoreWithPokemonNameOnBoxWhenUserInputsStore() throws Exception {
         InputStream input = new ByteArrayInputStream("store Charmander".getBytes());
-        App app = new App(input, pw, box);
+        App app = new App(input, pw, box, "");
         app.acceptInput();
         assertEquals(box.stored, "Charmander");
+    }
+
+    @Test
+    public void TestWritesBoxRetrieveToOutputWhenUserInputsSave() throws IOException {
+        InputStream input = new ByteArrayInputStream("save".getBytes());
+        File tempFile = File.createTempFile("temp-", "-testfile");
+        tempFile.deleteOnExit();
+
+        App app = new App(input, pw, box, tempFile.toString());
+        app.acceptInput();
+
+        String tempFileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
+        assertTrue(box.retrieveCalled);
+        assertEquals(tempFileContents, "Bulbasaur");
+    }
+
+    public String inputStreamToString(InputStream inputStream) {
+        String result = new BufferedReader(new InputStreamReader(inputStream))
+                .lines().collect(Collectors.joining("\n"));
+        return result;
     }
 }

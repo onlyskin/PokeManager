@@ -6,11 +6,13 @@ public class App {
     private BufferedReader reader;
     private PrintStream out;
     private Box box;
+    private String storageFilename;
 
-    public App(InputStream in, PrintStream out, Box box) {
+    public App(InputStream in, PrintStream out, Box box, String storageFilename) {
         this.reader = new BufferedReader(new InputStreamReader(in));
         this.out = out;
         this.box = box;
+        this.storageFilename = storageFilename;
     }
 
     public void acceptInput() {
@@ -20,21 +22,47 @@ public class App {
         } catch (Exception IOException) {}
     }
 
-    private void handleInputLine(String line) {
+    private void outputStartMessage() {
+        out.println("Commands:\n'box' to see stored Pokemon" +
+                "\n'store NAME' to store a Pokemon" +
+                "\n'save' to save your stored Pokemon for next time");
+    }
+
+    private void run() {
+        outputStartMessage();
+        while (true) {
+            acceptInput();
+        }
+    }
+
+    private void handleInputLine(String line) throws IOException {
         if (line.startsWith("store ")) {
             box.store(line.substring(6));
-        } else out.println(getBoxContents());
+        } else if (line.equals("save")) {
+            save();
+        } else if (line.equals("box")) {
+            out.println(getBoxContents());
+        }
     }
 
     private String getBoxContents() {
         return box.retrieve();
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        FileInputStream data = new FileInputStream("/Users/sam/Documents/pokemanager/data/data");
-        App app = new App(System.in, System.out, new Box(data));
-        while (true) {
-                app.acceptInput();
-        }
+    private void save() throws IOException {
+        String contents = box.retrieve();
+        FileWriter fw = new FileWriter(storageFilename);
+        fw.write(contents);
+        fw.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        String storageFilename = "/Users/sam/Documents/pokemanager/data/data";
+        FileInputStream inputData = new FileInputStream(storageFilename);
+        App app = new App(System.in,
+                          System.out,
+                          new Box(inputData),
+                          storageFilename);
+        app.run();
     }
 }
