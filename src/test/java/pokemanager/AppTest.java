@@ -1,6 +1,5 @@
 package pokemanager;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -42,7 +41,26 @@ public class AppTest {
     }
 
     @Test
-    public void TestCallsGetDataStringOnBoxWhenUserInputsSave() throws IOException {
+    public void TestItPrintsStoredAfterPokemonIsStored() throws Exception {
+        InputStream input = new ByteArrayInputStream("store Charmander Ember".getBytes());
+        App app = new App(input, pw, box, "");
+        app.acceptInput();
+        assertEquals(out.toString(), "Stored!\n\n");
+    }
+
+    @Test
+    public void TestItPrintsSavedAfterPokemonAreSaved() throws Exception {
+        InputStream input = new ByteArrayInputStream("save".getBytes());
+        File tempFile = File.createTempFile("temp-", "-testfile");
+        tempFile.deleteOnExit();
+
+        App app = new App(input, pw, box, tempFile.toString());
+        app.acceptInput();
+        assertEquals(out.toString(), "Saved!\n\n");
+    }
+
+    @Test
+    public void TestCallsGetDataStringOnBoxWhenUserInputsSaveAndSavesToTempFile() throws IOException {
         InputStream input = new ByteArrayInputStream("save".getBytes());
         File tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();

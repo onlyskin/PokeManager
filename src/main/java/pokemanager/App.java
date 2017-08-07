@@ -25,7 +25,7 @@ public class App {
     private void outputStartMessage() {
         out.println("Commands:\n'box' to see stored Pokemon" +
                 "\n'store SPECIES NICKNAME' to store a Pokemon" +
-                "\n'save' to save your stored Pokemon for next time");
+                "\n'save' to save your stored Pokemon for next time\n");
     }
 
     private void run() {
@@ -38,6 +38,7 @@ public class App {
     private void handleInputLine(String line) throws IOException {
         if (line.startsWith("store ")) {
             box.store(line.substring(6));
+            out.println("Stored!\n");
         } else if (line.equals("save")) {
             save();
         } else if (line.equals("box")) {
@@ -54,6 +55,7 @@ public class App {
         FileWriter fw = new FileWriter(storageFilename);
         fw.write(contents);
         fw.close();
+        out.println("Saved!\n");
     }
 
     public static void main(String[] args) throws IOException {
