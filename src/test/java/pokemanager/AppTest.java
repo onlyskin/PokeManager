@@ -73,6 +73,16 @@ public class AppTest {
         assertEquals(tempFileContents, "Bulbasaur\nHana");
     }
 
+    @Test
+    public void TestPrintsErrorMessageWhenUserInputsInvalidCommand() throws Exception {
+        InputStream input = new ByteArrayInputStream("invalidcommand".getBytes());
+
+        App app = new App(input, pw, box, "");
+        app.acceptInput();
+
+        assertEquals("Please enter a valid command.\n\n", out.toString());
+    }
+
     public String inputStreamToString(InputStream inputStream) {
         String result = new BufferedReader(new InputStreamReader(inputStream))
                 .lines().collect(Collectors.joining("\n"));

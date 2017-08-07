@@ -41,8 +41,11 @@ public class App {
             out.println("Stored!\n");
         } else if (line.equals("save")) {
             save();
+            out.println("Saved!\n");
         } else if (line.equals("box")) {
             out.println(getBoxContents());
+        } else {
+            out.println("Please enter a valid command.\n");
         }
     }
 
@@ -55,7 +58,6 @@ public class App {
         FileWriter fw = new FileWriter(storageFilename);
         fw.write(contents);
         fw.close();
-        out.println("Saved!\n");
     }
 
     public static void main(String[] args) throws IOException {
