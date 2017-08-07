@@ -29,7 +29,7 @@ public class BoxTest {
         Box box = new Box(inputStream);
         box.store("Koffing Cloud");
         box.store("Lapras Shell");
-        assertEquals("Charmander\nEmber\nSquirtle\nMizu\nKoffing\nCloud\nLapras\nShell", box.getDataString());
+        assertEquals("Charmander\nEmber\nSquirtle\nMizu\nKoffing\nCloud\nLapras\nShell\n", box.getDataString());
     }
 
     @Test

@@ -30,7 +30,7 @@ public class Box {
     }
 
     public String getDataString() {
-        return String.join("\n", stored);
+        return String.join("\n", stored) + "\n";
     }
 
     public void store(String pokemon) {
