@@ -7,35 +7,45 @@ import java.io.*;
 import static org.junit.Assert.*;
 
 public class BoxTest {
+    private Box box;
+
     @Test
-    public void TestRetrievePrintsInputStream() throws Exception {
-        InputStream inputStream = new ByteArrayInputStream("Charmander\nEmber\nSquirtle\nMizu".getBytes());
-        Box box = new Box(inputStream);
+    public void RetrievePrintsInputStream() throws Exception {
+        makeBoxWithInputString("Charmander\nEmber\nSquirtle\nMizu");
         assertEquals("Ember\n(Charmander)\nMizu\n(Squirtle)\n", box.retrieve());
     }
 
     @Test
-    public void TestRetrievePrintsInputStreamPlusStoredPokemon() throws Exception {
-        InputStream inputStream = new ByteArrayInputStream("Charmander\nEmber\nSquirtle\nMizu".getBytes());
-        Box box = new Box(inputStream);
+    public void RetrievePrintsStoredPokemon() throws Exception {
+        makeBoxWithInputString("Charmander\nEmber\nSquirtle\nMizu");
         box.store("Koffing Cloud");
         box.store("Lapras Shell");
-        assertEquals("Ember\n(Charmander)\nMizu\n(Squirtle)\nCloud\n(Koffing)\nShell\n(Lapras)\n", box.retrieve());
+        assertEquals("Ember\n(Charmander)\n" +
+                     "Mizu\n(Squirtle)\n" +
+                     "Cloud\n(Koffing)\n" +
+                     "Shell\n(Lapras)\n", box.retrieve());
     }
 
     @Test
-    public void TestItReturnsPokemonAsDataString() throws IOException {
-        InputStream inputStream = new ByteArrayInputStream("Charmander\nEmber\nSquirtle\nMizu".getBytes());
-        Box box = new Box(inputStream);
+    public void GetsDataString() throws IOException {
+        makeBoxWithInputString("Charmander\nEmber\nSquirtle\nMizu");
         box.store("Koffing Cloud");
         box.store("Lapras Shell");
-        assertEquals("Charmander\nEmber\nSquirtle\nMizu\nKoffing\nCloud\nLapras\nShell\n", box.getDataString());
+        assertEquals("Charmander\nEmber\n" +
+                "Squirtle\nMizu\n" +
+                "Koffing\nCloud\n" +
+                "Lapras\nShell\n", box.getDataString());
     }
 
     @Test
-    public void TestBoxClosesInputStreamAfterConstruction() throws Exception {
-        ByteArrayInputStreamSpy byteArrayInputStreamSpy = new ByteArrayInputStreamSpy("".getBytes());
-        Box box = new Box(byteArrayInputStreamSpy);
-        assertTrue(byteArrayInputStreamSpy.closeCalled);
+    public void ClosesInputStreamAfterConstruction() throws Exception {
+        ByteArrayInputStreamSpy bAISSpy = new ByteArrayInputStreamSpy("".getBytes());
+        Box box = new Box(bAISSpy);
+        assertTrue(bAISSpy.closeCalled);
+    }
+
+    private void makeBoxWithInputString(String inputString) throws IOException {
+        InputStream inputStream = new ByteArrayInputStream(inputString.getBytes());
+        box = new Box(inputStream);
     }
 }

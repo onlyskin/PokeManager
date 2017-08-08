@@ -19,50 +19,50 @@ public class AppTest {
     }
 
     @Test
-    public void TestItCallsRetrieveOnBoxWhenUserInputsBox() throws Exception {
+    public void CallsRetrieveOnBox() throws Exception {
         acceptInput("box");
         assertTrue(box.retrieveCalled);
     }
 
     @Test
-    public void TestItPrintsRetrievedContentsWhenUserInputsBox() throws Exception {
+    public void PrintsRetrievedContents() throws Exception {
         acceptInput("box");
         assertEquals("Bulbasaur\nHana\n", out.toString());
     }
 
     @Test
-    public void TestItCallsStoreWithPokemonNameOnBoxWhenUserInputsStore() throws Exception {
+    public void CallsStoreOnBox() throws Exception {
         acceptInput("store Charmander");
         assertEquals(box.stored, "Charmander");
     }
 
     @Test
-    public void TestItPrintsStoredAfterPokemonIsStored() throws Exception {
+    public void PrintsStoredOnStore() throws Exception {
         acceptInput("store Charmander Ember");
         assertEquals(out.toString(), "Stored!\n\n");
     }
 
     @Test
-    public void TestItPrintsSavedAfterPokemonAreSaved() throws Exception {
+    public void PrintsSavedOnSave() throws Exception {
         acceptInput("save");
         assertEquals(out.toString(), "Saved!\n\n");
     }
 
     @Test
-    public void TestItCallsGetDataStringOnBoxWhenUserInputsSave() throws Exception {
+    public void CallsGetDataStringOnBoxOnSave() throws Exception {
         acceptInput("save");
         assertTrue(box.getDataStringCalled);
     }
 
     @Test
-    public void TestCallsGetDataStringOnBoxWhenUserInputsSaveAndSavesToTempFile() throws IOException {
+    public void SavesToTempFileOnSave() throws IOException {
         acceptInput("save");
-        String tempFileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
-        assertEquals(tempFileContents, "Bulbasaur\nHana");
+        String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
+        assertEquals(fileContents, "Bulbasaur\nHana");
     }
 
     @Test
-    public void TestPrintsErrorMessageWhenUserInputsInvalidCommand() throws Exception {
+    public void PrintsErrorMessageOnInvalidCommand() throws Exception {
         acceptInput("invalidcommand");
         assertEquals("Please enter a valid command.\n\n", out.toString());
     }
