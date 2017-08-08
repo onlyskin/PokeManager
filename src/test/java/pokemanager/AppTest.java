@@ -12,75 +12,65 @@ public class AppTest {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final PrintStream pw = new PrintStream(out);
     private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
+    private final File tempFile = File.createTempFile("temp-", "-testfile");
 
     public AppTest() throws IOException {
+        tempFile.deleteOnExit();
     }
 
     @Test
     public void TestItCallsRetrieveOnBoxWhenUserInputsBox() throws Exception {
-        InputStream input = new ByteArrayInputStream("box".getBytes());
-        App app = new App(input, pw, box, "");
-        app.acceptInput();
+        acceptInput("box");
         assertTrue(box.retrieveCalled);
     }
 
     @Test
     public void TestItPrintsRetrievedContentsWhenUserInputsBox() throws Exception {
-        InputStream input = new ByteArrayInputStream("box".getBytes());
-        App app = new App(input, pw, box, "");
-        app.acceptInput();
+        acceptInput("box");
         assertEquals("Bulbasaur\nHana\n", out.toString());
     }
 
     @Test
     public void TestItCallsStoreWithPokemonNameOnBoxWhenUserInputsStore() throws Exception {
-        InputStream input = new ByteArrayInputStream("store Charmander".getBytes());
-        App app = new App(input, pw, box, "");
-        app.acceptInput();
+        acceptInput("store Charmander");
         assertEquals(box.stored, "Charmander");
     }
 
     @Test
     public void TestItPrintsStoredAfterPokemonIsStored() throws Exception {
-        InputStream input = new ByteArrayInputStream("store Charmander Ember".getBytes());
-        App app = new App(input, pw, box, "");
-        app.acceptInput();
+        acceptInput("store Charmander Ember");
         assertEquals(out.toString(), "Stored!\n\n");
     }
 
     @Test
     public void TestItPrintsSavedAfterPokemonAreSaved() throws Exception {
-        InputStream input = new ByteArrayInputStream("save".getBytes());
-        File tempFile = File.createTempFile("temp-", "-testfile");
-        tempFile.deleteOnExit();
-
-        App app = new App(input, pw, box, tempFile.toString());
-        app.acceptInput();
+        acceptInput("save");
         assertEquals(out.toString(), "Saved!\n\n");
     }
 
     @Test
-    public void TestCallsGetDataStringOnBoxWhenUserInputsSaveAndSavesToTempFile() throws IOException {
-        InputStream input = new ByteArrayInputStream("save".getBytes());
-        File tempFile = File.createTempFile("temp-", "-testfile");
-        tempFile.deleteOnExit();
-
-        App app = new App(input, pw, box, tempFile.toString());
-        app.acceptInput();
-
-        String tempFileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
+    public void TestItCallsGetDataStringOnBoxWhenUserInputsSave() throws Exception {
+        acceptInput("save");
         assertTrue(box.getDataStringCalled);
+    }
+
+    @Test
+    public void TestCallsGetDataStringOnBoxWhenUserInputsSaveAndSavesToTempFile() throws IOException {
+        acceptInput("save");
+        String tempFileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
         assertEquals(tempFileContents, "Bulbasaur\nHana");
     }
 
     @Test
     public void TestPrintsErrorMessageWhenUserInputsInvalidCommand() throws Exception {
-        InputStream input = new ByteArrayInputStream("invalidcommand".getBytes());
-
-        App app = new App(input, pw, box, "");
-        app.acceptInput();
-
+        acceptInput("invalidcommand");
         assertEquals("Please enter a valid command.\n\n", out.toString());
+    }
+
+    private void acceptInput(String inputString) throws IOException {
+        InputStream input = new ByteArrayInputStream(inputString.getBytes());
+        App app = new App(input, pw, box, tempFile.toString());
+        app.acceptInput();
     }
 
     public String inputStreamToString(InputStream inputStream) {
