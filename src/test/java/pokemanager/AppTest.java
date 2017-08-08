@@ -13,33 +13,23 @@ public class AppTest {
     private final PrintStream pw = new PrintStream(out);
     private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
     private final File tempFile = File.createTempFile("temp-", "-testfile");
+    private final RetrieveCommandSpy rc = new RetrieveCommandSpy(box, pw);
+    private final StoreCommandSpy sc = new StoreCommandSpy(box, pw);
 
     public AppTest() throws IOException {
         tempFile.deleteOnExit();
     }
 
     @Test
-    public void CallsRetrieveOnBox() throws Exception {
+    public void ExecutesRetrieveCommand() throws Exception {
         acceptInput("box");
-        assertTrue(box.retrieveCalled);
+        assertTrue(rc.executeCalled);
     }
 
     @Test
-    public void PrintsRetrievedContents() throws Exception {
-        acceptInput("box");
-        assertEquals("Bulbasaur\nHana\n", out.toString());
-    }
-
-    @Test
-    public void CallsStoreOnBox() throws Exception {
-        acceptInput("store Charmander");
-        assertEquals(box.stored, "Charmander");
-    }
-
-    @Test
-    public void PrintsStoredOnStore() throws Exception {
+    public void ExecutesStoreCommand() throws Exception {
         acceptInput("store Charmander Ember");
-        assertEquals(out.toString(), "Stored!\n\n");
+        assertTrue(sc.executeCalled);
     }
 
     @Test
@@ -69,7 +59,7 @@ public class AppTest {
 
     private void acceptInput(String inputString) throws IOException {
         InputStream input = new ByteArrayInputStream(inputString.getBytes());
-        App app = new App(input, pw, box, tempFile.toString());
+        App app = new App(input, pw, box, tempFile.toString(), rc, sc);
         app.acceptInput();
     }
 

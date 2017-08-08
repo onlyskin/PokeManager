@@ -7,12 +7,21 @@ public class App {
     private PrintStream out;
     private Box box;
     private String storageFilename;
+    private RetrieveCommand rc;
+    private StoreCommand sc;
 
-    public App(InputStream in, PrintStream out, Box box, String storageFilename) {
+    public App(InputStream in,
+               PrintStream out,
+               Box box,
+               String storageFilename,
+               RetrieveCommand rc,
+               StoreCommand sc) {
         this.reader = new BufferedReader(new InputStreamReader(in));
         this.out = out;
         this.box = box;
         this.storageFilename = storageFilename;
+        this.rc = rc;
+        this.sc = sc;
     }
 
     public void acceptInput() {
@@ -37,13 +46,12 @@ public class App {
 
     private void handleInputLine(String line) throws IOException {
         if (line.startsWith("store ")) {
-            box.store(line.substring(6));
-            out.println("Stored!\n");
+            sc.execute(line);
         } else if (line.equals("save")) {
             save();
             out.println("Saved!\n");
         } else if (line.equals("box")) {
-            out.println(getBoxContents());
+            rc.execute();
         } else {
             out.println("Please enter a valid command.\n");
         }
@@ -63,10 +71,14 @@ public class App {
     public static void main(String[] args) throws IOException {
         String storageFilename = "/Users/sam/Documents/pokemanager/data/data";
         FileInputStream inputData = new FileInputStream(storageFilename);
+        Box box = new Box(inputData);
+        PrintStream out = System.out;
         App app = new App(System.in,
-                          System.out,
-                          new Box(inputData),
-                          storageFilename);
+                          out,
+                          box,
+                          storageFilename,
+                          new RetrieveCommand(box, out),
+                          new StoreCommand(box, out));
         app.run();
     }
 }
