@@ -5,13 +5,13 @@ import java.io.PrintStream;
 public class RetrieveCommandSpy extends RetrieveCommand {
     public boolean executeCalled;
 
-    public RetrieveCommandSpy(Box box, PrintStream out) {
-        super(box, out);
+    public RetrieveCommandSpy() {
+        super();
         executeCalled = false;
     }
 
     @Override
-    public void execute() {
+    public void execute(String command, App app) {
         executeCalled = true;
     }
 }

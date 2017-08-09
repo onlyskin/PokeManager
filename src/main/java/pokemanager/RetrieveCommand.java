@@ -1,18 +1,15 @@
 package pokemanager;
 
-import java.io.PrintStream;
-
-public class RetrieveCommand {
-    private final Box box;
-    private PrintStream out;
-
-    public RetrieveCommand(Box box, PrintStream out) {
-        this.box = box;
-        this.out = out;
+public class RetrieveCommand implements Command {
+    public RetrieveCommand() {
     }
 
-    public void execute() {
-        String output = box.retrieve();
-        out.println(output);
+    public void execute(String command, App app) {
+        String output = app.getBox().retrieve();
+        app.pw.println(output);
+    }
+
+    public boolean respondsTo(String command) {
+        return command.startsWith("box");
     }
 }

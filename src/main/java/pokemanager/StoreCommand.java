@@ -1,19 +1,16 @@
 package pokemanager;
 
-import java.io.PrintStream;
-
-public class StoreCommand {
-    private final Box box;
-    private PrintStream out;
-
-    public StoreCommand(Box box, PrintStream out) {
-        this.box = box;
-        this.out = out;
+public class StoreCommand implements Command {
+    public StoreCommand() {
     }
 
-    public void execute(String command) {
+    public void execute(String command, App app) {
         String pokemon = command.substring(6);
-        box.store(pokemon);
-        out.println("Stored!\n");
+        app.getBox().store(pokemon);
+        app.pw.println("Stored!\n");
+    }
+
+    public boolean respondsTo(String command) {
+        return command.startsWith("store");
     }
 }

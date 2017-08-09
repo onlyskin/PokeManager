@@ -3,64 +3,72 @@ package pokemanager;
 import org.junit.Test;
 
 import java.io.*;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
+import java.util.stream.Collectors;
 
 public class AppTest {
 
-    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream pw = new PrintStream(out);
-    private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
-    private final File tempFile = File.createTempFile("temp-", "-testfile");
-    private final RetrieveCommandSpy rc = new RetrieveCommandSpy(box, pw);
-    private final StoreCommandSpy sc = new StoreCommandSpy(box, pw);
+    private final String startMessage = "Commands:\n'box' to see stored Pokemon" +
+                "\n'store SPECIES NICKNAME' to store a Pokemon" +
+                "\n'save' to save your stored Pokemon for next time\n";
+
+    private final ByteArrayOutputStream out;
+    private final PrintStream pw;
+    private InputStream input;
+    private final Box box;
+    private final File tempFile;
+    private App app;
 
     public AppTest() throws IOException {
+        out = new ByteArrayOutputStream();
+        pw = new PrintStream(out);
+        input = new ByteArrayInputStream("".getBytes());
+        box = new Box(new ByteArrayInputStream("Bulbasaur\nHana\n".getBytes()));
+        tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
+        app = new App(input, pw, box, tempFile.toString());
     }
 
     @Test
-    public void ExecutesRetrieveCommand() throws Exception {
-        acceptInput("box");
-        assertTrue(rc.executeCalled);
+    public void PrintsBox() throws Exception {
+        RunAppWithUserInput("box\nexit\n");
+        assertEquals(startMessage + "\nHana\n(Bulbasaur)\n\n", out.toString());
     }
 
     @Test
-    public void ExecutesStoreCommand() throws Exception {
-        acceptInput("store Charmander Ember");
-        assertTrue(sc.executeCalled);
+    public void PrintsBoxWithStored() throws Exception {
+        RunAppWithUserInput("store Charmander Ember\nbox\nexit\n");
+        assertEquals(startMessage + "\nStored!\n\nHana\n(Bulbasaur)\nEmber\n(Charmander)\n\n", out.toString());
     }
 
     @Test
-    public void PrintsSavedOnSave() throws Exception {
-        acceptInput("save");
-        assertEquals(out.toString(), "Saved!\n\n");
-    }
-
-    @Test
-    public void CallsGetDataStringOnBoxOnSave() throws Exception {
-        acceptInput("save");
-        assertTrue(box.getDataStringCalled);
-    }
-
-    @Test
-    public void SavesToTempFileOnSave() throws IOException {
-        acceptInput("save");
-        String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
-        assertEquals(fileContents, "Bulbasaur\nHana");
+    public void SavesBoxToFile() throws Exception {
+        RunAppWithUserInput("store Charmander Ember\nsave\nexit\n");
+        String fileContents = inputStreamToString(new FileInputStream(tempFile.toString())); 
+        assertEquals("Bulbasaur\nHana\nCharmander\nEmber", fileContents);
     }
 
     @Test
     public void PrintsErrorMessageOnInvalidCommand() throws Exception {
-        acceptInput("invalidcommand");
-        assertEquals("Please enter a valid command.\n\n", out.toString());
+        RunAppWithUserInput("invalidcommand\nexit\n");
+        assertEquals(startMessage + "\nPlease enter a valid command.\n\n", out.toString());
     }
 
-    private void acceptInput(String inputString) throws IOException {
-        InputStream input = new ByteArrayInputStream(inputString.getBytes());
-        App app = new App(input, pw, box, tempFile.toString(), rc, sc);
-        app.acceptInput();
+	@Test
+	public void GetsStoragePath() {
+		assertEquals(tempFile.toString(), app.getStoragePath());
+	}
+
+	@Test
+	public void GetsBox() {
+		assertEquals(box, app.getBox());
+	}
+
+    private void RunAppWithUserInput(String userInput) {
+        input = new ByteArrayInputStream(userInput.getBytes());
+        app = new App(input, pw, box, tempFile.toString());
+        app.run();
     }
 
     public String inputStreamToString(InputStream inputStream) {
@@ -68,4 +76,5 @@ public class AppTest {
                 .lines().collect(Collectors.joining("\n"));
         return result;
     }
+
 }

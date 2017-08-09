@@ -1,30 +1,55 @@
 package pokemanager;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class App {
     private BufferedReader reader;
-    private PrintStream out;
+    public PrintStream pw;
     private Box box;
     private String storageFilename;
-    private RetrieveCommand rc;
-    private StoreCommand sc;
+    private List<Command> commands;
+    private boolean run;
 
     public App(InputStream in,
-               PrintStream out,
+               PrintStream pw,
                Box box,
-               String storageFilename,
-               RetrieveCommand rc,
-               StoreCommand sc) {
+               String storageFilename) {
         this.reader = new BufferedReader(new InputStreamReader(in));
-        this.out = out;
+        this.pw = pw;
         this.box = box;
         this.storageFilename = storageFilename;
-        this.rc = rc;
-        this.sc = sc;
+        this.commands = buildCommands();
+        this.run = false;
     }
 
-    public void acceptInput() {
+    private static List<Command> buildCommands() {
+        return Arrays.asList(
+                new RetrieveCommand(),
+                new StoreCommand(),
+                new SaveCommand(),
+                new ExitCommand());
+    }
+
+    private Command findCommand(String command) {
+        for (Command c : commands) {
+            if (c.respondsTo(command)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+	public String getStoragePath() {
+		return storageFilename;
+	}
+
+	public Box getBox() {
+		return box;	
+	}
+	
+	public void acceptInput() {
         try {
             String line = reader.readLine();
             handleInputLine(line);
@@ -32,53 +57,41 @@ public class App {
     }
 
     private void outputStartMessage() {
-        out.println("Commands:\n'box' to see stored Pokemon" +
+        pw.println("Commands:\n'box' to see stored Pokemon" +
                 "\n'store SPECIES NICKNAME' to store a Pokemon" +
                 "\n'save' to save your stored Pokemon for next time\n");
     }
 
-    private void run() {
+    public void run() {
+        run = true;
         outputStartMessage();
-        while (true) {
+        while (run) {
             acceptInput();
         }
     }
 
+    public void exit() {
+        run = false;
+    }
+
     private void handleInputLine(String line) throws IOException {
-        if (line.startsWith("store ")) {
-            sc.execute(line);
-        } else if (line.equals("save")) {
-            save();
-            out.println("Saved!\n");
-        } else if (line.equals("box")) {
-            rc.execute();
+        Command command = findCommand(line);
+        if (command == null) {
+            pw.println("Please enter a valid command.\n");
         } else {
-            out.println("Please enter a valid command.\n");
+            command.execute(line, this);
         }
-    }
-
-    private String getBoxContents() {
-        return box.retrieve();
-    }
-
-    private void save() throws IOException {
-        String contents = box.getDataString();
-        FileWriter fw = new FileWriter(storageFilename);
-        fw.write(contents);
-        fw.close();
     }
 
     public static void main(String[] args) throws IOException {
         String storageFilename = "/Users/sam/Documents/pokemanager/data/data";
         FileInputStream inputData = new FileInputStream(storageFilename);
         Box box = new Box(inputData);
-        PrintStream out = System.out;
+        PrintStream pw = System.out;
         App app = new App(System.in,
-                          out,
+                          pw,
                           box,
-                          storageFilename,
-                          new RetrieveCommand(box, out),
-                          new StoreCommand(box, out));
+                          storageFilename);
         app.run();
     }
 }
