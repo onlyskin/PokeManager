@@ -13,7 +13,7 @@ public class StoreCommandTest {
     private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
     private final StoreCommand sc = new StoreCommand();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
-    private final App app = new App(in, pw, box, "");
+    private final App app = new App(in, pw, box, "", null);
 
     public StoreCommandTest() throws IOException {}
 

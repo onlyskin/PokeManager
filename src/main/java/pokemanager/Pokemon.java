@@ -14,4 +14,16 @@ public class Pokemon {
     public String toString() {
         return "Species: "+species+"\nHeight: "+height+"\nWeight: "+weight;
     }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
 }

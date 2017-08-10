@@ -14,7 +14,7 @@ public class SpeciesCommandTest {
 	private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
     private final InputStream in = new ByteArrayInputStream("".getBytes());
     private final File tempFile = File.createTempFile("temp-", "-testfile");
-    private final App app = new App(in, pw, box, tempFile.toString());
+    private final App app = new App(in, pw, box, tempFile.toString(), new HttpGetRequesterSpy());
     private final ApiSearcherSpy apiSearcher = new ApiSearcherSpy();
     private final SpeciesCommand sc = new SpeciesCommand(apiSearcher);
 

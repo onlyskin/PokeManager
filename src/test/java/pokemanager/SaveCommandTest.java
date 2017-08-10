@@ -16,7 +16,7 @@ public class SaveCommandTest {
 	private final SaveCommand sc = new SaveCommand();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
     private final File tempFile = File.createTempFile("temp-", "-testfile");
-    private final App app = new App(in, pw, box, tempFile.toString());
+    private final App app = new App(in, pw, box, tempFile.toString(), null);
 
 	public SaveCommandTest() throws IOException {}
 

@@ -12,7 +12,7 @@ public class ExitCommandTest {
     private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
     private final ExitCommand ec = new ExitCommand();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
-    private final AppSpy app = new AppSpy(in, pw, box, "");
+    private final AppSpy app = new AppSpy(in, pw, box, "", null);
 
     public ExitCommandTest() throws IOException {}
 

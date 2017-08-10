@@ -11,25 +11,31 @@ public class App {
     private String storageFilename;
     private List<Command> commands;
     private boolean run;
+    private ApiSearcher apiSearcher;
+    private HttpGetRequester getRequester;
 
     public App(InputStream in,
                PrintStream pw,
                Box box,
-               String storageFilename) {
+               String storageFilename,
+               HttpGetRequester getRequester) {
         this.reader = new BufferedReader(new InputStreamReader(in));
         this.pw = pw;
         this.box = box;
         this.storageFilename = storageFilename;
+        this.apiSearcher = new ApiSearcher(getRequester);
         this.commands = buildCommands();
         this.run = false;
+        this.getRequester = getRequester;
     }
 
-    private static List<Command> buildCommands() {
+    private List<Command> buildCommands() {
         return Arrays.asList(
                 new RetrieveCommand(),
                 new StoreCommand(),
                 new SaveCommand(),
-                new ExitCommand());
+                new ExitCommand(),
+                new SpeciesCommand(apiSearcher));
     }
 
     private Command findCommand(String command) {
@@ -59,7 +65,8 @@ public class App {
     private void outputStartMessage() {
         pw.println("Commands:\n'box' to see stored Pokemon" +
                 "\n'store SPECIES NICKNAME' to store a Pokemon" +
-                "\n'save' to save your stored Pokemon for next time\n");
+                "\n'save' to save your stored Pokemon for next time" +
+                "\n'search SPECIES' to search the Pokedex");
     }
 
     public void run() {
@@ -88,10 +95,12 @@ public class App {
         FileInputStream inputData = new FileInputStream(storageFilename);
         Box box = new Box(inputData);
         PrintStream pw = System.out;
+        HttpGetRequester getRequester = new HttpGetRequester();
         App app = new App(System.in,
                           pw,
                           box,
-                          storageFilename);
+                          storageFilename,
+                          getRequester);
         app.run();
     }
 }

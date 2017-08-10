@@ -6,7 +6,7 @@ public class ApiSearcherSpy extends ApiSearcher {
     
     public ApiSearcherSpy() {
         super(null);
-        findDetailsCalled = true;
+        findDetailsCalled = false;
     }
 
     @Override
