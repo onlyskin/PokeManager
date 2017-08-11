@@ -12,7 +12,7 @@ public class Pokemon {
     }
 
     public String toString() {
-        return "Species: "+species+"\nHeight: "+height+"\nWeight: "+weight;
+        return "Species: "+species+"\nHeight: "+height+"\nWeight: "+weight+"\n";
     }
 
     public String getSpecies() {

@@ -12,7 +12,7 @@ public class ApiSearcher {
     }
 
     public Pokemon findDetails(String pokemon) throws IOException {
-        String response = getRequester.get(pokemon);
+        String response = getRequester.get(pokemon.toLowerCase());
         JSONObject obj = new JSONObject(response);
         String name = obj.getString("name");
         Integer height = obj.getInt("height");

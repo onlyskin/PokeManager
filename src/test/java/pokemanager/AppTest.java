@@ -55,7 +55,7 @@ public class AppTest {
     @Test
     public void GetsPokemonDataFromGetRequester() throws Exception {
         RunAppWithUserInput("search Bulbasaur\nexit\n");
-        assertEquals(startMessage + "\nName: bulbasaur\nHeight: 7\nWeight: 69\n\n", out.toString());
+        assertEquals(startMessage + "\nSpecies: bulbasaur\nHeight: 7\nWeight: 69\n\n", out.toString());
     }
 
     @Test

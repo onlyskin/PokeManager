@@ -15,9 +15,9 @@ public class ApiSearcherTest {
     }
 
     @Test
-    public void PassesPokemonIntoGetRequester() throws Exception {
+    public void PassesLowercasePokemonIntoGetRequester() throws Exception {
         apiSearcher.findDetails("Bulbasaur");
-        assertEquals("Bulbasaur", getRequester.calledWith);
+        assertEquals("bulbasaur", getRequester.calledWith);
     }
 
     @Test

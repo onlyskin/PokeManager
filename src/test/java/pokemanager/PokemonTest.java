@@ -9,6 +9,6 @@ public class PokemonTest {
 
     @Test
     public void MakesPokemonString() throws Exception {
-        assertEquals("Species: Bulbasaur\nHeight: 7\nWeight: 69", pokemon.toString());
+        assertEquals("Species: Bulbasaur\nHeight: 7\nWeight: 69\n", pokemon.toString());
     }
 }

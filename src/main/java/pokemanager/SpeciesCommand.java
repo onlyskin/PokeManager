@@ -15,8 +15,6 @@ public class SpeciesCommand implements Command {
     }
     
     public void execute(String command, App app) throws IOException {
-        System.out.println("execute");
-        System.out.println(apiSearcher);
         String pokemonName = command.substring(7);
 		Pokemon pokemon = apiSearcher.findDetails(pokemonName);
 		app.pw.println(pokemon.toString());
