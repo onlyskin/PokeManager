@@ -21,16 +21,9 @@ public class SaveCommandTest {
 	public SaveCommandTest() throws IOException {}
 
 	@Test
-	public void SavesToTempFile() throws Exception {
+	public void CallsSaveOnBox() throws Exception {
 		sc.execute("save", app);
-		String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
-		assertEquals("Bulbasaur\nHana", fileContents);
-	}	
-
-	@Test
-	public void CallsGetDataStringOnBox() throws Exception {
-		sc.execute("save", app);
-		assertTrue(box.getDataStringCalled);
+		assertTrue(box.saveCalled);
 	}
 
 	@Test

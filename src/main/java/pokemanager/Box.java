@@ -1,9 +1,11 @@
 package pokemanager;
 
+import java.io.IOException;
+
 public interface Box {
      String retrieve();
 
-     String getDataString();
+     void save() throws IOException;
 
      void store(String pokemon);
 }

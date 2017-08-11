@@ -1,11 +1,11 @@
 package pokemanager;
 
-public class Pokemon {
+public class Species {
     String species;
     Integer height;
     Integer weight;
 
-    public Pokemon(String species, Integer height, Integer weight) {
+    public Species(String species, Integer height, Integer weight) {
         this.species = species;
         this.height = height;
         this.weight = weight;

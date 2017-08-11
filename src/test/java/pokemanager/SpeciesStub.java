@@ -1,7 +1,7 @@
 package pokemanager;
 
-public class PokemonStub extends Pokemon {
-    public PokemonStub() {
+public class SpeciesStub extends Species {
+    public SpeciesStub() {
         super("", 0, 0);
     }
 

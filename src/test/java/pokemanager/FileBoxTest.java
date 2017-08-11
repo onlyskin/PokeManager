@@ -5,19 +5,20 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.junit.Assert.*;
+import java.util.stream.Collectors;
 
 public class FileBoxTest {
     private FileBox box;
 
     @Test
     public void RetrievePrintsInputStream() throws Exception {
-        makeBoxWithInputString("Charmander\nEmber\nSquirtle\nMizu");
+        makeBoxWithStringAsFile("Charmander\nEmber\nSquirtle\nMizu");
         assertEquals("Ember\n(Charmander)\nMizu\n(Squirtle)\n", box.retrieve());
     }
 
     @Test
     public void RetrievePrintsStoredPokemon() throws Exception {
-        makeBoxWithInputString("Charmander\nEmber\nSquirtle\nMizu");
+        makeBoxWithStringAsFile("Charmander\nEmber\nSquirtle\nMizu");
         box.store("Koffing Cloud");
         box.store("Lapras Shell");
         assertEquals("Ember\n(Charmander)\n" +
@@ -27,25 +28,31 @@ public class FileBoxTest {
     }
 
     @Test
-    public void GetsDataString() throws IOException {
-        makeBoxWithInputString("Charmander\nEmber\nSquirtle\nMizu");
-        box.store("Koffing Cloud");
-        box.store("Lapras Shell");
-        assertEquals("Charmander\nEmber\n" +
-                "Squirtle\nMizu\n" +
-                "Koffing\nCloud\n" +
-                "Lapras\nShell\n", box.getDataString());
+    public void SavesDataToFile() throws IOException {
+       File tempFile = File.createTempFile("temp-", "-testfile");
+       tempFile.deleteOnExit();
+       FileBox box = new FileBox(tempFile.toString());
+       box.store("Koffing Cloud");
+       box.store("Lapras Shell");
+       String beforeSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
+       assertEquals("", beforeSave);
+       box.save();
+       String afterSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
+       assertEquals("Koffing\nCloud\nLapras\nShell", afterSave);
     }
 
-    @Test
-    public void ClosesInputStreamAfterConstruction() throws Exception {
-        ByteArrayInputStreamSpy bAISSpy = new ByteArrayInputStreamSpy("".getBytes());
-        FileBox box = new FileBox(bAISSpy);
-        assertTrue(bAISSpy.closeCalled);
+    private void makeBoxWithStringAsFile(String fileContents) throws IOException {
+        File tempFile = File.createTempFile("temp-", "-testfile");
+        tempFile.deleteOnExit();
+        FileWriter fw = new FileWriter(tempFile.toString());
+        fw.write(fileContents);
+        fw.close();
+        box = new FileBox(tempFile.toString());
     }
 
-    private void makeBoxWithInputString(String inputString) throws IOException {
-        InputStream inputStream = new ByteArrayInputStream(inputString.getBytes());
-        box = new FileBox(inputStream);
+    public String inputStreamToString(InputStream inputStream) {
+        String result = new BufferedReader(new InputStreamReader(inputStream))
+                .lines().collect(Collectors.joining("\n"));
+        return result;
     }
 }

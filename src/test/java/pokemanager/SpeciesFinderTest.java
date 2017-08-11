@@ -5,25 +5,25 @@ import org.junit.Ignore;
 
 import static org.junit.Assert.*;
 
-public class ApiSearcherTest {
+public class SpeciesFinderTest {
     private final HttpGetRequesterSpy getRequester = new HttpGetRequesterSpy();
-    private final ApiSearcher apiSearcher = new ApiSearcher(getRequester);
+    private final SpeciesFinder speciesFinder = new SpeciesFinder(getRequester);
 
     @Test
     public void CallsGetOnGetRequester() throws Exception {
-        apiSearcher.findDetails("");
+        speciesFinder.findDetails("");
         assertTrue(getRequester.getCalled); 
     }
 
     @Test
-    public void PassesLowercasePokemonIntoGetRequester() throws Exception {
-        apiSearcher.findDetails("Bulbasaur");
+    public void PassesLowercaseNameIntoGetRequester() throws Exception {
+        speciesFinder.findDetails("Bulbasaur");
         assertEquals("bulbasaur", getRequester.calledWith);
     }
 
     @Test
-    public void MakesPokemonFromGetResponse() throws Exception {
-        Pokemon result = apiSearcher.findDetails("");
+    public void MakesSpeciesFromGetResponse() throws Exception {
+        Species result = speciesFinder.findDetails("");
         assertEquals("bulbasaur", result.getSpecies());
         assertEquals(new Integer(7), result.getHeight());
         assertEquals(new Integer(69), result.getWeight());
@@ -32,7 +32,7 @@ public class ApiSearcherTest {
     @Ignore
     @Test
     public void ReturnsNullIfApiNotFound() throws Exception {
-        Pokemon result = apiSearcher.findDetails("bad_input");
+        Species result = speciesFinder.findDetails("bad_input");
         assertNull(result);
     }
 }

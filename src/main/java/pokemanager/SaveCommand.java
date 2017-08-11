@@ -7,10 +7,7 @@ public class SaveCommand implements Command {
 	}
 
 	public void execute(String command, App app) throws IOException {
-		String contents = app.getBox().getDataString();
-		FileWriter fw = new FileWriter(app.getStoragePath());
-		fw.write(contents);
-		fw.close();
+		app.getBox().save();
 		app.pw.println("Saved!\n");
 	}
 	

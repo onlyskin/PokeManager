@@ -5,14 +5,14 @@ import java.io.IOException;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-public class ApiSearcher {
+public class SpeciesFinder {
     private final HttpGetRequester getRequester;
 
-    public ApiSearcher(HttpGetRequester getRequester) {
+    public SpeciesFinder(HttpGetRequester getRequester) {
         this.getRequester = getRequester;
     }
 
-    public Pokemon findDetails(String pokemon) throws IOException {
+    public Species findDetails(String pokemon) throws IOException {
         String response = getRequester.get(pokemon.toLowerCase());
         JSONObject obj = new JSONObject(response);
         // try {
@@ -24,6 +24,6 @@ public class ApiSearcher {
         String name = obj.getString("name");
         Integer height = obj.getInt("height");
         Integer weight = obj.getInt("weight");
-        return new Pokemon(name, height, weight);
+        return new Species(name, height, weight);
     }
 }

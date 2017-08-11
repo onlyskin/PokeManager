@@ -1,18 +1,18 @@
 package pokemanager;
 
-public class ApiSearcherSpy extends ApiSearcher {
+public class SpeciesFinderSpy extends SpeciesFinder {
     public boolean findDetailsCalled;
     public String calledWith;
     
-    public ApiSearcherSpy() {
+    public SpeciesFinderSpy() {
         super(null);
         findDetailsCalled = false;
     }
 
     @Override
-    public Pokemon findDetails(String pokemon) {
-        calledWith = pokemon;
+    public Species findDetails(String name) {
+        calledWith = name;
         findDetailsCalled = true;
-        return new PokemonStub();
+        return new SpeciesStub();
     } 
 }

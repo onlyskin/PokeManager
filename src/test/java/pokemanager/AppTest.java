@@ -26,9 +26,12 @@ public class AppTest {
         out = new ByteArrayOutputStream();
         pw = new PrintStream(out);
         input = new ByteArrayInputStream("".getBytes());
-        box = new FileBox(new ByteArrayInputStream("Bulbasaur\nHana\n".getBytes()));
         tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
+        FileWriter fw = new FileWriter(tempFile.toString());
+        fw.write("Bulbasaur\nHana\n");
+        fw.close();
+        box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
         app = new App(input, pw, box, tempFile.toString(), getRequester);
     }

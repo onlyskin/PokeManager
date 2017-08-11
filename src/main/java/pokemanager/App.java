@@ -11,7 +11,7 @@ public class App {
     private String storageFilename;
     private List<Command> commands;
     private boolean run;
-    private ApiSearcher apiSearcher;
+    private SpeciesFinder speciesFinder;
     private HttpGetRequester getRequester;
 
     public App(InputStream in,
@@ -23,7 +23,7 @@ public class App {
         this.pw = pw;
         this.box = box;
         this.storageFilename = storageFilename;
-        this.apiSearcher = new ApiSearcher(getRequester);
+        this.speciesFinder = new SpeciesFinder(getRequester);
         this.commands = buildCommands();
         this.run = false;
         this.getRequester = getRequester;
@@ -35,7 +35,7 @@ public class App {
                 new StoreCommand(),
                 new SaveCommand(),
                 new ExitCommand(),
-                new SpeciesCommand(apiSearcher));
+                new SpeciesCommand(speciesFinder));
     }
 
     private Command findCommand(String command) {
@@ -91,15 +91,14 @@ public class App {
     }
 
     public static void main(String[] args) throws IOException {
-        String storageFilename = "/Users/sam/Documents/pokemanager/data/data";
-        FileInputStream inputData = new FileInputStream(storageFilename);
-        FileBox box = new FileBox(inputData);
+        String filepath = "/Users/sam/Documents/pokemanager/data/data";
+        FileBox box = new FileBox(filepath);
         PrintStream pw = System.out;
         HttpGetRequester getRequester = new HttpGetRequester();
         App app = new App(System.in,
                           pw,
                           box,
-                          storageFilename,
+                          filepath,
                           getRequester);
         app.run();
     }

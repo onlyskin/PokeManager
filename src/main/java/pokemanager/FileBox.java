@@ -1,23 +1,23 @@
 package pokemanager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileBox implements Box {
-    private final InputStream in;
     private final List<String> stored = new ArrayList<String>();
+    private String filepath;
 
-    public FileBox(InputStream in) throws IOException {
-        this.in = in;
-        String[] pokemonList = inputStreamToString(in).split("\n");
-        in.close();
+    public FileBox(String filepath) throws IOException {
+        this.filepath = filepath;
+        InputStream inputStream = new FileInputStream(filepath);
+        String[] pokemonList = inputStreamToString(inputStream).split("\n");
+        inputStream.close();
         for (String pokemon : pokemonList) {
-            this.stored.add(pokemon);
+            if (!pokemon.equals("")) {
+                this.stored.add(pokemon);
+            }
         }
     }
 
@@ -29,8 +29,14 @@ public class FileBox implements Box {
         return output;
     }
 
-    public String getDataString() {
+    private String getDataString() {
         return String.join("\n", stored) + "\n";
+    }
+
+    public void save() throws IOException {
+		FileWriter fw = new FileWriter(filepath);
+		fw.write(getDataString());
+		fw.close();
     }
 
     public void store(String pokemon) {

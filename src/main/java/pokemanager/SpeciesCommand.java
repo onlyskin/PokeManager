@@ -3,11 +3,11 @@ package pokemanager;
 import java.io.IOException;
 
 public class SpeciesCommand implements Command {
-	private final ApiSearcher apiSearcher;
+	private final SpeciesFinder speciesFinder;
 
-	public SpeciesCommand(ApiSearcher apiSearcher) {
+	public SpeciesCommand(SpeciesFinder speciesFinder) {
 		super();
-		this.apiSearcher = apiSearcher;
+		this.speciesFinder = speciesFinder;
 	}
 
     public boolean respondsTo(String command) {
@@ -15,9 +15,9 @@ public class SpeciesCommand implements Command {
     }
     
     public void execute(String command, App app) throws IOException {
-        String pokemonName = command.substring(7);
-		Pokemon pokemon = apiSearcher.findDetails(pokemonName);
-		app.pw.println(pokemon.toString());
+        String name = command.substring(7);
+		Species species = speciesFinder.findDetails(name);
+		app.pw.println(species.toString());
 	}
 
 }
