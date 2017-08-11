@@ -15,15 +15,13 @@ public class SpeciesFinder {
     public Species findDetails(String pokemon) throws IOException {
         String response = getRequester.get(pokemon.toLowerCase());
         JSONObject obj = new JSONObject(response);
-        // try {
-        //     if (obj.getString("detail").equals("Not found.")) {
-        //         return null;
-        //     }
-        // } catch JSONException {
-        // }
-        String name = obj.getString("name");
-        Integer height = obj.getInt("height");
-        Integer weight = obj.getInt("weight");
-        return new Species(name, height, weight);
+        try {
+            String name = obj.getString("name");
+            Integer height = obj.getInt("height");
+            Integer weight = obj.getInt("weight");
+            return new Species(name, height, weight);
+        } catch (JSONException e) {
+            return null;
+        }
     }
 }

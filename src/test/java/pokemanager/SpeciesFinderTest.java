@@ -29,7 +29,6 @@ public class SpeciesFinderTest {
         assertEquals(new Integer(69), result.getWeight());
     }
     
-    @Ignore
     @Test
     public void ReturnsNullIfApiNotFound() throws Exception {
         Species result = speciesFinder.findDetails("bad_input");

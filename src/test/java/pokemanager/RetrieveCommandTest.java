@@ -14,7 +14,7 @@ public class RetrieveCommandTest {
     private final BoxSpy box = new BoxSpy();
     private final RetrieveCommand rc = new RetrieveCommand();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
-    private final App app = new App(in, pw, box, "", null);
+    private final App app = new App(in, pw, box, null);
 
     public RetrieveCommandTest() throws IOException {}
 

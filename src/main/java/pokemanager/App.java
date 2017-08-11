@@ -17,12 +17,10 @@ public class App {
     public App(InputStream in,
                PrintStream pw,
                Box box,
-               String storageFilename,
                HttpGetRequester getRequester) {
         this.reader = new BufferedReader(new InputStreamReader(in));
         this.pw = pw;
         this.box = box;
-        this.storageFilename = storageFilename;
         this.speciesFinder = new SpeciesFinder(getRequester);
         this.commands = buildCommands();
         this.run = false;
@@ -46,10 +44,6 @@ public class App {
         }
         return null;
     }
-
-	public String getStoragePath() {
-		return storageFilename;
-	}
 
 	public Box getBox() {
 		return box;	
@@ -98,7 +92,6 @@ public class App {
         App app = new App(System.in,
                           pw,
                           box,
-                          filepath,
                           getRequester);
         app.run();
     }

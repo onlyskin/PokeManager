@@ -13,6 +13,10 @@ public class SpeciesFinderSpy extends SpeciesFinder {
     public Species findDetails(String name) {
         calledWith = name;
         findDetailsCalled = true;
-        return new SpeciesStub();
+        if (name.equals("bad_input")) {
+            return null;
+        } else {
+            return new SpeciesStub();
+        }
     } 
 }

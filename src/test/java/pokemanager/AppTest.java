@@ -33,7 +33,7 @@ public class AppTest {
         fw.close();
         box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
-        app = new App(input, pw, box, tempFile.toString(), getRequester);
+        app = new App(input, pw, box, getRequester);
     }
 
     @Test
@@ -68,18 +68,13 @@ public class AppTest {
     }
 
 	@Test
-	public void GetsStoragePath() {
-		assertEquals(tempFile.toString(), app.getStoragePath());
-	}
-
-	@Test
 	public void GetsBox() {
 		assertEquals(box, app.getBox());
 	}
 
     private void RunAppWithUserInput(String userInput) {
         input = new ByteArrayInputStream(userInput.getBytes());
-        app = new App(input, pw, box, tempFile.toString(), getRequester);
+        app = new App(input, pw, box, getRequester);
         app.run();
     }
 

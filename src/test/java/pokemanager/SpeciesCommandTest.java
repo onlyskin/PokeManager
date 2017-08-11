@@ -13,21 +13,20 @@ public class SpeciesCommandTest {
     private final PrintStream pw = new PrintStream(out);
 	private final BoxSpy box = new BoxSpy();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
-    private final File tempFile = File.createTempFile("temp-", "-testfile");
-    private final App app = new App(in, pw, box, tempFile.toString(), new HttpGetRequesterSpy());
-    private final SpeciesFinderSpy apiSearcher = new SpeciesFinderSpy();
-    private final SpeciesCommand sc = new SpeciesCommand(apiSearcher);
+    private final App app = new App(in, pw, box, null);
+    private final SpeciesFinderSpy speciesFinder = new SpeciesFinderSpy();
+    private final SpeciesCommand sc = new SpeciesCommand(speciesFinder);
 
     @Test
     public void CallsFindDetailsOnApiSearcher() throws Exception {
         sc.execute("search Bulbasaur", app);
-        assertTrue(apiSearcher.findDetailsCalled);
+        assertTrue(speciesFinder.findDetailsCalled);
     }
 
 	@Test
 	public void PassesNameToApiSearcher() throws Exception {
 		sc.execute("search Bulbasaur", app);
-		assertEquals("Bulbasaur", apiSearcher.calledWith);
+		assertEquals("Bulbasaur", speciesFinder.calledWith);
 	}
 
 	@Test
@@ -41,4 +40,9 @@ public class SpeciesCommandTest {
 		assertEquals("Name: Bulbasaur\nHeight: 7\nWeight: 69\n", out.toString());
 	}
 
+    @Test
+    public void PrintsNoneFoundOnNullReturn() throws Exception {
+        sc.execute("search bad_input", app);   
+        assertEquals("no species found\n", out.toString());
+    }
 }

@@ -17,7 +17,11 @@ public class SpeciesCommand implements Command {
     public void execute(String command, App app) throws IOException {
         String name = command.substring(7);
 		Species species = speciesFinder.findDetails(name);
-		app.pw.println(species.toString());
+        if (species == null) {
+            app.pw.println("no species found");
+        } else {
+		    app.pw.println(species.toString());
+        }
 	}
 
 }

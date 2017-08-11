@@ -9,9 +9,8 @@ public class AppSpy extends App {
     public AppSpy(InputStream in,
                   PrintStream pw,
                   Box box,
-                  String storageFilename,
                   HttpGetRequester getRequester) {
-        super(in, pw, box, storageFilename, getRequester);
+        super(in, pw, box, getRequester);
         exitCalled = false;
     }
 
