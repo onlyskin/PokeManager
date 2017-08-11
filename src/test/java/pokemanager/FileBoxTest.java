@@ -6,8 +6,8 @@ import java.io.*;
 
 import static org.junit.Assert.*;
 
-public class BoxTest {
-    private Box box;
+public class FileBoxTest {
+    private FileBox box;
 
     @Test
     public void RetrievePrintsInputStream() throws Exception {
@@ -40,12 +40,12 @@ public class BoxTest {
     @Test
     public void ClosesInputStreamAfterConstruction() throws Exception {
         ByteArrayInputStreamSpy bAISSpy = new ByteArrayInputStreamSpy("".getBytes());
-        Box box = new Box(bAISSpy);
+        FileBox box = new FileBox(bAISSpy);
         assertTrue(bAISSpy.closeCalled);
     }
 
     private void makeBoxWithInputString(String inputString) throws IOException {
         InputStream inputStream = new ByteArrayInputStream(inputString.getBytes());
-        box = new Box(inputStream);
+        box = new FileBox(inputStream);
     }
 }

@@ -10,7 +10,7 @@ public class StoreCommandTest {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final PrintStream pw = new PrintStream(out);
-    private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
+    private final BoxSpy box = new BoxSpy();
     private final StoreCommand sc = new StoreCommand();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
     private final App app = new App(in, pw, box, "", null);

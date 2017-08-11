@@ -3,14 +3,13 @@ package pokemanager;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BoxSpy extends Box {
+public class BoxSpy implements Box {
     public boolean retrieveCalled;
     public boolean storeCalled;
     public boolean getDataStringCalled;
     public String stored;
 
-    public BoxSpy(InputStream in) throws IOException {
-        super(in);
+    public BoxSpy() throws IOException {
         retrieveCalled = false;
         storeCalled = false;
     }

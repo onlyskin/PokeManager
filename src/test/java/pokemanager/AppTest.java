@@ -17,7 +17,7 @@ public class AppTest {
     private final ByteArrayOutputStream out;
     private final PrintStream pw;
     private InputStream input;
-    private final Box box;
+    private final FileBox box;
     private final File tempFile;
     private final HttpGetRequester getRequester;
     private App app;
@@ -26,7 +26,7 @@ public class AppTest {
         out = new ByteArrayOutputStream();
         pw = new PrintStream(out);
         input = new ByteArrayInputStream("".getBytes());
-        box = new Box(new ByteArrayInputStream("Bulbasaur\nHana\n".getBytes()));
+        box = new FileBox(new ByteArrayInputStream("Bulbasaur\nHana\n".getBytes()));
         tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
         getRequester = new HttpGetRequesterSpy();

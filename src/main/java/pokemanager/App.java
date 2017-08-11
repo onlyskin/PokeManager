@@ -93,7 +93,7 @@ public class App {
     public static void main(String[] args) throws IOException {
         String storageFilename = "/Users/sam/Documents/pokemanager/data/data";
         FileInputStream inputData = new FileInputStream(storageFilename);
-        Box box = new Box(inputData);
+        FileBox box = new FileBox(inputData);
         PrintStream pw = System.out;
         HttpGetRequester getRequester = new HttpGetRequester();
         App app = new App(System.in,

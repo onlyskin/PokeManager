@@ -12,7 +12,7 @@ public class SaveCommandTest {
 	
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final PrintStream pw = new PrintStream(out);
-	private final BoxSpy box = new BoxSpy(new ByteArrayInputStream("".getBytes()));
+	private final BoxSpy box = new BoxSpy();
 	private final SaveCommand sc = new SaveCommand();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
     private final File tempFile = File.createTempFile("temp-", "-testfile");
