@@ -1,6 +1,7 @@
 package pokemanager;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 import static org.junit.Assert.*;
 
@@ -26,5 +27,12 @@ public class ApiSearcherTest {
         assertEquals("bulbasaur", result.getSpecies());
         assertEquals(new Integer(7), result.getHeight());
         assertEquals(new Integer(69), result.getWeight());
+    }
+    
+    @Ignore
+    @Test
+    public void ReturnsNullIfApiNotFound() throws Exception {
+        Pokemon result = apiSearcher.findDetails("bad_input");
+        assertNull(result);
     }
 }

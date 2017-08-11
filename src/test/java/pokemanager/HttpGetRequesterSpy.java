@@ -13,6 +13,10 @@ public class HttpGetRequesterSpy extends HttpGetRequester {
     public String get(String pokemon) {
         getCalled = true;
         calledWith = pokemon;
-        return "{\"name\": \"bulbasaur\", \"weight\": 69, \"height\": 7}";
+        if (calledWith.equals("bad_input")) {
+            return "{\"detail\":\"Not found.\"}";
+        } else {
+            return "{\"name\": \"bulbasaur\", \"weight\": 69, \"height\": 7}";
+        }
     }
 }
