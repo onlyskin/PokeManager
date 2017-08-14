@@ -18,19 +18,22 @@ public class StoreCommandTest {
     public StoreCommandTest() throws IOException {}
 
     @Test
-    public void CallsStoreOnBox() throws Exception {
-       sc.execute("store Charmander Ember", app);
+    public void CallsStoreOnBoxWithArgs() throws Exception {
+       sc.execute("store Charmander Ember 21", app);
        assertTrue(box.storeCalled);
+       assertEquals("Charmander", box.speciesArg);
+       assertEquals("Ember", box.nicknameArg);
+       assertEquals(new Integer(21), box.levelArg);
     }
 
     @Test
     public void PrintsStored() throws Exception {
-        sc.execute("store Charmander Ember", app);
+        sc.execute("store Charmander Ember 21", app);
         assertEquals("Stored!\n\n", out.toString());
     }
     
     @Test
     public void RespondsToStore() throws Exception {
-        assertTrue(sc.respondsTo("store Charmander Ember"));
+        assertTrue(sc.respondsTo("store Charmander Ember 21"));
     }
 }

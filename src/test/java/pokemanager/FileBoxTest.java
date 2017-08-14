@@ -1,6 +1,7 @@
 package pokemanager;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.io.*;
 
@@ -10,35 +11,39 @@ import java.util.stream.Collectors;
 public class FileBoxTest {
     private FileBox box;
 
-    @Test
-    public void RetrievePrintsInputStream() throws Exception {
-        makeBoxWithStringAsFile("Charmander\nEmber\nSquirtle\nMizu");
-        assertEquals("Ember\n(Charmander)\nMizu\n(Squirtle)\n", box.retrieve());
+	@Test
+    public void MakesUserStringFromFilepathData() throws Exception {
+        makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12}," +
+                                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2}]");
+        assertEquals("Ember - lv.12 Charmander\n" +
+                     "Mizu - lv.2 Squirtle\n", box.retrieve());
     }
 
-    @Test
+	@Test
     public void RetrievePrintsStoredPokemon() throws Exception {
-        makeBoxWithStringAsFile("Charmander\nEmber\nSquirtle\nMizu");
-        box.store("Koffing Cloud");
-        box.store("Lapras Shell");
-        assertEquals("Ember\n(Charmander)\n" +
-                     "Mizu\n(Squirtle)\n" +
-                     "Cloud\n(Koffing)\n" +
-                     "Shell\n(Lapras)\n", box.retrieve());
+        makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12}," +
+                                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2}]");
+        box.store("Koffing", "Cloud", 20);
+        box.store("Lapras", "Shell", 56);
+        assertEquals("Ember - lv.12 Charmander\n" +
+                     "Mizu - lv.2 Squirtle\n" +
+                     "Cloud - lv.20 Koffing\n" +
+                     "Shell - lv.56 Lapras\n", box.retrieve());
     }
 
-    @Test
+	@Test
     public void SavesDataToFile() throws IOException {
        File tempFile = File.createTempFile("temp-", "-testfile");
        tempFile.deleteOnExit();
        FileBox box = new FileBox(tempFile.toString());
-       box.store("Koffing Cloud");
-       box.store("Lapras Shell");
+       box.store("Koffing", "Cloud", 20);
+       box.store("Lapras", "Shell", 56);
        String beforeSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
        assertEquals("", beforeSave);
        box.save();
        String afterSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
-       assertEquals("Koffing\nCloud\nLapras\nShell", afterSave);
+       assertEquals("[{\"species\":\"Koffing\",\"level\":20,\"nickname\":\"Cloud\"}," +
+                    "{\"species\":\"Lapras\",\"level\":56,\"nickname\":\"Shell\"}]", afterSave);
     }
 
     private void makeBoxWithStringAsFile(String fileContents) throws IOException {

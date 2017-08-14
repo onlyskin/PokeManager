@@ -1,36 +1,56 @@
 package pokemanager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.json.JSONObject.valueToString;
+
 public class FileBox implements Box {
-    private final List<String> stored = new ArrayList<String>();
+    private final List<Pokemon> stored = new ArrayList<Pokemon>();
     private String filepath;
 
     public FileBox(String filepath) throws IOException {
         this.filepath = filepath;
         InputStream inputStream = new FileInputStream(filepath);
-        String[] pokemonList = inputStreamToString(inputStream).split("\n");
+        String jsonString = inputStreamToString(inputStream);
+        jsonToPokemonList(jsonString);
         inputStream.close();
-        for (String pokemon : pokemonList) {
-            if (!pokemon.equals("")) {
-                this.stored.add(pokemon);
-            }
+    }
+
+    private void jsonToPokemonList(String jsonString) {
+        JSONArray arr;
+        try {
+            arr = new JSONArray(jsonString);
+        } catch (JSONException e) {
+            arr = new JSONArray("[]");
+        }
+        for (int i=0; i<arr.length(); i++) {
+            JSONObject obj = arr.getJSONObject(i);
+            Pokemon pokemon = new Pokemon(obj.getString("species"),
+                                          obj.getString("nickname"),
+                                          obj.getInt("level"));
+            this.stored.add(pokemon);
         }
     }
 
     public String retrieve() {
         String output = "";
-        for (int i=0; i<stored.size(); i+=2) {
-            output = output + stored.get(i+1) + "\n(" + stored.get(i) + ")\n";
+        for (int i=0; i<stored.size(); i++) {
+            Pokemon p = stored.get(i);
+            output = output + p.getNickname() + " - lv." +
+                p.getLevel().toString() + " " + p.getSpecies() + "\n";
         }
         return output;
     }
 
     private String getDataString() {
-        return String.join("\n", stored) + "\n";
+        return valueToString(stored);
     }
 
     public void save() throws IOException {
@@ -39,10 +59,9 @@ public class FileBox implements Box {
 		fw.close();
     }
 
-    public void store(String pokemon) {
-        String[] fields = pokemon.split(" ");
-        stored.add(fields[0]);
-        stored.add(fields[1]);
+    public void store(String species, String nickname, Integer level) {
+        Pokemon p = new Pokemon(species, nickname, level);
+        stored.add(p);
     }
 
     private String inputStreamToString(InputStream inputStream) {

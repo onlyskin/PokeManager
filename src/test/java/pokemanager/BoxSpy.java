@@ -7,7 +7,9 @@ public class BoxSpy implements Box {
     public boolean retrieveCalled;
     public boolean storeCalled;
     public boolean saveCalled;
-    public String stored;
+    public String speciesArg;
+    public String nicknameArg;
+    public Integer levelArg;
 
     public BoxSpy() throws IOException {
         retrieveCalled = false;
@@ -22,9 +24,11 @@ public class BoxSpy implements Box {
     }
 
     @Override
-    public void store(String pokemon) {
+    public void store(String species, String nickname, Integer level) {
         storeCalled = true;
-        stored = pokemon;
+        speciesArg = species;
+        nicknameArg = nickname;
+        levelArg = level;
     }
 
     @Override

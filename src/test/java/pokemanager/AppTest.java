@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class AppTest {
 
     private final String startMessage = "Commands:\n'box' to see stored Pokemon" +
-                "\n'store SPECIES NICKNAME' to store a Pokemon" +
+                "\n'store SPECIES NICKNAME LEVEL' to store a Pokemon" +
                 "\n'save' to save your stored Pokemon for next time" +
                 "\n'search SPECIES' to search the Pokedex";
 
@@ -29,7 +29,7 @@ public class AppTest {
         tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
         FileWriter fw = new FileWriter(tempFile.toString());
-        fw.write("Bulbasaur\nHana\n");
+        fw.write("[{\"species\":\"Bulbasaur\",\"nickname\":\"Hana\",\"level\":5}]");
         fw.close();
         box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
@@ -39,20 +39,21 @@ public class AppTest {
     @Test
     public void PrintsBox() throws Exception {
         RunAppWithUserInput("box\nexit\n");
-        assertEquals(startMessage + "\nHana\n(Bulbasaur)\n\n", out.toString());
+        assertEquals(startMessage + "\nHana - lv.5 Bulbasaur\n\n", out.toString());
     }
 
     @Test
     public void PrintsBoxWithStored() throws Exception {
-        RunAppWithUserInput("store Charmander Ember\nbox\nexit\n");
-        assertEquals(startMessage + "\nStored!\n\nHana\n(Bulbasaur)\nEmber\n(Charmander)\n\n", out.toString());
+        RunAppWithUserInput("store Charmander Ember 6\nbox\nexit\n");
+        assertEquals(startMessage + "\nStored!\n\nHana - lv.5 Bulbasaur\nEmber - lv.6 Charmander\n\n", out.toString());
     }
 
     @Test
     public void SavesBoxToFile() throws Exception {
-        RunAppWithUserInput("store Charmander Ember\nsave\nexit\n");
-        String fileContents = inputStreamToString(new FileInputStream(tempFile.toString())); 
-        assertEquals("Bulbasaur\nHana\nCharmander\nEmber", fileContents);
+        RunAppWithUserInput("store Charmander Ember 6\nsave\nexit\n");
+        String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
+        assertEquals("[{\"species\":\"Bulbasaur\",\"level\":5,\"nickname\":\"Hana\"}," +
+                "{\"species\":\"Charmander\",\"level\":6,\"nickname\":\"Ember\"}]", fileContents);
     }
 
     @Test

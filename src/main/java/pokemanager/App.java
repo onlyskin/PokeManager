@@ -58,7 +58,7 @@ public class App {
 
     private void outputStartMessage() {
         pw.println("Commands:\n'box' to see stored Pokemon" +
-                "\n'store SPECIES NICKNAME' to store a Pokemon" +
+                "\n'store SPECIES NICKNAME LEVEL' to store a Pokemon" +
                 "\n'save' to save your stored Pokemon for next time" +
                 "\n'search SPECIES' to search the Pokedex");
     }
