@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class App {
+    private PrintStream printStream;
     private BufferedReader reader;
-    public PrintStream pw;
     private Box box;
     private String storageFilename;
     private List<Command> commands;
@@ -15,11 +15,11 @@ public class App {
     private HttpGetRequester getRequester;
 
     public App(InputStream in,
-               PrintStream pw,
+               PrintStream printStream,
                Box box,
                HttpGetRequester getRequester) {
         this.reader = new BufferedReader(new InputStreamReader(in));
-        this.pw = pw;
+        this.printStream = printStream;
         this.box = box;
         this.speciesFinder = new SpeciesFinder(getRequester);
         this.commands = buildCommands();
@@ -49,6 +49,14 @@ public class App {
 		return box;	
 	}
 	
+    public BufferedReader getReader() {
+        return reader;
+    }
+
+    public PrintStream getPrintStream() {
+        return printStream;
+    }
+
 	public void acceptInput() {
         try {
             String line = reader.readLine();
@@ -57,7 +65,7 @@ public class App {
     }
 
     private void outputStartMessage() {
-        pw.println("Commands:\n'box' to see stored Pokemon" +
+        printStream.println("Commands:\n'box' to see stored Pokemon" +
                 "\n'store SPECIES NICKNAME LEVEL' to store a Pokemon" +
                 "\n'save' to save your stored Pokemon for next time" +
                 "\n'search SPECIES' to search the Pokedex");
@@ -78,7 +86,7 @@ public class App {
     private void handleInputLine(String line) throws IOException {
         Command command = findCommand(line);
         if (command == null) {
-            pw.println("Please enter a valid command.\n");
+            printStream.println("Please enter a valid command.\n");
         } else {
             command.execute(line, this);
         }
@@ -87,10 +95,10 @@ public class App {
     public static void main(String[] args) throws IOException {
         String filepath = "/Users/sam/Documents/pokemanager/data/data";
         FileBox box = new FileBox(filepath);
-        PrintStream pw = System.out;
+        PrintStream printStream = System.out;
         HttpGetRequester getRequester = new HttpGetRequester();
         App app = new App(System.in,
-                          pw,
+                          printStream,
                           box,
                           getRequester);
         app.run();

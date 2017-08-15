@@ -18,9 +18,9 @@ public class SpeciesCommand implements Command {
         String name = command.substring(7);
 		Species species = speciesFinder.findDetails(name);
         if (species == null) {
-            app.pw.println("no species found");
+            app.getPrintStream().println("no species found");
         } else {
-		    app.pw.println(species.toString());
+		    app.getPrintStream().println(species.toString());
         }
 	}
 

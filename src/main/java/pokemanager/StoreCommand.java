@@ -1,16 +1,39 @@
 package pokemanager;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class StoreCommand implements Command {
     public StoreCommand() {
     }
 
     public void execute(String command, App app) {
-        String argString = command.substring(6);
-        String[] args = argString.split(" ");
-        app.getBox().store(args[0], args[1], Integer.parseInt(args[2]));
-        app.pw.println("Stored!\n");
+        BufferedReader reader = app.getReader();
+        String species = "";
+        String nickname = "";
+        Integer level = null;
+        app.getPrintStream().println("Species:");
+        while (species == "") {
+            try {
+                species = reader.readLine();
+            } catch (IOException e) {}
+        }
+        app.getPrintStream().println("Nickname:");
+        while (nickname == "") {
+            try {
+                nickname = reader.readLine();
+            } catch (IOException e) {}
+        }
+        app.getPrintStream().println("Level:");
+        while (level == null) {
+            try {
+                String line = reader.readLine();
+                level = Integer.parseInt(line);
+            } catch (NumberFormatException|IOException e) {}
+        }
+        Pokemon pokemon = new Pokemon(species, nickname, level);
+        app.getBox().store(pokemon);
+        app.getPrintStream().println("Stored!\n");
     }
 
     public boolean respondsTo(String command) {

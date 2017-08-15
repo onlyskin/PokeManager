@@ -8,7 +8,7 @@ public class SaveCommand implements Command {
 
 	public void execute(String command, App app) throws IOException {
 		app.getBox().save();
-		app.pw.println("Saved!\n");
+		app.getPrintStream().println("Saved!\n");
 	}
 	
 	public boolean respondsTo(String command) {

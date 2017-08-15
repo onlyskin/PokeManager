@@ -7,5 +7,7 @@ public interface Box {
 
      void save() throws IOException;
 
+     void store(Pokemon pokemon);
+
      void store(String species, String nickname, Integer level);
 }

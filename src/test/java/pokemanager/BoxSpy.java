@@ -35,4 +35,12 @@ public class BoxSpy implements Box {
     public void save() {
         saveCalled = true;
     }
+
+    @Override
+    public void store(Pokemon pokemon) {
+        storeCalled = true;
+        speciesArg = pokemon.getSpecies();
+        nicknameArg = pokemon.getNickname();
+        levelArg = pokemon.getLevel();
+    }
 }

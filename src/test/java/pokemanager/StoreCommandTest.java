@@ -9,31 +9,26 @@ import static org.junit.Assert.*;
 public class StoreCommandTest {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream pw = new PrintStream(out);
-    private final BoxSpy box = new BoxSpy();
+    private final PrintStream printStream = new PrintStream(out);
+    private final BoxSpy boxSpy = new BoxSpy();
     private final StoreCommand sc = new StoreCommand();
-    private final InputStream in = new ByteArrayInputStream("".getBytes());
-    private final App app = new App(in, pw, box, null);
+    private final InputStream in = new ByteArrayInputStream("Charmander\nEmber\n21\n".getBytes());
+    private final App app = new App(in, printStream, boxSpy, null);
 
     public StoreCommandTest() throws IOException {}
 
     @Test
     public void CallsStoreOnBoxWithArgs() throws Exception {
-       sc.execute("store Charmander Ember 21", app);
-       assertTrue(box.storeCalled);
-       assertEquals("Charmander", box.speciesArg);
-       assertEquals("Ember", box.nicknameArg);
-       assertEquals(new Integer(21), box.levelArg);
+       sc.execute("store", app);
+       assertTrue(boxSpy.storeCalled);
+       assertEquals("Species:\nNickname:\nLevel:\nStored!\n\n", out.toString());
+       assertEquals("Charmander", boxSpy.speciesArg);
+       assertEquals("Ember", boxSpy.nicknameArg);
+       assertEquals(new Integer(21), boxSpy.levelArg);
     }
 
     @Test
-    public void PrintsStored() throws Exception {
-        sc.execute("store Charmander Ember 21", app);
-        assertEquals("Stored!\n\n", out.toString());
-    }
-    
-    @Test
     public void RespondsToStore() throws Exception {
-        assertTrue(sc.respondsTo("store Charmander Ember 21"));
+        assertTrue(sc.respondsTo("store Charmander Ember"));
     }
 }

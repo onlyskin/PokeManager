@@ -18,6 +18,17 @@ public class SpeciesCommandTest {
     private final SpeciesCommand sc = new SpeciesCommand(speciesFinder);
 
     @Test
+    public void CallsAndPrintsToStringOnReturnedSpecies() throws Exception {
+        sc.execute("search Bulbasaur", app);
+        assertEquals("Name: Bulbasaur\nHeight: 7\nWeight: 69\n", out.toString());
+    }
+
+    @Test
+    public void PrintsNoneFoundOnNullReturn() throws Exception {
+        sc.execute("search bad_input", app);
+        assertEquals("no species found\n", out.toString());
+    }
+    @Test
     public void CallsFindDetailsOnApiSearcher() throws Exception {
         sc.execute("search Bulbasaur", app);
         assertTrue(speciesFinder.findDetailsCalled);
@@ -33,16 +44,4 @@ public class SpeciesCommandTest {
 	public void RespondsToSearch() throws Exception {
 		assertTrue(sc.respondsTo("search"));
 	}
-
-	@Test
-	public void CallsAndPrintsToStringOnReturnedSpecies() throws Exception {
-		sc.execute("search Bulbasaur", app);
-		assertEquals("Name: Bulbasaur\nHeight: 7\nWeight: 69\n", out.toString());
-	}
-
-    @Test
-    public void PrintsNoneFoundOnNullReturn() throws Exception {
-        sc.execute("search bad_input", app);   
-        assertEquals("no species found\n", out.toString());
-    }
 }

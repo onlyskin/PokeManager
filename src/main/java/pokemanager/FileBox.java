@@ -59,6 +59,10 @@ public class FileBox implements Box {
 		fw.close();
     }
 
+    public void store(Pokemon pokemon) {
+        stored.add(pokemon);
+    }
+
     public void store(String species, String nickname, Integer level) {
         Pokemon p = new Pokemon(species, nickname, level);
         stored.add(p);

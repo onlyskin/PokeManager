@@ -12,15 +12,7 @@ public class FileBoxTest {
     private FileBox box;
 
 	@Test
-    public void MakesUserStringFromFilepathData() throws Exception {
-        makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12}," +
-                                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2}]");
-        assertEquals("Ember - lv.12 Charmander\n" +
-                     "Mizu - lv.2 Squirtle\n", box.retrieve());
-    }
-
-	@Test
-    public void RetrievePrintsStoredPokemon() throws Exception {
+    public void RetrievesBoxContentsAsString() throws Exception {
         makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12}," +
                                 "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2}]");
         box.store("Koffing", "Cloud", 20);
@@ -32,7 +24,7 @@ public class FileBoxTest {
     }
 
 	@Test
-    public void SavesDataToFile() throws IOException {
+    public void SavesBoxDataToFile() throws IOException {
        File tempFile = File.createTempFile("temp-", "-testfile");
        tempFile.deleteOnExit();
        FileBox box = new FileBox(tempFile.toString());
@@ -42,8 +34,8 @@ public class FileBoxTest {
        assertEquals("", beforeSave);
        box.save();
        String afterSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
-       assertEquals("[{\"species\":\"Koffing\",\"level\":20,\"nickname\":\"Cloud\"}," +
-                    "{\"species\":\"Lapras\",\"level\":56,\"nickname\":\"Shell\"}]", afterSave);
+       assertEquals("[{\"level\":20,\"species\":\"Koffing\",\"nickname\":\"Cloud\"}," +
+                    "{\"level\":56,\"species\":\"Lapras\",\"nickname\":\"Shell\"}]", afterSave);
     }
 
     private void makeBoxWithStringAsFile(String fileContents) throws IOException {

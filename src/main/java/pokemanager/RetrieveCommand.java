@@ -6,7 +6,7 @@ public class RetrieveCommand implements Command {
 
     public void execute(String command, App app) {
         String output = app.getBox().retrieve();
-        app.pw.println(output);
+        app.getPrintStream().println(output);
     }
 
     public boolean respondsTo(String command) {
