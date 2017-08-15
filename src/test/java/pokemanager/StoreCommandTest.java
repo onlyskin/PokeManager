@@ -32,7 +32,8 @@ public class StoreCommandTest {
     public void RejectsLevelAbove99() throws Exception {
         App app = makeAppWithInputStream("Charmander\nEmber\n103\n21\n");
         sc.execute("store", app);
-        assertEquals("Species:\nNickname:\nLevel:\nLevel:\nStored!\n\n", out.toString());
+        assertEquals("Species:\nNickname:\nLevel:\nLevel:\nStored!\n\n",
+                out.toString());
         assertEquals(new Integer(21), boxSpy.stored.get(0).getLevel());
     }
 

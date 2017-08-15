@@ -13,40 +13,47 @@ public class StoreCommand implements Command {
         PrintStream printStream = app.getPrintStream();
         String species = "";
         String nickname = "";
-        app.getPrintStream().println("Species:");
-        while (species == "") {
-            try {
-                species = reader.readLine();
-            } catch (IOException e) {}
-        }
-        app.getPrintStream().println("Nickname:");
-        while (nickname == "") {
-            try {
-                nickname = reader.readLine();
-            } catch (IOException e) {}
-        }
-        Integer level = getLevel(reader, printStream);
+        Integer level = null;
+        try {
+            species = getInputString(reader, printStream, "Species:");
+            nickname = getInputString(reader, printStream, "Nickname:");
+            level = getInputLevel(reader, printStream);
+        } catch (IOException e) {}
         Pokemon pokemon = new Pokemon(species, nickname, level);
         app.getBox().store(pokemon);
         app.getPrintStream().println("Stored!\n");
     }
 
-    private Integer getLevel(BufferedReader reader, PrintStream printStream) {
-        Integer level = null;
-        printStream.println("Level:");
-        while (level == null) {
-            try {
-                String line = reader.readLine();
-                level = Integer.parseInt(line);
-                if (level > 99) {
-                    level = null;
-                    printStream.println("Level:");
-                }
-            } catch (NumberFormatException|IOException e) {}
-        }
-        return level;
+    private String getInput(BufferedReader reader) throws IOException {
+        String line = reader.readLine();
+        return line;
     }
     
+    private String getInputString(BufferedReader reader,
+            PrintStream printStream, String message) throws IOException {
+        printStream.println(message);
+        String userInput = getInput(reader);
+        try {
+            assert userInput != "";
+            return userInput;
+        } catch (AssertionError e) {
+            return getInputString(reader, printStream, message);
+        }
+    }
+
+    private Integer getInputLevel(BufferedReader reader,
+            PrintStream printStream) throws IOException {
+        printStream.println("Level:");
+        String userInput = getInput(reader);
+        try {
+            Integer output = Integer.parseInt(userInput);
+            assert output <= 99;
+            return output;
+        } catch (NumberFormatException|AssertionError e) {
+            return getInputLevel(reader, printStream);
+        }
+    }
+
     public boolean respondsTo(String command) {
         return command.startsWith("store");
     }

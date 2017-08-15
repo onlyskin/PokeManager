@@ -52,8 +52,8 @@ public class AppTest {
     public void SavesBoxToFile() throws Exception {
         RunAppWithUserInput("store\nCharmander\nEmber\n6\nsave\nexit\n");
         String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
-        assertEquals("[{\"level\":5,\"species\":\"Bulbasaur\",\"nickname\":\"Hana\"}," +
-                "{\"level\":6,\"species\":\"Charmander\",\"nickname\":\"Ember\"}]", fileContents);
+        assertEquals("[{\"species\":\"Bulbasaur\",\"level\":5,\"nickname\":\"Hana\"}," +
+                "{\"species\":\"Charmander\",\"level\":6,\"nickname\":\"Ember\"}]", fileContents);
     }
 
     @Test

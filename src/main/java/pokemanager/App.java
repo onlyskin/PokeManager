@@ -22,9 +22,9 @@ public class App {
         this.printStream = printStream;
         this.box = box;
         this.speciesFinder = new SpeciesFinder(getRequester);
-        this.commands = buildCommands();
         this.run = false;
         this.getRequester = getRequester;
+        this.commands = buildCommands();
     }
 
     private List<Command> buildCommands() {
