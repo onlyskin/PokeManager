@@ -39,14 +39,8 @@ public class FileBox implements Box {
         }
     }
 
-    public String retrieve() {
-        String output = "";
-        for (int i=0; i<stored.size(); i++) {
-            Pokemon p = stored.get(i);
-            output = output + p.getNickname() + " - lv." +
-                p.getLevel().toString() + " " + p.getSpecies() + "\n";
-        }
-        return output;
+    public List<Pokemon> retrieve() {
+        return stored;
     }
 
     private String getDataString() {

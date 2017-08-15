@@ -7,20 +7,26 @@ import java.io.*;
 
 import static org.junit.Assert.*;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileBoxTest {
     private FileBox box;
 
-	@Test
-    public void RetrievesBoxContentsAsString() throws Exception {
+    @Test
+    public void RetrievesPokemonFromBox() throws Exception {
         makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12}," +
                                 "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2}]");
         box.store("Koffing", "Cloud", 20);
         box.store("Lapras", "Shell", 56);
-        assertEquals("Ember - lv.12 Charmander\n" +
-                     "Mizu - lv.2 Squirtle\n" +
-                     "Cloud - lv.20 Koffing\n" +
-                     "Shell - lv.56 Lapras\n", box.retrieve());
+        Pokemon p0 = box.retrieve().get(0);
+        assertEquals("Charmander", p0.getSpecies()); 
+        assertEquals("Ember", p0.getNickname()); 
+        assertEquals(new Integer(12), p0.getLevel()); 
+        Pokemon p1 = box.retrieve().get(2);
+        assertEquals("Koffing", p1.getSpecies()); 
+        assertEquals("Cloud", p1.getNickname()); 
+        assertEquals(new Integer(20), p1.getLevel()); 
     }
 
 	@Test
