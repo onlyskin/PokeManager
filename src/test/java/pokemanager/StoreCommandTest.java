@@ -1,6 +1,7 @@
 package pokemanager;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.io.*;
 
@@ -12,13 +13,12 @@ public class StoreCommandTest {
     private final PrintStream printStream = new PrintStream(out);
     private final BoxSpy boxSpy = new BoxSpy();
     private final StoreCommand sc = new StoreCommand();
-    private final InputStream in = new ByteArrayInputStream("Charmander\nEmber\n21\n".getBytes());
-    private final App app = new App(in, printStream, boxSpy, null);
 
     public StoreCommandTest() throws IOException {}
 
     @Test
     public void CallsStoreOnBoxWithArgs() throws Exception {
+       App app = makeAppWithInputStream("Charmander\nEmber\n21\n");
        sc.execute("store", app);
        assertTrue(boxSpy.storeCalled);
        assertEquals("Species:\nNickname:\nLevel:\nStored!\n\n", out.toString());
@@ -29,7 +29,20 @@ public class StoreCommandTest {
     }
 
     @Test
+    public void RejectsLevelAbove99() throws Exception {
+        App app = makeAppWithInputStream("Charmander\nEmber\n103\n21\n");
+        sc.execute("store", app);
+        assertEquals("Species:\nNickname:\nLevel:\nLevel:\nStored!\n\n", out.toString());
+        assertEquals(new Integer(21), boxSpy.stored.get(0).getLevel());
+    }
+
+    @Test
     public void RespondsToStore() throws Exception {
         assertTrue(sc.respondsTo("store Charmander Ember"));
+    }
+
+    private App makeAppWithInputStream(String inputString) {
+        InputStream in = new ByteArrayInputStream(inputString.getBytes());
+        return new App(in, printStream, boxSpy, null);
     }
 }
