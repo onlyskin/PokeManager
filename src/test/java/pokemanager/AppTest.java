@@ -15,7 +15,7 @@ public class AppTest {
                 "\n'search SPECIES' to search the Pokedex";
 
     private final ByteArrayOutputStream out;
-    private final PrintStream pw;
+    private final PrintStream printStream;
     private InputStream input;
     private final FileBox box;
     private final File tempFile;
@@ -24,7 +24,7 @@ public class AppTest {
 
     public AppTest() throws IOException {
         out = new ByteArrayOutputStream();
-        pw = new PrintStream(out);
+        printStream = new PrintStream(out);
         input = new ByteArrayInputStream("".getBytes());
         tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
@@ -33,7 +33,7 @@ public class AppTest {
         fw.close();
         box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
-        app = new App(input, pw, box, getRequester);
+        app = new App(input, printStream, box, getRequester);
     }
 
     @Test
@@ -75,7 +75,7 @@ public class AppTest {
 
     private void RunAppWithUserInput(String userInput) {
         input = new ByteArrayInputStream(userInput.getBytes());
-        app = new App(input, pw, box, getRequester);
+        app = new App(input, printStream, box, getRequester);
         app.run();
     }
 

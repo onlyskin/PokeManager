@@ -10,10 +10,10 @@ public class SpeciesCommandTest {
 	public SpeciesCommandTest() throws IOException {}
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream pw = new PrintStream(out);
+    private final PrintStream printStream = new PrintStream(out);
 	private final BoxSpy box = new BoxSpy();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
-    private final App app = new App(in, pw, box, null);
+    private final App app = new App(in, printStream, box, null);
     private final SpeciesFinderSpy speciesFinder = new SpeciesFinderSpy();
     private final SpeciesCommand sc = new SpeciesCommand(speciesFinder);
 

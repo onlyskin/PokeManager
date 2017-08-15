@@ -11,12 +11,12 @@ import static org.junit.Assert.*;
 public class SaveCommandTest {
 	
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream pw = new PrintStream(out);
+    private final PrintStream printStream = new PrintStream(out);
 	private final BoxSpy box = new BoxSpy();
 	private final SaveCommand sc = new SaveCommand();
     private final InputStream in = new ByteArrayInputStream("".getBytes());
     private final File tempFile = File.createTempFile("temp-", "-testfile");
-    private final App app = new App(in, pw, box, null);
+    private final App app = new App(in, printStream, box, null);
 
 	public SaveCommandTest() throws IOException {}
 

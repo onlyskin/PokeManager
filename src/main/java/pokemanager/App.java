@@ -29,10 +29,10 @@ public class App {
 
     private List<Command> buildCommands() {
         return Arrays.asList(
-                new RetrieveCommand(),
+                new RetrieveCommand(this.box, this.printStream),
                 new StoreCommand(),
                 new SaveCommand(),
-                new ExitCommand(),
+                new ExitCommand(this),
                 new SpeciesCommand(speciesFinder));
     }
 

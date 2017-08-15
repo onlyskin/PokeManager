@@ -8,6 +8,8 @@ public class StoreCommand implements Command {
     public StoreCommand() {
     }
 
+    public void execute(String command) throws IOException { return; }
+
     public void execute(String command, App app) {
         BufferedReader reader = app.getReader();
         PrintStream printStream = app.getPrintStream();

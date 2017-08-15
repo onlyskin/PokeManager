@@ -1,19 +1,28 @@
 package pokemanager;
 
 import java.io.PrintStream;
+import java.io.IOException;
 import java.util.List;
 
 public class RetrieveCommand implements Command {
-    public RetrieveCommand() {
+    private Box box;
+    private PrintStream printStream;
+
+    public RetrieveCommand(Box box, PrintStream printStream) {
+        this.box = box;
+        this.printStream = printStream;
+    }
+    
+    public void execute(String command) throws IOException {
+        List<Pokemon> pokemon = box.retrieve();
+        for (int i=0; i<pokemon.size(); i++) {
+            printStream.println(pokemon.get(i).prettyString());
+        }
+        printStream.println("");
     }
 
-    public void execute(String command, App app) {
-        List<Pokemon> pokemon = app.getBox().retrieve();
-        PrintStream ps = app.getPrintStream();
-        for (int i=0; i<pokemon.size(); i++) {
-            ps.println(pokemon.get(i).prettyString());
-        }
-        ps.println("");
+    public void execute(String command, App app) throws IOException {
+        return;
     }
 
     public boolean respondsTo(String command) {

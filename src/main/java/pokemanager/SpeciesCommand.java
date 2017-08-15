@@ -14,6 +14,8 @@ public class SpeciesCommand implements Command {
 		return command.startsWith("search");
     }
     
+    public void execute(String command) throws IOException { return; }
+
     public void execute(String command, App app) throws IOException {
         String name = command.substring(7);
 		Species species = speciesFinder.findDetails(name);
