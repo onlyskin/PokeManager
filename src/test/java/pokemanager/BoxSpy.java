@@ -10,9 +10,6 @@ public class BoxSpy implements Box {
     public boolean retrieveCalled;
     public boolean storeCalled;
     public boolean saveCalled;
-    public String speciesArg;
-    public String nicknameArg;
-    public Integer levelArg;
     public List<Pokemon> stored = new ArrayList<Pokemon>();
 
     public BoxSpy() throws IOException {
@@ -35,14 +32,6 @@ public class BoxSpy implements Box {
     }
 
     @Override
-    public void store(String species, String nickname, Integer level) {
-        storeCalled = true;
-        speciesArg = species;
-        nicknameArg = nickname;
-        levelArg = level;
-    }
-
-    @Override
     public void save() {
         saveCalled = true;
     }
@@ -50,8 +39,6 @@ public class BoxSpy implements Box {
     @Override
     public void store(Pokemon pokemon) {
         storeCalled = true;
-        speciesArg = pokemon.getSpecies();
-        nicknameArg = pokemon.getNickname();
-        levelArg = pokemon.getLevel();
+        stored.add(pokemon);
     }
 }

@@ -17,8 +17,8 @@ public class FileBoxTest {
     public void RetrievesPokemonFromBox() throws Exception {
         makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12}," +
                                 "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2}]");
-        box.store("Koffing", "Cloud", 20);
-        box.store("Lapras", "Shell", 56);
+        box.store(new Pokemon("Koffing", "Cloud", 20));
+        box.store(new Pokemon("Lapras", "Shell", 56));
         Pokemon p0 = box.retrieve().get(0);
         assertEquals("Charmander", p0.getSpecies()); 
         assertEquals("Ember", p0.getNickname()); 
@@ -34,8 +34,8 @@ public class FileBoxTest {
        File tempFile = File.createTempFile("temp-", "-testfile");
        tempFile.deleteOnExit();
        FileBox box = new FileBox(tempFile.toString());
-       box.store("Koffing", "Cloud", 20);
-       box.store("Lapras", "Shell", 56);
+       box.store(new Pokemon("Koffing", "Cloud", 20));
+       box.store(new Pokemon("Lapras", "Shell", 56));
        String beforeSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
        assertEquals("", beforeSave);
        box.save();

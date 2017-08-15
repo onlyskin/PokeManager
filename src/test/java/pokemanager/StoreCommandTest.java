@@ -22,9 +22,10 @@ public class StoreCommandTest {
        sc.execute("store", app);
        assertTrue(boxSpy.storeCalled);
        assertEquals("Species:\nNickname:\nLevel:\nStored!\n\n", out.toString());
-       assertEquals("Charmander", boxSpy.speciesArg);
-       assertEquals("Ember", boxSpy.nicknameArg);
-       assertEquals(new Integer(21), boxSpy.levelArg);
+       Pokemon p = boxSpy.stored.get(0);
+       assertEquals("Charmander", p.getSpecies());
+       assertEquals("Ember", p.getNickname());
+       assertEquals(new Integer(21), p.getLevel());
     }
 
     @Test

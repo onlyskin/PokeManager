@@ -23,6 +23,20 @@ public class FileBox implements Box {
         inputStream.close();
     }
 
+    public List<Pokemon> retrieve() {
+        return stored;
+    }
+
+    public void store(Pokemon pokemon) {
+        stored.add(pokemon);
+    }
+
+    public void save() throws IOException {
+		FileWriter fw = new FileWriter(filepath);
+		fw.write(getDataString());
+		fw.close();
+    }
+
     private void jsonToPokemonList(String jsonString) {
         JSONArray arr;
         try {
@@ -39,27 +53,8 @@ public class FileBox implements Box {
         }
     }
 
-    public List<Pokemon> retrieve() {
-        return stored;
-    }
-
     private String getDataString() {
         return valueToString(stored);
-    }
-
-    public void save() throws IOException {
-		FileWriter fw = new FileWriter(filepath);
-		fw.write(getDataString());
-		fw.close();
-    }
-
-    public void store(Pokemon pokemon) {
-        stored.add(pokemon);
-    }
-
-    public void store(String species, String nickname, Integer level) {
-        Pokemon p = new Pokemon(species, nickname, level);
-        stored.add(p);
     }
 
     private String inputStreamToString(InputStream inputStream) {
