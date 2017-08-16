@@ -8,4 +8,8 @@ public class EnglishMessageProvider implements MessageProvider {
                 "\n'save' to save your stored Pokemon for next time" +
                 "\n'search SPECIES' to search the Pokedex";
     }
+
+    public String badCommandMessage() {
+        return "Please enter a valid command.\n";
+    }
 }

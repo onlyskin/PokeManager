@@ -67,7 +67,7 @@ public class AppTest {
     @Test
     public void PrintsErrorMessageOnInvalidCommand() throws Exception {
         RunAppWithUserInput("invalidcommand\nexit\n");
-        assertEquals("startup message\nPlease enter a valid command.\n\n",
+        assertEquals("startup message\nbad command message\n\n",
                 out.toString());
     }
 

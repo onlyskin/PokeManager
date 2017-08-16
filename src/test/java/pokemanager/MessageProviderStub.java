@@ -6,4 +6,8 @@ public class MessageProviderStub implements MessageProvider {
     public String startupMessage() {
         return "startup message";
     }
+    
+    public String badCommandMessage() {
+        return "bad command message\n";
+    }
 }

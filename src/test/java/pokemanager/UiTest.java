@@ -16,15 +16,14 @@ public class UiTest {
     private Ui ui = new Ui(reader, printStream, messageProvider);
 
     @Test
-    public void PrintsLine() throws Exception {
-        ui.display("Test");
-        assertEquals("Test\n", out.toString());
+    public void PrintsStartupMessage() throws Exception {
+        ui.startupMessage();
+        assertEquals("startup message\n", out.toString());
     }
 
     @Test
-    public void PrintsStartupMessage() throws Exception {
-        ui.startupMessage();
-        String expected = "startup message\n";
-        assertEquals(expected, out.toString());
+    public void PrintsBadCommandMessage() throws Exception {
+        ui.badCommandMessage();
+        assertEquals("bad command message\n\n", out.toString());
     }
 }

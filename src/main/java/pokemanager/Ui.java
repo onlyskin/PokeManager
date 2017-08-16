@@ -12,11 +12,15 @@ public class Ui {
         this.messageProvider = messageProvider;
     }
 
-    public void display(String output) {
+    private  void display(String output) {
         printStream.println(output);
     }
 
     public void startupMessage() {
        display(messageProvider.startupMessage()); 
+    }
+
+    public void badCommandMessage() {
+        display(messageProvider.badCommandMessage());
     }
 }

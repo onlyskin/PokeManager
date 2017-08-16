@@ -86,7 +86,7 @@ public class App {
     private void handleInputLine(String line) throws IOException {
         Command command = findCommand(line);
         if (command == null) {
-            printStream.println("Please enter a valid command.\n");
+            ui.badCommandMessage();
         } else {
             command.execute(line);
         }
