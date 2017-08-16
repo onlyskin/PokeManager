@@ -13,6 +13,22 @@ public class App {
     private boolean run;
     private SpeciesFinder speciesFinder;
     private HttpGetRequester getRequester;
+    private Ui ui;
+
+    public App(InputStream in,
+               PrintStream printStream,
+               Box box,
+               HttpGetRequester getRequester,
+               Ui ui) {
+        this.reader = new BufferedReader(new InputStreamReader(in));
+        this.printStream = printStream;
+        this.box = box;
+        this.speciesFinder = new SpeciesFinder(getRequester);
+        this.run = false;
+        this.getRequester = getRequester;
+        this.commands = buildCommands(this);
+        this.ui = ui;
+    }
 
     public App(InputStream in,
                PrintStream printStream,
@@ -65,10 +81,7 @@ public class App {
     }
 
     private void outputStartMessage() {
-        printStream.println("Commands:\n'box' to see stored Pokemon" +
-                "\n'store SPECIES NICKNAME LEVEL' to store a Pokemon" +
-                "\n'save' to save your stored Pokemon for next time" +
-                "\n'search SPECIES' to search the Pokedex");
+        ui.startupMessage();
     }
 
     public void run() {
