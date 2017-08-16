@@ -30,19 +30,6 @@ public class App {
         this.ui = ui;
     }
 
-    public App(InputStream in,
-               PrintStream printStream,
-               Box box,
-               HttpGetRequester getRequester) {
-        this.reader = new BufferedReader(new InputStreamReader(in));
-        this.printStream = printStream;
-        this.box = box;
-        this.speciesFinder = new SpeciesFinder(getRequester);
-        this.run = false;
-        this.getRequester = getRequester;
-        this.commands = buildCommands(this);
-    }
-
     private List<Command> buildCommands(App app) {
         return Arrays.asList(
                 new RetrieveCommand(app.box, app.printStream),
@@ -110,10 +97,13 @@ public class App {
         FileBox box = new FileBox(filepath);
         PrintStream printStream = System.out;
         HttpGetRequester getRequester = new HttpGetRequester();
+        Ui ui = new Ui(new BufferedReader(new InputStreamReader(System.in)),
+                    printStream, new EnglishMessageProvider());
         App app = new App(System.in,
                           printStream,
                           box,
-                          getRequester);
+                          getRequester,
+                          ui);
         app.run();
     }
 }
