@@ -9,11 +9,10 @@ import static org.junit.Assert.*;
 
 public class RetrieveCommandTest {
 
-    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream printStream = new PrintStream(out);
     private final PokemonSpy pokemonSpy = new PokemonSpy();
     private final BoxSpy boxSpy = new BoxSpy(pokemonSpy);
-    private final RetrieveCommand rc = new RetrieveCommand(boxSpy, printStream);
+    private final UiSpy uiSpy = new UiSpy();
+    private final RetrieveCommand rc = new RetrieveCommand(boxSpy, uiSpy);
 
     public RetrieveCommandTest() throws IOException {}
 
@@ -24,9 +23,9 @@ public class RetrieveCommandTest {
     }
 
     @Test
-    public void CallsPrettyStringOnPokemon() throws Exception {
+    public void CallsDisplayPokemonOnUi() throws Exception {
         rc.execute("box");
-        assertTrue(pokemonSpy.prettyStringCalled);
+        assertTrue(uiSpy.displayPokemonCalled);
     }
 
     @Test

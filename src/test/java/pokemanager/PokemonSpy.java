@@ -7,10 +7,4 @@ public class PokemonSpy extends Pokemon {
         super(null, null, null);
         prettyStringCalled = false;
     }
-
-    @Override
-    public String prettyString() {
-        prettyStringCalled = true;
-        return "";
-    }
 }

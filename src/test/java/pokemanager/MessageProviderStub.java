@@ -10,4 +10,20 @@ public class MessageProviderStub implements MessageProvider {
     public String badCommandMessage() {
         return "bad command message\n";
     }
+
+    public String levelRequestMessage() {
+    	return "level request message";
+    }
+
+    public String speciesRequestMessage() {
+    	return "species request message";
+    }
+
+    public String nicknameRequestMessage() {
+    	return "nickname request message";
+    }
+
+    public String storeSuccessMessage() {
+        return "store success message";
+    }
 }

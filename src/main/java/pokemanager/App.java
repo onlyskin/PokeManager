@@ -32,7 +32,7 @@ public class App {
 
     private List<Command> buildCommands(App app) {
         return Arrays.asList(
-                new RetrieveCommand(app.box, app.printStream),
+                new RetrieveCommand(app.box, app.ui),
                 new StoreCommand(app.box, app.reader, app.printStream),
                 new SaveCommand(app.box, app.printStream),
                 new ExitCommand(app),

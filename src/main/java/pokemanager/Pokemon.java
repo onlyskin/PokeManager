@@ -17,10 +17,6 @@ public class Pokemon {
             "\",\"nickname\":\"" + getNickname() + "\"}";
     }
 
-    public String prettyString() {
-        return getNickname() + " - lv." + getLevel().toString() + " " + getSpecies();
-    }
-
     public String getSpecies() {
         return this.species;
     }

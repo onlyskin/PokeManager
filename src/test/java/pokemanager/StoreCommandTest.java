@@ -11,6 +11,7 @@ public class StoreCommandTest {
 
     private ByteArrayOutputStream out;
     private BoxSpy boxSpy = new BoxSpy();
+    private UiSpy uiSpy = new UiSpy();
 
     public StoreCommandTest() throws IOException {}
 
@@ -19,20 +20,14 @@ public class StoreCommandTest {
        StoreCommand sc = makeStoreCommandWithInputStream("Charmander\nEmber\n21\n");
        sc.execute("store");
        assertTrue(boxSpy.storeCalled);
-       assertEquals("Species:\nNickname:\nLevel:\nStored!\n\n", out.toString());
+       assertTrue(uiSpy.getLevelCalled);
+       assertTrue(uiSpy.getSpeciesCalled);
+       assertTrue(uiSpy.getNicknameCalled);
+       assertTrue(uiSpy.storeSuccessCalled);
        Pokemon p = boxSpy.stored.get(0);
        assertEquals("Charmander", p.getSpecies());
        assertEquals("Ember", p.getNickname());
        assertEquals(new Integer(21), p.getLevel());
-    }
-
-    @Test
-    public void RejectsLevelAbove99() throws Exception {
-        StoreCommand sc = makeStoreCommandWithInputStream("Charmander\nEmber\n103\n21\n");
-        sc.execute("store");
-        assertEquals("Species:\nNickname:\nLevel:\nLevel:\nStored!\n\n",
-                out.toString());
-        assertEquals(new Integer(21), boxSpy.stored.get(0).getLevel());
     }
 
     @Test

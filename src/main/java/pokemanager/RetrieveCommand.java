@@ -6,19 +6,19 @@ import java.util.List;
 
 public class RetrieveCommand implements Command {
     private Box box;
-    private PrintStream printStream;
+    private Ui ui;
 
-    public RetrieveCommand(Box box, PrintStream printStream) {
+    public RetrieveCommand(Box box, Ui ui) {
         this.box = box;
-        this.printStream = printStream;
+        this.ui = ui;
     }
-    
+
     public void execute(String command) throws IOException {
         List<Pokemon> pokemon = box.retrieve();
         for (int i=0; i<pokemon.size(); i++) {
-            printStream.println(pokemon.get(i).prettyString());
+            ui.displayPokemon(pokemon.get(i));
         }
-        printStream.println("");
+        ui.emptySpace();
     }
 
     public boolean respondsTo(String command) {

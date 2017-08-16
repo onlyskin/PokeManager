@@ -6,7 +6,7 @@ public class RetrieveCommandSpy extends RetrieveCommand {
     public boolean executeCalled;
 
     public RetrieveCommandSpy() {
-        super(null, null);
+        super(null, new UiSpy());
         executeCalled = false;
     }
 

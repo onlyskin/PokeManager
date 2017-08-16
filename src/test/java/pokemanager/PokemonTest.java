@@ -12,11 +12,6 @@ public class PokemonTest {
     }
 
     @Test
-    public void MakesPrettyString() {
-        assertEquals("Hana - lv.5 Bulbasaur", pokemon.prettyString());
-    }
-
-    @Test
     public void CanGetSpeciesNicknameAndLevel() {
         assertEquals("Bulbasaur", pokemon.getSpecies());
         assertEquals("Hana", pokemon.getNickname());

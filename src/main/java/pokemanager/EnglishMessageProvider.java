@@ -12,4 +12,20 @@ public class EnglishMessageProvider implements MessageProvider {
     public String badCommandMessage() {
         return "Please enter a valid command.\n";
     }
+
+    public String levelRequestMessage() {
+        return "Level:";
+    }
+
+    public String speciesRequestMessage() {
+        return "Species:";
+    }
+
+    public String nicknameRequestMessage() {
+        return "Nickname:";
+    }
+
+    public String storeSuccessMessage() {
+        return "Stored!";
+    }
 }
