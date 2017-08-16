@@ -5,10 +5,33 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 public class StoreCommand implements Command {
+    private Box box;
+    private BufferedReader reader;
+    private PrintStream printStream;
+
     public StoreCommand() {
     }
 
-    public void execute(String command) throws IOException { return; }
+    public StoreCommand(Box box, BufferedReader reader, PrintStream printStream) {
+        this.box = box;
+        this.reader = reader;
+        this.printStream = printStream;
+    }
+
+    public void execute(String command) throws IOException {
+        String species = "";
+        String nickname = "";
+        Integer level = null;
+        try {
+            species = getInputString(reader, printStream, "Species:");
+            nickname = getInputString(reader, printStream, "Nickname:");
+            level = getInputLevel(reader, printStream);
+        } catch (IOException e) {}
+        Pokemon pokemon = new Pokemon(species, nickname, level);
+        box.store(pokemon);
+        printStream.println("Stored!\n");
+    }
+
 
     public void execute(String command, App app) {
         BufferedReader reader = app.getReader();
