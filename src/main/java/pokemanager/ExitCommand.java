@@ -1,9 +1,13 @@
 package pokemanager;
 
 public class ExitCommand implements Command {
-    public ExitCommand() {}
+    private App app;
 
-    public void execute(String command, App app) {
+    public ExitCommand(App app) {
+        this.app = app;
+    }
+
+    public void execute(String command) {
         app.exit();
     }
 

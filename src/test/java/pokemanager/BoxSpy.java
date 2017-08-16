@@ -3,11 +3,14 @@ package pokemanager;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoxSpy implements Box {
     public boolean retrieveCalled;
     public boolean storeCalled;
     public boolean saveCalled;
-    public String stored;
+    public List<Pokemon> stored = new ArrayList<Pokemon>();
 
     public BoxSpy() throws IOException {
         retrieveCalled = false;
@@ -15,20 +18,27 @@ public class BoxSpy implements Box {
         saveCalled = false;
     }
 
-    @Override
-    public String retrieve() {
-        retrieveCalled = true;
-        return "Bulbasaur\nHana";
+    public BoxSpy(PokemonSpy pokemonSpy) throws IOException {
+        retrieveCalled = false;
+        storeCalled = false;
+        saveCalled = false;
+        stored.add(pokemonSpy);
     }
 
     @Override
-    public void store(String pokemon) {
-        storeCalled = true;
-        stored = pokemon;
+    public List<Pokemon> retrieve() {
+        retrieveCalled = true;
+        return stored;
     }
 
     @Override
     public void save() {
         saveCalled = true;
+    }
+
+    @Override
+    public void store(Pokemon pokemon) {
+        storeCalled = true;
+        stored.add(pokemon);
     }
 }

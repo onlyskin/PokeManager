@@ -2,10 +2,13 @@ package pokemanager;
 
 import java.io.IOException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface Box {
-     String retrieve();
+     List<Pokemon> retrieve();
 
      void save() throws IOException;
 
-     void store(String pokemon);
+     void store(Pokemon pokemon);
 }

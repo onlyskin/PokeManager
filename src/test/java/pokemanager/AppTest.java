@@ -1,5 +1,6 @@
 package pokemanager;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -10,12 +11,12 @@ import java.util.stream.Collectors;
 public class AppTest {
 
     private final String startMessage = "Commands:\n'box' to see stored Pokemon" +
-                "\n'store SPECIES NICKNAME' to store a Pokemon" +
+                "\n'store SPECIES NICKNAME LEVEL' to store a Pokemon" +
                 "\n'save' to save your stored Pokemon for next time" +
                 "\n'search SPECIES' to search the Pokedex";
 
     private final ByteArrayOutputStream out;
-    private final PrintStream pw;
+    private final PrintStream printStream;
     private InputStream input;
     private final FileBox box;
     private final File tempFile;
@@ -24,35 +25,36 @@ public class AppTest {
 
     public AppTest() throws IOException {
         out = new ByteArrayOutputStream();
-        pw = new PrintStream(out);
+        printStream = new PrintStream(out);
         input = new ByteArrayInputStream("".getBytes());
         tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
         FileWriter fw = new FileWriter(tempFile.toString());
-        fw.write("Bulbasaur\nHana\n");
+        fw.write("[{\"species\":\"Bulbasaur\",\"nickname\":\"Hana\",\"level\":5}]");
         fw.close();
         box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
-        app = new App(input, pw, box, tempFile.toString(), getRequester);
+        app = new App(input, printStream, box, getRequester);
     }
 
     @Test
     public void PrintsBox() throws Exception {
         RunAppWithUserInput("box\nexit\n");
-        assertEquals(startMessage + "\nHana\n(Bulbasaur)\n\n", out.toString());
+        assertEquals(startMessage + "\nHana - lv.5 Bulbasaur\n\n", out.toString());
     }
 
     @Test
-    public void PrintsBoxWithStored() throws Exception {
-        RunAppWithUserInput("store Charmander Ember\nbox\nexit\n");
-        assertEquals(startMessage + "\nStored!\n\nHana\n(Bulbasaur)\nEmber\n(Charmander)\n\n", out.toString());
+    public void StoresThenPrintsUpdatedBox() throws Exception {
+        RunAppWithUserInput("store\nCharmander\nEmber\n6\nbox\nexit\n");
+        assertEquals(startMessage + "\nSpecies:\nNickname:\nLevel:\nStored!\n\nHana - lv.5 Bulbasaur\nEmber - lv.6 Charmander\n\n", out.toString());
     }
 
     @Test
     public void SavesBoxToFile() throws Exception {
-        RunAppWithUserInput("store Charmander Ember\nsave\nexit\n");
-        String fileContents = inputStreamToString(new FileInputStream(tempFile.toString())); 
-        assertEquals("Bulbasaur\nHana\nCharmander\nEmber", fileContents);
+        RunAppWithUserInput("store\nCharmander\nEmber\n6\nsave\nexit\n");
+        String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
+        assertEquals("[{\"species\":\"Bulbasaur\",\"level\":5,\"nickname\":\"Hana\"}," +
+                "{\"species\":\"Charmander\",\"level\":6,\"nickname\":\"Ember\"}]", fileContents);
     }
 
     @Test
@@ -68,18 +70,13 @@ public class AppTest {
     }
 
 	@Test
-	public void GetsStoragePath() {
-		assertEquals(tempFile.toString(), app.getStoragePath());
-	}
-
-	@Test
 	public void GetsBox() {
 		assertEquals(box, app.getBox());
 	}
 
     private void RunAppWithUserInput(String userInput) {
         input = new ByteArrayInputStream(userInput.getBytes());
-        app = new App(input, pw, box, tempFile.toString(), getRequester);
+        app = new App(input, printStream, box, getRequester);
         app.run();
     }
 

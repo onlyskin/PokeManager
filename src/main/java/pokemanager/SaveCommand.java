@@ -3,14 +3,19 @@ package pokemanager;
 import java.io.*;
 
 public class SaveCommand implements Command {
-	public SaveCommand() {
-	}
+    private Box box;
+    private PrintStream printStream;
 
-	public void execute(String command, App app) throws IOException {
-		app.getBox().save();
-		app.pw.println("Saved!\n");
-	}
-	
+    public SaveCommand(Box box, PrintStream printStream) {
+        this.box = box;
+        this.printStream = printStream;
+    }
+    
+    public void execute(String command) throws IOException {
+        box.save();
+        printStream.println("Saved!\n");
+    }
+
 	public boolean respondsTo(String command) {
 		return command.startsWith("save");
 	}

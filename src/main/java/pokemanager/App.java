@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class App {
+    private PrintStream printStream;
     private BufferedReader reader;
-    public PrintStream pw;
     private Box box;
     private String storageFilename;
     private List<Command> commands;
@@ -15,27 +15,25 @@ public class App {
     private HttpGetRequester getRequester;
 
     public App(InputStream in,
-               PrintStream pw,
+               PrintStream printStream,
                Box box,
-               String storageFilename,
                HttpGetRequester getRequester) {
         this.reader = new BufferedReader(new InputStreamReader(in));
-        this.pw = pw;
+        this.printStream = printStream;
         this.box = box;
-        this.storageFilename = storageFilename;
         this.speciesFinder = new SpeciesFinder(getRequester);
-        this.commands = buildCommands();
         this.run = false;
         this.getRequester = getRequester;
+        this.commands = buildCommands(this);
     }
 
-    private List<Command> buildCommands() {
+    private List<Command> buildCommands(App app) {
         return Arrays.asList(
-                new RetrieveCommand(),
-                new StoreCommand(),
-                new SaveCommand(),
-                new ExitCommand(),
-                new SpeciesCommand(speciesFinder));
+                new RetrieveCommand(app.box, app.printStream),
+                new StoreCommand(app.box, app.reader, app.printStream),
+                new SaveCommand(app.box, app.printStream),
+                new ExitCommand(app),
+                new SpeciesCommand(speciesFinder, app.printStream));
     }
 
     private Command findCommand(String command) {
@@ -47,14 +45,18 @@ public class App {
         return null;
     }
 
-	public String getStoragePath() {
-		return storageFilename;
-	}
-
 	public Box getBox() {
 		return box;	
 	}
 	
+    public BufferedReader getReader() {
+        return reader;
+    }
+
+    public PrintStream getPrintStream() {
+        return printStream;
+    }
+
 	public void acceptInput() {
         try {
             String line = reader.readLine();
@@ -63,8 +65,8 @@ public class App {
     }
 
     private void outputStartMessage() {
-        pw.println("Commands:\n'box' to see stored Pokemon" +
-                "\n'store SPECIES NICKNAME' to store a Pokemon" +
+        printStream.println("Commands:\n'box' to see stored Pokemon" +
+                "\n'store SPECIES NICKNAME LEVEL' to store a Pokemon" +
                 "\n'save' to save your stored Pokemon for next time" +
                 "\n'search SPECIES' to search the Pokedex");
     }
@@ -84,21 +86,20 @@ public class App {
     private void handleInputLine(String line) throws IOException {
         Command command = findCommand(line);
         if (command == null) {
-            pw.println("Please enter a valid command.\n");
+            printStream.println("Please enter a valid command.\n");
         } else {
-            command.execute(line, this);
+            command.execute(line);
         }
     }
 
     public static void main(String[] args) throws IOException {
         String filepath = "/Users/sam/Documents/pokemanager/data/data";
         FileBox box = new FileBox(filepath);
-        PrintStream pw = System.out;
+        PrintStream printStream = System.out;
         HttpGetRequester getRequester = new HttpGetRequester();
         App app = new App(System.in,
-                          pw,
+                          printStream,
                           box,
-                          filepath,
                           getRequester);
         app.run();
     }

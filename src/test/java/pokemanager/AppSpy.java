@@ -7,11 +7,10 @@ public class AppSpy extends App {
     public boolean exitCalled;
     
     public AppSpy(InputStream in,
-                  PrintStream pw,
+                  PrintStream printStream,
                   Box box,
-                  String storageFilename,
                   HttpGetRequester getRequester) {
-        super(in, pw, box, storageFilename, getRequester);
+        super(in, printStream, box, getRequester);
         exitCalled = false;
     }
 

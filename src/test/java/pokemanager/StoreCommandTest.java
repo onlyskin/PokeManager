@@ -1,6 +1,7 @@
 package pokemanager;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.io.*;
 
@@ -8,29 +9,43 @@ import static org.junit.Assert.*;
 
 public class StoreCommandTest {
 
-    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream pw = new PrintStream(out);
-    private final BoxSpy box = new BoxSpy();
-    private final StoreCommand sc = new StoreCommand();
-    private final InputStream in = new ByteArrayInputStream("".getBytes());
-    private final App app = new App(in, pw, box, "", null);
+    private ByteArrayOutputStream out;
+    private BoxSpy boxSpy = new BoxSpy();
 
     public StoreCommandTest() throws IOException {}
 
     @Test
-    public void CallsStoreOnBox() throws Exception {
-       sc.execute("store Charmander Ember", app);
-       assertTrue(box.storeCalled);
+    public void CallsStoreOnBoxWithArgs() throws Exception {
+       StoreCommand sc = makeStoreCommandWithInputStream("Charmander\nEmber\n21\n");
+       sc.execute("store");
+       assertTrue(boxSpy.storeCalled);
+       assertEquals("Species:\nNickname:\nLevel:\nStored!\n\n", out.toString());
+       Pokemon p = boxSpy.stored.get(0);
+       assertEquals("Charmander", p.getSpecies());
+       assertEquals("Ember", p.getNickname());
+       assertEquals(new Integer(21), p.getLevel());
     }
 
     @Test
-    public void PrintsStored() throws Exception {
-        sc.execute("store Charmander Ember", app);
-        assertEquals("Stored!\n\n", out.toString());
+    public void RejectsLevelAbove99() throws Exception {
+        StoreCommand sc = makeStoreCommandWithInputStream("Charmander\nEmber\n103\n21\n");
+        sc.execute("store");
+        assertEquals("Species:\nNickname:\nLevel:\nLevel:\nStored!\n\n",
+                out.toString());
+        assertEquals(new Integer(21), boxSpy.stored.get(0).getLevel());
     }
-    
+
     @Test
     public void RespondsToStore() throws Exception {
-        assertTrue(sc.respondsTo("store Charmander Ember"));
+        StoreCommand sc = new StoreCommand(null, null, null);
+        assertTrue(sc.respondsTo("store"));
+    }
+
+    private StoreCommand makeStoreCommandWithInputStream(String inputString) {
+        InputStream in = new ByteArrayInputStream(inputString.getBytes());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        out = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(out);
+        return new StoreCommand(boxSpy, reader, printStream);
     }
 }
