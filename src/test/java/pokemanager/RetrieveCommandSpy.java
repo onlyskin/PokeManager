@@ -14,9 +14,4 @@ public class RetrieveCommandSpy extends RetrieveCommand {
     public void execute(String command) {
         executeCalled = true;
     }
-
-    @Override
-    public void execute(String command, App app) {
-        executeCalled = true;
-    }
 }

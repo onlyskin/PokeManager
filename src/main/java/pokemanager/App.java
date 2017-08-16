@@ -30,10 +30,10 @@ public class App {
     private List<Command> buildCommands(App app) {
         return Arrays.asList(
                 new RetrieveCommand(app.box, app.printStream),
-                new StoreCommand(),
-                new SaveCommand(),
+                new StoreCommand(app.box, app.reader, app.printStream),
+                new SaveCommand(app.box, app.printStream),
                 new ExitCommand(app),
-                new SpeciesCommand(speciesFinder));
+                new SpeciesCommand(speciesFinder, app.printStream));
     }
 
     private Command findCommand(String command) {
@@ -88,7 +88,7 @@ public class App {
         if (command == null) {
             printStream.println("Please enter a valid command.\n");
         } else {
-            command.execute(line, this);
+            command.execute(line);
         }
     }
 

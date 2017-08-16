@@ -7,11 +7,6 @@ public class ExitCommand implements Command {
         this.app = app;
     }
 
-    public void execute(String command, App app) {
-        app.exit();
-        return;
-    }
-
     public void execute(String command) {
         app.exit();
     }

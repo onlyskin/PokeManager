@@ -9,9 +9,6 @@ public class StoreCommand implements Command {
     private BufferedReader reader;
     private PrintStream printStream;
 
-    public StoreCommand() {
-    }
-
     public StoreCommand(Box box, BufferedReader reader, PrintStream printStream) {
         this.box = box;
         this.reader = reader;
@@ -30,23 +27,6 @@ public class StoreCommand implements Command {
         Pokemon pokemon = new Pokemon(species, nickname, level);
         box.store(pokemon);
         printStream.println("Stored!\n");
-    }
-
-
-    public void execute(String command, App app) {
-        BufferedReader reader = app.getReader();
-        PrintStream printStream = app.getPrintStream();
-        String species = "";
-        String nickname = "";
-        Integer level = null;
-        try {
-            species = getInputString(reader, printStream, "Species:");
-            nickname = getInputString(reader, printStream, "Nickname:");
-            level = getInputLevel(reader, printStream);
-        } catch (IOException e) {}
-        Pokemon pokemon = new Pokemon(species, nickname, level);
-        app.getBox().store(pokemon);
-        app.getPrintStream().println("Stored!\n");
     }
 
     private String getInput(BufferedReader reader) throws IOException {

@@ -6,12 +6,12 @@ public class StoreCommandSpy extends StoreCommand {
     public boolean executeCalled;
 
     public StoreCommandSpy() {
-        super();
+        super(null, null, null);
         executeCalled = false;
     }
 
     @Override
-    public void execute(String command, App app) {
+    public void execute(String command) {
         executeCalled = true;
     }
 }
