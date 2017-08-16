@@ -6,8 +6,13 @@ public class RetrieveCommandSpy extends RetrieveCommand {
     public boolean executeCalled;
 
     public RetrieveCommandSpy() {
-        super();
+        super(null, null);
         executeCalled = false;
+    }
+
+    @Override
+    public void execute(String command) {
+        executeCalled = true;
     }
 
     @Override

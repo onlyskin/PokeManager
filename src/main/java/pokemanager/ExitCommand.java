@@ -8,6 +8,7 @@ public class ExitCommand implements Command {
     }
 
     public void execute(String command, App app) {
+        app.exit();
         return;
     }
 

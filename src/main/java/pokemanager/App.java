@@ -24,15 +24,15 @@ public class App {
         this.speciesFinder = new SpeciesFinder(getRequester);
         this.run = false;
         this.getRequester = getRequester;
-        this.commands = buildCommands();
+        this.commands = buildCommands(this);
     }
 
-    private List<Command> buildCommands() {
+    private List<Command> buildCommands(App app) {
         return Arrays.asList(
-                new RetrieveCommand(this.box, this.printStream),
+                new RetrieveCommand(app.box, app.printStream),
                 new StoreCommand(),
                 new SaveCommand(),
-                new ExitCommand(this),
+                new ExitCommand(app),
                 new SpeciesCommand(speciesFinder));
     }
 
