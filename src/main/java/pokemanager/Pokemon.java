@@ -4,7 +4,18 @@ public class Pokemon {
     private final String species;
     private final String nickname;
     private final Integer level;
+    private Integer height;
+    private Integer weight;
     
+    public Pokemon(String species, String nickname, Integer level,
+            Integer height, Integer weight) {
+        this.species = species;
+        this.nickname = nickname;
+        this.level = level;
+        this.height = height;
+        this.weight = weight;
+    }
+
     public Pokemon(String species, String nickname, Integer level) {
         this.species = species;
         this.nickname = nickname;
@@ -21,5 +32,13 @@ public class Pokemon {
 
     public Integer getLevel() {
         return this.level;
+    }
+
+    public Integer getHeight() {
+        return this.height;
+    }
+
+    public Integer getWeight() {
+        return this.weight;
     }
 }
