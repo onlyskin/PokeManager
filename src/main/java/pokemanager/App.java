@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class App {
-    private PrintStream printStream;
-    private BufferedReader reader;
     private Box box;
     private String storageFilename;
     private List<Command> commands;
@@ -15,13 +13,9 @@ public class App {
     private HttpGetRequester getRequester;
     private Ui ui;
 
-    public App(InputStream in,
-               PrintStream printStream,
-               Box box,
+    public App(Box box,
                HttpGetRequester getRequester,
                Ui ui) {
-        this.reader = new BufferedReader(new InputStreamReader(in));
-        this.printStream = printStream;
         this.box = box;
         this.speciesFinder = new SpeciesFinder(getRequester);
         this.run = false;
@@ -48,32 +42,16 @@ public class App {
         return null;
     }
 
-	public Box getBox() {
-		return box;
-	}
-	
-    public BufferedReader getReader() {
-        return reader;
-    }
-
-    public PrintStream getPrintStream() {
-        return printStream;
-    }
-
-	public void acceptInput() {
+	private void acceptInput() {
         try {
             String line = ui.getInputLine();
             handleInputLine(line);
         } catch (Exception IOException) {}
     }
 
-    private void outputStartMessage() {
-        ui.startupMessage();
-    }
-
     public void run() {
         run = true;
-        outputStartMessage();
+        ui.startupMessage();
         while (run) {
             acceptInput();
         }
@@ -95,13 +73,10 @@ public class App {
     public static void main(String[] args) throws IOException {
         String filepath = "/Users/sam/Documents/pokemanager/data/data";
         FileBox box = new FileBox(filepath);
-        PrintStream printStream = System.out;
         HttpGetRequester getRequester = new HttpGetRequester();
         Ui ui = new Ui(new BufferedReader(new InputStreamReader(System.in)),
-                    printStream, new EnglishMessageProvider());
-        App app = new App(System.in,
-                          printStream,
-                          box,
+                    System.out, new EnglishMessageProvider());
+        App app = new App(box,
                           getRequester,
                           ui);
         app.run();

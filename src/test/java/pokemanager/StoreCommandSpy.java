@@ -1,7 +1,5 @@
 package pokemanager;
 
-import java.io.PrintStream;
-
 public class StoreCommandSpy extends StoreCommand {
     public boolean executeCalled;
 

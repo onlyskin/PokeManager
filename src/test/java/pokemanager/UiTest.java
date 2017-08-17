@@ -102,7 +102,7 @@ public class UiTest {
     }
 
     @Test
-    public void getsSpeciesSearchInput() throws Exception {
+    public void GetsSpeciesSearchInput() throws Exception {
         Ui ui = makeUiWithInputStreamString("Bulbasaur\n");
         String inputString = ui.getSpeciesSearchInput();
         assertEquals("Bulbasaur", inputString);

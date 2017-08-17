@@ -1,7 +1,6 @@
 package pokemanager;
 
 import java.io.IOException;
-import java.io.PrintStream;
 
 public class SpeciesCommand implements Command {
 	private SpeciesFinder speciesFinder;

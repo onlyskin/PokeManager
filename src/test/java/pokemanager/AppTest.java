@@ -72,17 +72,11 @@ public class AppTest {
                 out.toString());
     }
 
-	@Test
-	public void GetsBox() {
-        RunAppWithUserInput("exit");
-		assertEquals(box, app.getBox());
-	}
-
     private void RunAppWithUserInput(String userInput) {
         input = new ByteArrayInputStream(userInput.getBytes());
         ui = new Ui(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(userInput.getBytes()))),
                 printStream, new MessageProviderStub());
-        app = new App(input, printStream, box, getRequester, ui);
+        app = new App(box, getRequester, ui);
         app.run();
     }
 

@@ -1,8 +1,6 @@
 package pokemanager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintStream;
 
 public class StoreCommand implements Command {
     private Box box;
