@@ -30,4 +30,24 @@ public class MessageProviderStub implements MessageProvider {
     public String saveSuccessMessage() {
         return "save success message";
     }
+
+    public String noneFoundMessage() {
+        return "none found message";
+    }
+
+    public String speciesFieldname() {
+        return "species fieldname";
+    }
+
+    public String heightFieldname() {
+        return "height fieldname";
+    }
+
+    public String weightFieldname() {
+        return "weight fieldname";
+    }
+
+    public String searchMessage() {
+        return "search message";
+    }
 }

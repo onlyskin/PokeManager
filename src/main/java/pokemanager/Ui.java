@@ -85,4 +85,28 @@ public class Ui {
         display(messageProvider.saveSuccessMessage());
         emptySpace();
     }
+    
+    public void displaySpecies(Species s) {
+        String prettyOutput = messageProvider.speciesFieldname() + ": " +
+            s.getSpecies()  + "\n" +
+            messageProvider.heightFieldname() + ": " +
+            s.getHeight()  + "\n" +
+            messageProvider.weightFieldname() + ": " +
+            s.getWeight();
+        display(prettyOutput);
+    }
+
+    public void noneFoundMessage() {
+        display(messageProvider.noneFoundMessage());
+        emptySpace();
+    }
+
+    public String getSpeciesSearchInput() {
+        display(messageProvider.searchMessage());
+        String searchString = null;
+        try {
+            searchString = getInputLine();
+        } catch (IOException e) {}
+        return searchString;
+    }
 }

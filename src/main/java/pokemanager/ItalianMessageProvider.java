@@ -32,4 +32,24 @@ public class ItalianMessageProvider implements MessageProvider {
     public String saveSuccessMessage() {
         return "Salvato!";
     }
+
+    public String noneFoundMessage() {
+        return "Nessuna specie trovata.";
+    }
+
+    public String speciesFieldname() {
+        return "Specie";
+    }
+
+    public String heightFieldname() {
+        return "Altezza";
+    }
+
+    public String weightFieldname() {
+        return "Peso";
+    }
+
+    public String searchMessage() {
+        return "Ricercare:";
+    }
 }

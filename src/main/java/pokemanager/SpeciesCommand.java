@@ -5,12 +5,12 @@ import java.io.PrintStream;
 
 public class SpeciesCommand implements Command {
 	private SpeciesFinder speciesFinder;
-	private PrintStream printStream;
+    private Ui ui;
 
-    public SpeciesCommand(SpeciesFinder speciesFinder, PrintStream printStream) {
+    public SpeciesCommand(SpeciesFinder speciesFinder, Ui ui) {
         super();
         this.speciesFinder = speciesFinder;
-        this.printStream = printStream;
+        this.ui = ui;
     }
 
     public boolean respondsTo(String command) {
@@ -18,12 +18,12 @@ public class SpeciesCommand implements Command {
     }
     
     public void execute(String command) throws IOException {
-        String name = command.substring(7);
-		Species species = speciesFinder.findDetails(name);
+        String searchString = ui.getSpeciesSearchInput();
+		Species species = speciesFinder.findDetails(searchString);
         if (species == null) {
-            printStream.println("no species found");
+            ui.noneFoundMessage();
         } else {
-		    printStream.println(species.toString());
+            ui.displaySpecies(species);
         }
     }
 }

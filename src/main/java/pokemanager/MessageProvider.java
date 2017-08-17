@@ -14,4 +14,14 @@ public interface MessageProvider {
     String storeSuccessMessage();
 
     String saveSuccessMessage();
+
+    String noneFoundMessage();
+
+    String speciesFieldname();
+
+    String heightFieldname();
+
+    String weightFieldname();
+
+    String searchMessage();
 }

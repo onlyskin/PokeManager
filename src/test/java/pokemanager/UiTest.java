@@ -87,6 +87,28 @@ public class UiTest {
         assertEquals("save success message\n\n", out.toString());
     }
 
+    @Test
+    public void DisplaysSpecies() throws Exception {
+        ui.displaySpecies(new Species("Bulbasaur", 5, 10));
+        assertEquals("species fieldname: Bulbasaur\n" +
+                     "height fieldname: 5\n" +
+                     "weight fieldname: 10\n", out.toString());
+    }
+
+    @Test
+    public void DisplaysNoneFoundMessage() throws Exception {
+        ui.noneFoundMessage();
+        assertEquals("none found message\n\n", out.toString());
+    }
+
+    @Test
+    public void getsSpeciesSearchInput() throws Exception {
+        Ui ui = makeUiWithInputStreamString("Bulbasaur\n");
+        String inputString = ui.getSpeciesSearchInput();
+        assertEquals("Bulbasaur", inputString);
+        assertEquals("search message\n", out.toString());
+    }
+
     private Ui makeUiWithInputStreamString(String inputString) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                         new ByteArrayInputStream(inputString.getBytes())));

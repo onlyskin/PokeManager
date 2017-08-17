@@ -9,6 +9,9 @@ public class UiSpy extends Ui {
     public boolean getNicknameCalled;
     public boolean storeSuccessCalled;
     public boolean saveSuccessCalled;
+    public boolean displaySpeciesCalled;
+    public boolean noneFoundCalled;
+    public boolean getSpeciesSearchInputCalled;
 
     public UiSpy() {
         super(new BufferedReader(new InputStreamReader(new ByteArrayInputStream("".getBytes()))),
@@ -19,6 +22,9 @@ public class UiSpy extends Ui {
         this.getNicknameCalled = false;
         this.storeSuccessCalled = false;
         this.saveSuccessCalled = false;
+        this.displaySpeciesCalled = false;
+        this.noneFoundCalled = false;
+        this.getSpeciesSearchInputCalled = false;
     }
 
     @Override
@@ -52,5 +58,21 @@ public class UiSpy extends Ui {
     @Override
     public void saveSuccessMessage() {
         saveSuccessCalled = true;
+    }
+
+    @Override
+    public void displaySpecies(Species species) {
+        displaySpeciesCalled = true;
+    }
+
+    @Override
+    public void noneFoundMessage() {
+        noneFoundCalled = true;
+    }
+    
+    @Override
+    public String getSpeciesSearchInput() {
+        getSpeciesSearchInputCalled = true;
+        return "Bulbasaur";
     }
 }

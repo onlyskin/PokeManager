@@ -1,6 +1,7 @@
 package pokemanager;
 
 import org.junit.Test;
+import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 import java.io.*;
@@ -9,37 +10,53 @@ public class SpeciesCommandTest {
 	
 	public SpeciesCommandTest() throws IOException {}
 
-    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream printStream = new PrintStream(out);
-	private final BoxSpy box = new BoxSpy();
-    private final SpeciesFinderSpy speciesFinder = new SpeciesFinderSpy();
-    private final SpeciesCommand sc = new SpeciesCommand(speciesFinder, printStream);
+    private final SpeciesFinderSpy speciesFinderSpy = new SpeciesFinderSpy();
 
-    @Test
-    public void CallsAndPrintsToStringOnReturnedSpecies() throws Exception {
-        sc.execute("search Bulbasaur");
-        assertEquals("Name: Bulbasaur\nHeight: 7\nWeight: 69\n", out.toString());
-    }
-
-    @Test
-    public void PrintsNoneFoundOnNullReturn() throws Exception {
-        sc.execute("search bad_input");
-        assertEquals("no species found\n", out.toString());
-    }
-    @Test
-    public void CallsFindDetailsOnApiSearcher() throws Exception {
-        sc.execute("search Bulbasaur");
-        assertTrue(speciesFinder.findDetailsCalled);
+	@Test
+    public void CallsDisplaySpeciesOnUiWhenSpeciesFound() throws Exception {
+        UiStubSpy uiStubSpy = new UiStubSpy(false);
+        SpeciesCommand sc = new SpeciesCommand(speciesFinderSpy, uiStubSpy);
+        sc.execute("search");
+        assertTrue(uiStubSpy.displaySpeciesCalled);
     }
 
 	@Test
-	public void PassesNameToApiSearcher() throws Exception {
-		sc.execute("search Bulbasaur");
-		assertEquals("Bulbasaur", speciesFinder.calledWith);
-	}
+    public void CallsDisplayNoneFoundWhenNullReturned() throws Exception {
+        UiStubSpy uiStubSpy = new UiStubSpy(true);
+        SpeciesCommand sc = new SpeciesCommand(speciesFinderSpy, uiStubSpy);
+        sc.execute("search");
+        assertTrue(uiStubSpy.noneFoundCalled);
+    }
+
+    @Test
+    public void CallsGetSpeciesSearchInputOnUiAndPassesResultToSpeciesFinder() throws Exception {
+        UiSpy uiSpy = new UiSpy();
+        SpeciesCommand sc = new SpeciesCommand(speciesFinderSpy, uiSpy);
+        sc.execute("search");
+        assertTrue(uiSpy.getSpeciesSearchInputCalled);
+		assertEquals("Bulbasaur", speciesFinderSpy.calledWith);
+    }
+
+	@Test
+    public void CallsFindDetailsOnApiSearcher() throws Exception {
+        Ui ui = makeUiWithInputStreamString("Bulbasaur");
+        SpeciesCommand sc = new SpeciesCommand(speciesFinderSpy, ui);
+        sc.execute("search");
+        assertTrue(speciesFinderSpy.findDetailsCalled);
+    }
 
 	@Test
 	public void RespondsToSearch() throws Exception {
+        Ui ui = makeUiWithInputStreamString("Bulbasaur");
+        SpeciesCommand sc = new SpeciesCommand(speciesFinderSpy, ui);
 		assertTrue(sc.respondsTo("search"));
 	}
+
+    private Ui makeUiWithInputStreamString(String inputString) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(out);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        new ByteArrayInputStream(inputString.getBytes())));
+        return new Ui(reader, printStream, new MessageProviderStub());
+    }
 }

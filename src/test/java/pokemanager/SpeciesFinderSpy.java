@@ -10,10 +10,10 @@ public class SpeciesFinderSpy extends SpeciesFinder {
     }
 
     @Override
-    public Species findDetails(String name) {
-        calledWith = name;
+    public Species findDetails(String searchString) {
+        calledWith = searchString;
         findDetailsCalled = true;
-        if (name.equals("bad_input")) {
+        if (searchString.equals("bad_input")) {
             return null;
         } else {
             return new SpeciesStub();

@@ -36,7 +36,7 @@ public class App {
                 new StoreCommand(app.box, app.ui),
                 new SaveCommand(app.box, app.ui),
                 new ExitCommand(app),
-                new SpeciesCommand(speciesFinder, app.printStream));
+                new SpeciesCommand(speciesFinder, app.ui));
     }
 
     private Command findCommand(String command) {

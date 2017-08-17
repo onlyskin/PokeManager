@@ -32,4 +32,24 @@ public class EnglishMessageProvider implements MessageProvider {
     public String saveSuccessMessage() {
         return "Saved!";
     }
+
+    public String noneFoundMessage() {
+        return "No species found";
+    }
+
+    public String speciesFieldname() {
+        return "Species";
+    }
+
+    public String heightFieldname() {
+        return "Height";
+    }
+
+    public String weightFieldname() {
+        return "Weight";
+    }
+
+    public String searchMessage() {
+        return "Search for:";
+    }
 }

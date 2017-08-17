@@ -11,12 +11,12 @@ public class StoreCommandTest {
 
     private ByteArrayOutputStream out;
     private BoxSpy boxSpy = new BoxSpy();
-    private UiSpy uiSpy = new UiSpy();
 
     public StoreCommandTest() throws IOException {}
 
     @Test
     public void CallsMethodsOnUI() throws Exception {
+       UiSpy uiSpy = new UiSpy();
        StoreCommand sc = new StoreCommand(boxSpy, uiSpy);
        sc.execute("store");
        assertTrue(uiSpy.getLevelCalled);
