@@ -11,12 +11,6 @@ public class Pokemon {
         this.level = level;
     }
 
-    public String toJSONString() {
-        return "{\"level\":" + getLevel().toString() +
-            ",\"species\":\"" + getSpecies() +
-            "\",\"nickname\":\"" + getNickname() + "\"}";
-    }
-
     public String getSpecies() {
         return this.species;
     }
