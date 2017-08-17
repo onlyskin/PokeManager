@@ -26,14 +26,14 @@ public class App {
         this.speciesFinder = new SpeciesFinder(getRequester);
         this.run = false;
         this.getRequester = getRequester;
-        this.commands = buildCommands(this);
         this.ui = ui;
+        this.commands = buildCommands(this);
     }
 
     private List<Command> buildCommands(App app) {
         return Arrays.asList(
                 new RetrieveCommand(app.box, app.ui),
-                new StoreCommand(app.box, app.reader, app.printStream),
+                new StoreCommand(app.box, app.ui),
                 new SaveCommand(app.box, app.printStream),
                 new ExitCommand(app),
                 new SpeciesCommand(speciesFinder, app.printStream));
@@ -49,7 +49,7 @@ public class App {
     }
 
 	public Box getBox() {
-		return box;	
+		return box;
 	}
 	
     public BufferedReader getReader() {
@@ -62,7 +62,7 @@ public class App {
 
 	public void acceptInput() {
         try {
-            String line = reader.readLine();
+            String line = ui.getInputLine();
             handleInputLine(line);
         } catch (Exception IOException) {}
     }

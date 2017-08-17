@@ -31,7 +31,7 @@ public class UiTest {
     @Test
     public void PrintsEmptySpace() throws Exception {
         ui.emptySpace();
-        assertEquals("\n\n", out.toString());
+        assertEquals("\n", out.toString());
     }
 
     @Test
@@ -77,8 +77,8 @@ public class UiTest {
 
     @Test
     public void PrintsStoreSuccess() throws Exception {
-        ui.storeSuccess();
-        assertEquals("store success message\n", out.toString());
+        ui.storeSuccessMessage();
+        assertEquals("store success message\n\n", out.toString());
     }
 
     private Ui makeUiWithInputStreamString(String inputString) {

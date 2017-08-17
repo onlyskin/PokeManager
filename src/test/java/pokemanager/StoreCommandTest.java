@@ -16,14 +16,21 @@ public class StoreCommandTest {
     public StoreCommandTest() throws IOException {}
 
     @Test
-    public void CallsStoreOnBoxWithArgs() throws Exception {
-       StoreCommand sc = makeStoreCommandWithInputStream("Charmander\nEmber\n21\n");
+    public void CallsMethodsOnUI() throws Exception {
+       StoreCommand sc = new StoreCommand(boxSpy, uiSpy);
        sc.execute("store");
-       assertTrue(boxSpy.storeCalled);
        assertTrue(uiSpy.getLevelCalled);
        assertTrue(uiSpy.getSpeciesCalled);
        assertTrue(uiSpy.getNicknameCalled);
        assertTrue(uiSpy.storeSuccessCalled);
+    }
+
+    @Test
+    public void CallsStoreOnBoxWithArgs() throws Exception {
+       Ui ui = makeUiWithInputStreamString("Charmander\nEmber\n21\n");
+       StoreCommand sc = new StoreCommand(boxSpy, ui);
+       sc.execute("store");
+       assertTrue(boxSpy.storeCalled);
        Pokemon p = boxSpy.stored.get(0);
        assertEquals("Charmander", p.getSpecies());
        assertEquals("Ember", p.getNickname());
@@ -32,15 +39,15 @@ public class StoreCommandTest {
 
     @Test
     public void RespondsToStore() throws Exception {
-        StoreCommand sc = new StoreCommand(null, null, null);
+        StoreCommand sc = new StoreCommand(null, null);
         assertTrue(sc.respondsTo("store"));
     }
 
-    private StoreCommand makeStoreCommandWithInputStream(String inputString) {
-        InputStream in = new ByteArrayInputStream(inputString.getBytes());
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        out = new ByteArrayOutputStream();
+    private Ui makeUiWithInputStreamString(String inputString) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(out);
-        return new StoreCommand(boxSpy, reader, printStream);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        new ByteArrayInputStream(inputString.getBytes())));
+        return new Ui(reader, printStream, new MessageProviderStub());
     }
 }

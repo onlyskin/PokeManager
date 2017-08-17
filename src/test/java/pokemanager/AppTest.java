@@ -22,7 +22,6 @@ public class AppTest {
     public AppTest() throws IOException {
         out = new ByteArrayOutputStream();
         printStream = new PrintStream(out);
-        input = new ByteArrayInputStream("".getBytes());
         tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
         FileWriter fw = new FileWriter(tempFile.toString());
@@ -30,9 +29,6 @@ public class AppTest {
         fw.close();
         box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
-        ui = new Ui(new BufferedReader(new InputStreamReader(input)),
-                printStream, new MessageProviderStub());
-        app = new App(input, printStream, box, getRequester, ui);
     }
 
     @Test
@@ -44,7 +40,8 @@ public class AppTest {
     @Test
     public void StoresThenPrintsUpdatedBox() throws Exception {
         RunAppWithUserInput("store\nCharmander\nEmber\n6\nbox\nexit\n");
-        assertEquals("startup message\nSpecies:\nNickname:\nLevel:\nStored!\n\n" +
+        assertEquals("startup message\nspecies request message\nnickname request message\n" +
+                "level request message\nstore success message\n\n" +
             "Hana - lv.5 Bulbasaur\nEmber - lv.6 Charmander\n\n", out.toString());
     }
 
@@ -73,11 +70,14 @@ public class AppTest {
 
 	@Test
 	public void GetsBox() {
+        RunAppWithUserInput("exit");
 		assertEquals(box, app.getBox());
 	}
 
     private void RunAppWithUserInput(String userInput) {
         input = new ByteArrayInputStream(userInput.getBytes());
+        ui = new Ui(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(userInput.getBytes()))),
+                printStream, new MessageProviderStub());
         app = new App(input, printStream, box, getRequester, ui);
         app.run();
     }

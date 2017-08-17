@@ -6,7 +6,7 @@ public class StoreCommandSpy extends StoreCommand {
     public boolean executeCalled;
 
     public StoreCommandSpy() {
-        super(null, null, null);
+        super(null, null);
         executeCalled = false;
     }
 

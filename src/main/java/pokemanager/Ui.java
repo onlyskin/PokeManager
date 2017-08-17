@@ -34,13 +34,10 @@ public class Ui {
     }
 
     public void emptySpace() {
-        display("\n");
+        display("");
     }
 
-    public void displayPokemon() {
-    }
-
-    private String getInputLine() throws IOException {
+    public String getInputLine() throws IOException {
         String line = reader.readLine();
         return line;
     }
@@ -79,7 +76,8 @@ public class Ui {
         return nickname;
     }
 
-    public void storeSuccess() {
+    public void storeSuccessMessage() {
         display(messageProvider.storeSuccessMessage());
+        emptySpace();
     }
 }

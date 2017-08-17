@@ -43,7 +43,7 @@ public class UiSpy extends Ui {
     }
 
     @Override
-    public void storeSuccess() {
+    public void storeSuccessMessage() {
         storeSuccessCalled = true;
     }
 }
