@@ -15,6 +15,8 @@ public class SpeciesFinderSpy extends SpeciesFinder {
         findDetailsCalled = true;
         if (searchString.equals("bad_input")) {
             return null;
+        } else if (searchString.equals("Charmander")) {
+            return new Species("Charmander", 6, 85);
         } else {
             return new SpeciesStub();
         }

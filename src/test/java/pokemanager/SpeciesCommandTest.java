@@ -38,7 +38,7 @@ public class SpeciesCommandTest {
     }
 
 	@Test
-    public void CallsFindDetailsOnApiSearcher() throws Exception {
+    public void CallsFindDetailsOnSpeciesFinder() throws Exception {
         Ui ui = makeUiWithInputStreamString("Bulbasaur");
         SpeciesCommand sc = new SpeciesCommand(speciesFinderSpy, ui);
         sc.execute("search");
