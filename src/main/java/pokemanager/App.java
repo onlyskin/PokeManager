@@ -34,7 +34,7 @@ public class App {
         return Arrays.asList(
                 new RetrieveCommand(app.box, app.ui),
                 new StoreCommand(app.box, app.ui),
-                new SaveCommand(app.box, app.printStream),
+                new SaveCommand(app.box, app.ui),
                 new ExitCommand(app),
                 new SpeciesCommand(speciesFinder, app.printStream));
     }

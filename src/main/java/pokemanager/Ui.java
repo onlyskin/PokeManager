@@ -80,4 +80,9 @@ public class Ui {
         display(messageProvider.storeSuccessMessage());
         emptySpace();
     }
+
+    public void saveSuccessMessage() {
+        display(messageProvider.saveSuccessMessage());
+        emptySpace();
+    }
 }

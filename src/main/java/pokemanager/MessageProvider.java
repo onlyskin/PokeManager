@@ -12,4 +12,6 @@ public interface MessageProvider {
     String nicknameRequestMessage();
 
     String storeSuccessMessage();
+
+    String saveSuccessMessage();
 }

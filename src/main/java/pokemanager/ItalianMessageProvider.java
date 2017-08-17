@@ -28,4 +28,8 @@ public class ItalianMessageProvider implements MessageProvider {
     public String storeSuccessMessage() {
         return "Depositato!";
     }
+
+    public String saveSuccessMessage() {
+        return "Salvato!";
+    }
 }

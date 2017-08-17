@@ -9,11 +9,9 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 public class SaveCommandTest {
-	
-    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream printStream = new PrintStream(out);
 	private final BoxSpy boxSpy = new BoxSpy();
-	private final SaveCommand sc = new SaveCommand(boxSpy, printStream);
+    private final UiSpy uiSpy = new UiSpy();
+	private final SaveCommand sc = new SaveCommand(boxSpy, uiSpy);
 
 	public SaveCommandTest() throws IOException {}
 
@@ -24,9 +22,9 @@ public class SaveCommandTest {
 	}
 
 	@Test
-	public void PrintsSaved() throws Exception {
+	public void CallsSaveSuccessOnUi() throws Exception {
 		sc.execute("save");
-		assertEquals("Saved!\n\n", out.toString());
+        assertTrue(uiSpy.saveSuccessCalled);
 	}	
 
 	@Test

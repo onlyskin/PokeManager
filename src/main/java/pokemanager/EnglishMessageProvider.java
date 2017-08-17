@@ -28,4 +28,8 @@ public class EnglishMessageProvider implements MessageProvider {
     public String storeSuccessMessage() {
         return "Stored!";
     }
+
+    public String saveSuccessMessage() {
+        return "Saved!";
+    }
 }

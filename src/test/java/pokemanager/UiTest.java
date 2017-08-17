@@ -81,6 +81,12 @@ public class UiTest {
         assertEquals("store success message\n\n", out.toString());
     }
 
+    @Test
+    public void PrintsSaveSuccess() throws Exception {
+        ui.saveSuccessMessage();
+        assertEquals("save success message\n\n", out.toString());
+    }
+
     private Ui makeUiWithInputStreamString(String inputString) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                         new ByteArrayInputStream(inputString.getBytes())));

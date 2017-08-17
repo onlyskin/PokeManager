@@ -26,4 +26,8 @@ public class MessageProviderStub implements MessageProvider {
     public String storeSuccessMessage() {
         return "store success message";
     }
+
+    public String saveSuccessMessage() {
+        return "save success message";
+    }
 }

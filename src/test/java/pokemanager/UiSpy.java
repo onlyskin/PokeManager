@@ -8,6 +8,7 @@ public class UiSpy extends Ui {
     public boolean getSpeciesCalled;
     public boolean getNicknameCalled;
     public boolean storeSuccessCalled;
+    public boolean saveSuccessCalled;
 
     public UiSpy() {
         super(new BufferedReader(new InputStreamReader(new ByteArrayInputStream("".getBytes()))),
@@ -17,6 +18,7 @@ public class UiSpy extends Ui {
         this.getSpeciesCalled = false;
         this.getNicknameCalled = false;
         this.storeSuccessCalled = false;
+        this.saveSuccessCalled = false;
     }
 
     @Override
@@ -45,5 +47,10 @@ public class UiSpy extends Ui {
     @Override
     public void storeSuccessMessage() {
         storeSuccessCalled = true;
+    }
+
+    @Override
+    public void saveSuccessMessage() {
+        saveSuccessCalled = true;
     }
 }
