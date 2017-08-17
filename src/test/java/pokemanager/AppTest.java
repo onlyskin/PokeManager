@@ -10,11 +10,6 @@ import java.util.stream.Collectors;
 
 public class AppTest {
 
-    private final String startMessage = "Commands:\n'box' to see stored Pokemon" +
-                "\n'store SPECIES NICKNAME LEVEL' to store a Pokemon" +
-                "\n'save' to save your stored Pokemon for next time" +
-                "\n'search SPECIES' to search the Pokedex";
-
     private final ByteArrayOutputStream out;
     private final PrintStream printStream;
     private InputStream input;
@@ -22,11 +17,11 @@ public class AppTest {
     private final File tempFile;
     private final HttpGetRequester getRequester;
     private App app;
+    private Ui ui;
 
     public AppTest() throws IOException {
         out = new ByteArrayOutputStream();
         printStream = new PrintStream(out);
-        input = new ByteArrayInputStream("".getBytes());
         tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
         FileWriter fw = new FileWriter(tempFile.toString());
@@ -34,19 +29,20 @@ public class AppTest {
         fw.close();
         box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
-        app = new App(input, printStream, box, getRequester);
     }
 
     @Test
     public void PrintsBox() throws Exception {
         RunAppWithUserInput("box\nexit\n");
-        assertEquals(startMessage + "\nHana - lv.5 Bulbasaur\n\n", out.toString());
+        assertEquals("startup message\nHana - lv.5 Bulbasaur\n\n", out.toString());
     }
 
     @Test
     public void StoresThenPrintsUpdatedBox() throws Exception {
         RunAppWithUserInput("store\nCharmander\nEmber\n6\nbox\nexit\n");
-        assertEquals(startMessage + "\nSpecies:\nNickname:\nLevel:\nStored!\n\nHana - lv.5 Bulbasaur\nEmber - lv.6 Charmander\n\n", out.toString());
+        assertEquals("startup message\nspecies request message\nnickname request message\n" +
+                "level request message\nstore success message\n\n" +
+            "Hana - lv.5 Bulbasaur\nEmber - lv.6 Charmander\n\n", out.toString());
     }
 
     @Test
@@ -54,29 +50,33 @@ public class AppTest {
         RunAppWithUserInput("store\nCharmander\nEmber\n6\nsave\nexit\n");
         String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
         assertEquals("[{\"species\":\"Bulbasaur\",\"level\":5,\"nickname\":\"Hana\"}," +
-                "{\"species\":\"Charmander\",\"level\":6,\"nickname\":\"Ember\"}]", fileContents);
+                "{\"species\":\"Charmander\",\"level\":6,\"nickname\":\"Ember\"}]",
+                fileContents);
     }
 
     @Test
     public void GetsPokemonDataFromGetRequester() throws Exception {
-        RunAppWithUserInput("search Bulbasaur\nexit\n");
-        assertEquals(startMessage + "\nSpecies: bulbasaur\nHeight: 7\nWeight: 69\n\n", out.toString());
+        RunAppWithUserInput("search\nBulbasaur\nexit\n");
+        assertEquals("startup message\n" +
+                "search message\n" +
+                "species fieldname: bulbasaur\n" +
+                "height fieldname: 7\n" +
+                "weight fieldname: 69\n",
+                out.toString());
     }
 
     @Test
     public void PrintsErrorMessageOnInvalidCommand() throws Exception {
         RunAppWithUserInput("invalidcommand\nexit\n");
-        assertEquals(startMessage + "\nPlease enter a valid command.\n\n", out.toString());
+        assertEquals("startup message\nbad command message\n\n",
+                out.toString());
     }
-
-	@Test
-	public void GetsBox() {
-		assertEquals(box, app.getBox());
-	}
 
     private void RunAppWithUserInput(String userInput) {
         input = new ByteArrayInputStream(userInput.getBytes());
-        app = new App(input, printStream, box, getRequester);
+        ui = new Ui(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(userInput.getBytes()))),
+                printStream, new MessageProviderStub());
+        app = new App(box, getRequester, ui);
         app.run();
     }
 

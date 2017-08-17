@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pokemanager.iml" filepath="$PROJECT_DIR$/.idea/modules/pokemanager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pokemanager_main.iml" filepath="$PROJECT_DIR$/.idea/modules/pokemanager_main.iml" group="pokemanager" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pokemanager_test.iml" filepath="$PROJECT_DIR$/.idea/modules/pokemanager_test.iml" group="pokemanager" />
+      <module fileurl="file://$PROJECT_DIR$/pokemanager.iml" filepath="$PROJECT_DIR$/pokemanager.iml" />
     </modules>
   </component>
 </project>

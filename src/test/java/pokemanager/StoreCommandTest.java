@@ -15,11 +15,22 @@ public class StoreCommandTest {
     public StoreCommandTest() throws IOException {}
 
     @Test
+    public void CallsMethodsOnUI() throws Exception {
+       UiSpy uiSpy = new UiSpy();
+       StoreCommand sc = new StoreCommand(boxSpy, uiSpy);
+       sc.execute("store");
+       assertTrue(uiSpy.getLevelCalled);
+       assertTrue(uiSpy.getSpeciesCalled);
+       assertTrue(uiSpy.getNicknameCalled);
+       assertTrue(uiSpy.storeSuccessCalled);
+    }
+
+    @Test
     public void CallsStoreOnBoxWithArgs() throws Exception {
-       StoreCommand sc = makeStoreCommandWithInputStream("Charmander\nEmber\n21\n");
+       Ui ui = makeUiWithInputStreamString("Charmander\nEmber\n21\n");
+       StoreCommand sc = new StoreCommand(boxSpy, ui);
        sc.execute("store");
        assertTrue(boxSpy.storeCalled);
-       assertEquals("Species:\nNickname:\nLevel:\nStored!\n\n", out.toString());
        Pokemon p = boxSpy.stored.get(0);
        assertEquals("Charmander", p.getSpecies());
        assertEquals("Ember", p.getNickname());
@@ -27,25 +38,17 @@ public class StoreCommandTest {
     }
 
     @Test
-    public void RejectsLevelAbove99() throws Exception {
-        StoreCommand sc = makeStoreCommandWithInputStream("Charmander\nEmber\n103\n21\n");
-        sc.execute("store");
-        assertEquals("Species:\nNickname:\nLevel:\nLevel:\nStored!\n\n",
-                out.toString());
-        assertEquals(new Integer(21), boxSpy.stored.get(0).getLevel());
-    }
-
-    @Test
     public void RespondsToStore() throws Exception {
-        StoreCommand sc = new StoreCommand(null, null, null);
+        Ui ui = new Ui(null, null, new MessageProviderStub());
+        StoreCommand sc = new StoreCommand(null, ui);
         assertTrue(sc.respondsTo("store"));
     }
 
-    private StoreCommand makeStoreCommandWithInputStream(String inputString) {
-        InputStream in = new ByteArrayInputStream(inputString.getBytes());
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        out = new ByteArrayOutputStream();
+    private Ui makeUiWithInputStreamString(String inputString) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(out);
-        return new StoreCommand(boxSpy, reader, printStream);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        new ByteArrayInputStream(inputString.getBytes())));
+        return new Ui(reader, printStream, new MessageProviderStub());
     }
 }

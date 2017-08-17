@@ -7,11 +7,9 @@ import java.io.*;
 import static org.junit.Assert.*;
 
 public class ExitCommandTest {
-    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream printStream = new PrintStream(out);
-    private final InputStream in = new ByteArrayInputStream("".getBytes());
-    private final AppSpy app = new AppSpy(in, printStream, null, null);
-    private final ExitCommand ec = new ExitCommand(app);
+    private final AppSpy app = new AppSpy();
+    private final Ui ui = new Ui(null, null, new MessageProviderStub());
+    private final ExitCommand ec = new ExitCommand(app, ui);
 
     public ExitCommandTest() throws IOException {}
 
@@ -19,5 +17,10 @@ public class ExitCommandTest {
     public void CallsExitOnApp() throws Exception {
         ec.execute("exit");
         assertTrue(app.exitCalled);
+    }
+
+    @Test
+    public void RespondsToExit() throws Exception {
+        assertTrue(ec.respondsTo("exit"));
     }
 }
