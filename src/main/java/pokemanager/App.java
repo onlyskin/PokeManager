@@ -35,7 +35,7 @@ public class App {
                 new RetrieveCommand(app.box, app.ui),
                 new StoreCommand(app.box, app.ui),
                 new SaveCommand(app.box, app.ui),
-                new ExitCommand(app),
+                new ExitCommand(app, app.ui),
                 new SpeciesCommand(speciesFinder, app.ui));
     }
 

@@ -17,6 +17,6 @@ public class SaveCommand implements Command {
     }
 
 	public boolean respondsTo(String command) {
-		return command.startsWith("save");
+		return command.startsWith(ui.getSaveCommandString());
 	}
 }

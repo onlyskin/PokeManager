@@ -12,7 +12,7 @@ public class RetrieveCommandTest {
     private final PokemonSpy pokemonSpy = new PokemonSpy();
     private final BoxSpy boxSpy = new BoxSpy(pokemonSpy);
     private final UiSpy uiSpy = new UiSpy();
-    private final RetrieveCommand rc = new RetrieveCommand(boxSpy, uiSpy);
+    private RetrieveCommand rc = new RetrieveCommand(boxSpy, uiSpy);
 
     public RetrieveCommandTest() throws IOException {}
 
@@ -30,6 +30,7 @@ public class RetrieveCommandTest {
 
     @Test
     public void RespondsToBox() throws Exception {
+        rc = new RetrieveCommand(boxSpy, new Ui(null, null, new MessageProviderStub()));
         assertTrue(rc.respondsTo("box"));
     }
 }

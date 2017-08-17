@@ -52,4 +52,24 @@ public class ItalianMessageProvider implements MessageProvider {
     public String searchMessage() {
         return "Ricercare:";
     }
+
+    public String retrieveCommandString() {
+        return "visionare";
+    }
+
+    public String storeCommandString() {
+        return "depositare";
+    }
+
+    public String saveCommandString() {
+        return "salvare";
+    }
+
+    public String exitCommandString() {
+        return "chiudere";
+    }
+
+    public String speciesCommandString() {
+        return "ricercare";
+    }
 }

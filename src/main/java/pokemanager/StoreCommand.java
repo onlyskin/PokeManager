@@ -24,6 +24,6 @@ public class StoreCommand implements Command {
     }
 
     public boolean respondsTo(String command) {
-        return command.startsWith("store");
+        return command.startsWith(ui.getStoreCommandString());
     }
 }

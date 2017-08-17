@@ -14,7 +14,7 @@ public class SpeciesCommand implements Command {
     }
 
     public boolean respondsTo(String command) {
-		return command.startsWith("search");
+		return command.startsWith(ui.getSpeciesCommandString());
     }
     
     public void execute(String command) throws IOException {

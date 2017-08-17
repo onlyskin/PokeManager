@@ -24,4 +24,14 @@ public interface MessageProvider {
     String weightFieldname();
 
     String searchMessage();
+
+    String retrieveCommandString();
+
+    String storeCommandString();
+
+    String saveCommandString();
+
+    String exitCommandString();
+
+    String speciesCommandString();
 }

@@ -52,4 +52,24 @@ public class EnglishMessageProvider implements MessageProvider {
     public String searchMessage() {
         return "Search for:";
     }
+
+    public String retrieveCommandString() {
+        return "box";
+    }
+
+    public String storeCommandString() {
+        return "store";
+    }
+
+    public String saveCommandString() {
+        return "save";
+    }
+
+    public String exitCommandString() {
+        return "exit";
+    }
+
+    public String speciesCommandString() {
+        return "search";
+    }
 }

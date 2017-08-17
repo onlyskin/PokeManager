@@ -39,7 +39,8 @@ public class StoreCommandTest {
 
     @Test
     public void RespondsToStore() throws Exception {
-        StoreCommand sc = new StoreCommand(null, null);
+        Ui ui = new Ui(null, null, new MessageProviderStub());
+        StoreCommand sc = new StoreCommand(null, ui);
         assertTrue(sc.respondsTo("store"));
     }
 

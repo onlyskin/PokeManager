@@ -109,4 +109,24 @@ public class Ui {
         } catch (IOException e) {}
         return searchString;
     }
+
+    public String getRetrieveCommandString() {
+        return messageProvider.retrieveCommandString();
+    }
+
+    public String getStoreCommandString() {
+        return messageProvider.storeCommandString();
+    }
+
+    public String getSaveCommandString() {
+        return messageProvider.saveCommandString();
+    }
+
+    public String getExitCommandString() {
+        return messageProvider.exitCommandString();
+    }
+
+    public String getSpeciesCommandString() {
+        return messageProvider.speciesCommandString();
+    }
 }

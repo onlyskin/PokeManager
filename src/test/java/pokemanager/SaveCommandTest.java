@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class SaveCommandTest {
 	private final BoxSpy boxSpy = new BoxSpy();
     private final UiSpy uiSpy = new UiSpy();
-	private final SaveCommand sc = new SaveCommand(boxSpy, uiSpy);
+	private SaveCommand sc = new SaveCommand(boxSpy, uiSpy);
 
 	public SaveCommandTest() throws IOException {}
 
@@ -29,6 +29,8 @@ public class SaveCommandTest {
 
 	@Test
 	public void RespondsToSave() throws Exception {
+        Ui ui = new Ui(null, null, new MessageProviderStub());
+        sc = new SaveCommand(null, ui);
 		assertTrue(sc.respondsTo("save"));
 	}
 }	

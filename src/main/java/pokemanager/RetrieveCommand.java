@@ -22,6 +22,6 @@ public class RetrieveCommand implements Command {
     }
 
     public boolean respondsTo(String command) {
-        return command.startsWith("box");
+        return command.startsWith(ui.getRetrieveCommandString());
     }
 }
