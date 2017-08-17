@@ -26,10 +26,23 @@ public class Ui {
         display(messageProvider.badCommandMessage());
     }
 
-    public void displayPokemon(Pokemon p) {
+    public void displayOldPokemon(Pokemon p) {
         String prettyOutput = p.getNickname() + " - lv." +
-                              p.getLevel().toString() + " " +
-                              p.getSpecies();
+                          p.getLevel().toString() + " " +
+                          p.getSpecies();
+        display(prettyOutput);
+    }
+
+    public void displayPokemon(Pokemon p) {
+        if (p.getHeight() == null) {
+            displayOldPokemon(p);
+            return;
+        }
+        String prettyOutput = p.getNickname() + " - lv." +
+                          p.getLevel().toString() + " " +
+                          p.getSpecies() + ", " +
+                          String.format("%.1f", p.getHeight() / 10.0) + "m, " +
+                          String.format("%.1f", p.getWeight() / 10.0) + "kg";
         display(prettyOutput);
     }
 
