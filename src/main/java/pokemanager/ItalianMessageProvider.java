@@ -2,11 +2,11 @@ package pokemanager;
 
 public class ItalianMessageProvider implements MessageProvider {
     public String startupMessage() {
-        return "Istruzioni:" +
-                "\n'visionare' per vedere Pokemon depositati" +
-                "\n'depositare' per depositare un Pokemon" +
-                "\n'salvare' per savlare Pokemon depositato per la prossima volta" +
-                "\n'ricercare ' per ricercare dettagli di un Pokemon";
+        return "Commands:" +
+                "\n'" + retrieveCommandString()  + "' per visionare i Pokemon nella memoria" +
+                "\n'" + storeCommandString() + "' per depositare un Pokemon" +
+                "\n'" + saveCommandString() + "' per salvare i Pokemon per la prossima volta" +
+                "\n'" + speciesCommandString() + "' per ricercare nella Pokedex";
     }
 
     public String badCommandMessage() {
