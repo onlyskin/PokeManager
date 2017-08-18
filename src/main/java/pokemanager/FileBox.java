@@ -50,7 +50,10 @@ public class FileBox implements Box {
                                           obj.getString("nickname"),
                                           obj.getInt("level"),
                                           obj.getInt("height"),
-                                          obj.getInt("weight"));
+                                          obj.getInt("weight"),
+                                          obj.getString("dateCaught"),
+                                          obj.getString("locationCaught"),
+                                          obj.getInt("currentHp"));
             this.stored.add(pokemon);
         }
     }

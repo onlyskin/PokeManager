@@ -1,6 +1,8 @@
 package pokemanager;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Ui {
     private final PrintStream printStream;
@@ -38,11 +40,13 @@ public class Ui {
             displayOldPokemon(p);
             return;
         }
-        String prettyOutput = p.getNickname() + " - lv." +
+        String prettyOutput = "~" + p.getNickname() + "~ lv." +
                           p.getLevel().toString() + " " +
-                          p.getSpecies() + ", " +
+                          p.getSpecies() + " - " +
                           String.format("%.1f", p.getHeight() / 10.0) + "m, " +
-                          String.format("%.1f", p.getWeight() / 10.0) + "kg";
+                          String.format("%.1f", p.getWeight() / 10.0) + "kg - " +
+                          p.getCurrentHp().toString() + "HP - caught on " +
+                          p.getDateCaught() + " at " + p.getLocationCaught();
         display(prettyOutput);
     }
 
@@ -64,8 +68,10 @@ public class Ui {
         } catch (IOException e) {}
         try {
             level = Integer.parseInt(input);
-            assert 1 <= level && level <= 99;
-        } catch (NumberFormatException|AssertionError e) {
+            if (level <= 0 || level > 99) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
             return getLevel();
         }
         return level;
@@ -87,6 +93,48 @@ public class Ui {
             nickname = getInputLine();
         } catch (IOException e) {}
         return nickname;
+    }
+
+    public String getLocationCaught() {
+        display(messageProvider.locationCaughtRequestMessage());
+        String locationCaught = null;
+        try {
+            locationCaught = getInputLine();
+        } catch (IOException e) {}
+        return locationCaught;
+    }
+
+    public Integer getCurrentHp() {
+        display(messageProvider.currentHpRequestMessage());
+        Integer level = null;
+        String input = null;
+        try {
+            input = getInputLine();
+        } catch (IOException e) {}
+        try {
+            level = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return getLevel();
+        }
+        return level;
+    }
+
+    private boolean dateInFuture(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        return date.isAfter(LocalDate.now());
+    }
+
+    public String getDateCaught() {
+        display(messageProvider.dateCaughtRequestMessage());
+        String dateCaught = null;
+        try {
+            dateCaught = getInputLine();
+        } catch (IOException e) {}
+        if (dateInFuture(dateCaught)) {
+            return getDateCaught();
+        };
+        return dateCaught;
     }
 
     public void storeSuccessMessage() {

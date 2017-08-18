@@ -7,6 +7,9 @@ public class UiSpy extends Ui {
     public boolean getLevelCalled;
     public boolean getSpeciesCalled;
     public boolean getNicknameCalled;
+    public boolean getDateCaughtCalled;
+    public boolean getLocationCaughtCalled;
+    public boolean getCurrentHpCalled;
     public boolean storeSuccessCalled;
     public boolean saveSuccessCalled;
     public boolean displaySpeciesCalled;
@@ -20,6 +23,9 @@ public class UiSpy extends Ui {
         this.getLevelCalled = false;
         this.getSpeciesCalled = false;
         this.getNicknameCalled = false;
+        this.getDateCaughtCalled = false;
+        this.getLocationCaughtCalled = false;
+        this.getCurrentHpCalled = false;
         this.storeSuccessCalled = false;
         this.saveSuccessCalled = false;
         this.displaySpeciesCalled = false;
@@ -41,6 +47,24 @@ public class UiSpy extends Ui {
     @Override
     public String getSpecies() {
         getSpeciesCalled = true;
+        return null;
+    }
+
+    @Override
+    public String getLocationCaught() {
+        getLocationCaughtCalled = true;
+        return null;
+    }
+
+    @Override
+    public String getDateCaught() {
+        getDateCaughtCalled = true;
+        return null;
+    }
+
+    @Override
+    public Integer getCurrentHp() {
+        getCurrentHpCalled = true;
         return null;
     }
 

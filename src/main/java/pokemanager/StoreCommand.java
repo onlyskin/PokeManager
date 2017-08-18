@@ -17,9 +17,13 @@ public class StoreCommand implements Command {
         String speciesString = ui.getSpecies();
         String nickname = ui.getNickname();
         Integer level = ui.getLevel();
+        String dateCaught = ui.getDateCaught();
+        String locationCaught = ui.getLocationCaught();
+        Integer currentHp = ui.getCurrentHp();
         Species species = speciesFinder.findDetails(speciesString);
         Pokemon pokemon = new Pokemon(speciesString, nickname, level,
-            species.getHeight(), species.getWeight());
+            species.getHeight(), species.getWeight(), dateCaught,
+            locationCaught, currentHp);
         box.store(pokemon);
         ui.storeSuccessMessage();
     }

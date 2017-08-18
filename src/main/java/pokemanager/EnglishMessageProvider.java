@@ -76,4 +76,16 @@ public class EnglishMessageProvider implements MessageProvider {
     public String languageCommandString() {
         return "language";
     }
+
+    public String locationCaughtRequestMessage() {
+        return "Location caught";
+    }
+
+    public String dateCaughtRequestMessage() {
+        return "Date caught";
+    }
+
+    public String currentHpRequestMessage() {
+        return "Current HP";
+    }
 }
