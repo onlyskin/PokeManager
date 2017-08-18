@@ -48,7 +48,9 @@ public class FileBox implements Box {
             JSONObject obj = arr.getJSONObject(i);
             Pokemon pokemon = new Pokemon(obj.getString("species"),
                                           obj.getString("nickname"),
-                                          obj.getInt("level"));
+                                          obj.getInt("level"),
+                                          obj.getInt("height"),
+                                          obj.getInt("weight"));
             this.stored.add(pokemon);
         }
     }

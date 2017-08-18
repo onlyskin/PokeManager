@@ -13,22 +13,13 @@ public class StoreCommand implements Command {
         this.speciesFinder = speciesFinder;
     }
 
-    public StoreCommand(Box box, Ui ui) {
-        this.box = box;
-        this.ui = ui;
-    }
-
-
     public void execute(String command) throws IOException {
         String speciesString = ui.getSpecies();
         String nickname = ui.getNickname();
         Integer level = ui.getLevel();
-        Pokemon pokemon = new Pokemon(speciesString, nickname, level);
-        try {
-            Species species = speciesFinder.findDetails(speciesString);
-            pokemon = new Pokemon(speciesString, nickname, level,
-                species.getHeight(), species.getWeight());
-        } catch (Exception e) {}
+        Species species = speciesFinder.findDetails(speciesString);
+        Pokemon pokemon = new Pokemon(speciesString, nickname, level,
+            species.getHeight(), species.getWeight());
         box.store(pokemon);
         ui.storeSuccessMessage();
     }

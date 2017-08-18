@@ -72,4 +72,8 @@ public class EnglishMessageProvider implements MessageProvider {
     public String speciesCommandString() {
         return "search";
     }
+
+    public String languageCommandString() {
+        return "language";
+    }
 }

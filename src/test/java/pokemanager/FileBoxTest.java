@@ -15,18 +15,16 @@ public class FileBoxTest {
 
     @Test
     public void RetrievesPokemonFromBox() throws Exception {
-        makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12}," +
-                                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2}]");
-        box.store(new Pokemon("Koffing", "Cloud", 20));
-        box.store(new Pokemon("Lapras", "Shell", 56));
+        makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12,\"height\":30,\"weight\":30}," +
+                                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2,\"height\":30,\"weight\":30}]");
+        box.store(new Pokemon("Koffing", "Cloud", 20, 30, 30));
+        box.store(new Pokemon("Lapras", "Shell", 56, 30, 30));
         Pokemon p0 = box.retrieve().get(0);
         assertEquals("Charmander", p0.getSpecies()); 
         assertEquals("Ember", p0.getNickname()); 
         assertEquals(new Integer(12), p0.getLevel()); 
-        Pokemon p1 = box.retrieve().get(2);
-        assertEquals("Koffing", p1.getSpecies()); 
-        assertEquals("Cloud", p1.getNickname()); 
-        assertEquals(new Integer(20), p1.getLevel()); 
+        assertEquals(new Integer(30), p0.getHeight()); 
+        assertEquals(new Integer(30), p0.getWeight()); 
     }
 
 	@Test
@@ -34,14 +32,14 @@ public class FileBoxTest {
        File tempFile = File.createTempFile("temp-", "-testfile");
        tempFile.deleteOnExit();
        FileBox box = new FileBox(tempFile.toString());
-       box.store(new Pokemon("Koffing", "Cloud", 20));
-       box.store(new Pokemon("Lapras", "Shell", 56));
+       box.store(new Pokemon("Koffing", "Cloud", 20, 30, 30));
+       box.store(new Pokemon("Lapras", "Shell", 56, 30, 30));
        String beforeSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
        assertEquals("", beforeSave);
        box.save();
        String afterSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
-       assertEquals("[{\"level\":20,\"species\":\"Koffing\",\"nickname\":\"Cloud\"}," +
-                    "{\"level\":56,\"species\":\"Lapras\",\"nickname\":\"Shell\"}]", afterSave);
+       assertEquals("[{\"level\":20,\"species\":\"Koffing\",\"nickname\":\"Cloud\",\"height\":30,\"weight\":30}," +
+                    "{\"level\":56,\"species\":\"Lapras\",\"nickname\":\"Shell\",\"height\":30,\"weight\":30}]", afterSave);
     }
 
     private void makeBoxWithStringAsFile(String fileContents) throws IOException {

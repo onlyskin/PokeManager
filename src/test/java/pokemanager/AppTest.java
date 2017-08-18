@@ -25,7 +25,7 @@ public class AppTest {
         tempFile = File.createTempFile("temp-", "-testfile");
         tempFile.deleteOnExit();
         FileWriter fw = new FileWriter(tempFile.toString());
-        fw.write("[{\"species\":\"Bulbasaur\",\"nickname\":\"Hana\",\"level\":5}]");
+        fw.write("[{\"species\":\"Bulbasaur\",\"nickname\":\"Hana\",\"level\":5,\"height\":7,\"weight\":69}]");
         fw.close();
         box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
@@ -34,24 +34,25 @@ public class AppTest {
     @Test
     public void PrintsBox() throws Exception {
         RunAppWithUserInput("box\nexit\n");
-        assertEquals("startup message\nHana - lv.5 Bulbasaur\n\n", out.toString());
+        assertEquals("startup message\nHana - lv.5 Bulbasaur, 0.7m, 6.9kg\n\n", out.toString());
     }
 
     @Test
-    public void StoresThenPrintsUpdatedBox() throws Exception {
+    public void StoresThenPrintsUpdatedBoxForPokemonInApiAndPokemonNotFoundInApi() throws Exception {
         RunAppWithUserInput("store\nCharmander\nEmber\n6\nbox\nexit\n");
         assertEquals("startup message\nspecies request message\nnickname request message\n" +
                 "level request message\nstore success message\n\n" +
-            "Hana - lv.5 Bulbasaur\nEmber - lv.6 Charmander\n\n", out.toString());
+            "Hana - lv.5 Bulbasaur, 0.7m, 6.9kg\nEmber - lv.6 Charmander, 0.7m, 6.9kg\n\n", out.toString());
     }
 
     @Test
     public void SavesBoxToFile() throws Exception {
         RunAppWithUserInput("store\nCharmander\nEmber\n6\nsave\nexit\n");
         String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
-        assertEquals("[{\"level\":5,\"species\":\"Bulbasaur\",\"nickname\":\"Hana\"}," +
-                "{\"level\":6,\"species\":\"Charmander\",\"nickname\":\"Ember\"}]",
-                fileContents);
+        assertEquals("[{\"species\":\"Bulbasaur\",\"nickname\":\"Hana\"," +
+                "\"level\":5,\"height\":7,\"weight\":69}," +
+                "{\"species\":\"Charmander\",\"nickname\":\"Ember\"," +
+                "\"level\":6,\"height\":30,\"weight\":30}]", fileContents);
     }
 
     @Test

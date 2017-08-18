@@ -16,12 +16,6 @@ public class Pokemon {
         this.weight = weight;
     }
 
-    public Pokemon(String species, String nickname, Integer level) {
-        this.species = species;
-        this.nickname = nickname;
-        this.level = level;
-    }
-
     public String getSpecies() {
         return this.species;
     }

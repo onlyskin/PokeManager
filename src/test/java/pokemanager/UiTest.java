@@ -35,13 +35,13 @@ public class UiTest {
     }
 
     @Test
-    public void DisplaysPokemon0() throws Exception {
-        ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13));
+    public void DisplaysPokemonWithNullHeight() throws Exception {
+        ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, null, null));
         assertEquals("Hana - lv.13 Bulbasaur\n", out.toString());
     }
 
     @Test
-    public void DisplaysPokemon1() throws Exception {
+    public void DisplaysPokemon() throws Exception {
         ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, 7, 69));
         assertEquals("Hana - lv.13 Bulbasaur, 0.7m, 6.9kg\n", out.toString());
     }

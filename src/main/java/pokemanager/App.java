@@ -27,7 +27,7 @@ public class App {
     private List<Command> buildCommands(App app) {
         return Arrays.asList(
                 new RetrieveCommand(app.box, app.ui),
-                new StoreCommand(app.box, app.ui),
+                new StoreCommand(app.box, speciesFinder, app.ui),
                 new SaveCommand(app.box, app.ui),
                 new ExitCommand(app, app.ui),
                 new SpeciesCommand(speciesFinder, app.ui));

@@ -142,4 +142,8 @@ public class Ui {
     public String getSpeciesCommandString() {
         return messageProvider.speciesCommandString();
     }
+
+    public String getLanguageCommandString() {
+        return messageProvider.languageCommandString();
+    }
 }

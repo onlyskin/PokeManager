@@ -34,4 +34,6 @@ public interface MessageProvider {
     String exitCommandString();
 
     String speciesCommandString();
+
+    String languageCommandString();
 }

@@ -15,7 +15,10 @@ public class HttpGetRequesterSpy extends HttpGetRequester {
         calledWith = pokemon;
         if (calledWith.equals("bad_input")) {
             return "{\"detail\":\"Not found.\"}";
-        } else {
+        } else if (calledWith.equals("Charmander")) {
+            return "{\"name\": \"charmander\", \"weight\": 30, \"height\": 30}";
+        }
+        else {
             return "{\"name\": \"bulbasaur\", \"weight\": 69, \"height\": 7}";
         }
     }

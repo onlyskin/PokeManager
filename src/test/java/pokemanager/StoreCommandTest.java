@@ -18,7 +18,7 @@ public class StoreCommandTest {
     @Test
     public void CallsMethodsOnUI() throws Exception {
        UiSpy uiSpy = new UiSpy();
-       StoreCommand sc = new StoreCommand(boxSpy, speciesFinderSpy, uiSpy);
+       StoreCommand sc = new StoreCommand(boxSpy, new SpeciesFinderStub(), uiSpy);
        sc.execute("store");
        assertTrue(uiSpy.getLevelCalled);
        assertTrue(uiSpy.getSpeciesCalled);
@@ -63,7 +63,7 @@ public class StoreCommandTest {
     @Test
     public void RespondsToStore() throws Exception {
         Ui ui = new Ui(null, null, new MessageProviderStub());
-        StoreCommand sc = new StoreCommand(null, ui);
+        StoreCommand sc = new StoreCommand(null, null, ui);
         assertTrue(sc.respondsTo("store"));
     }
 
