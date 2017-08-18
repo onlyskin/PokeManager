@@ -15,10 +15,15 @@ public class FileBoxTest {
 
     @Test
     public void RetrievesPokemonFromBox() throws Exception {
-        makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12,\"height\":30,\"weight\":30}," +
-                                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2,\"height\":30,\"weight\":30}]");
-        box.store(new Pokemon("Koffing", "Cloud", 20, 30, 30));
-        box.store(new Pokemon("Lapras", "Shell", 56, 30, 30));
+        makeBoxWithStringAsFile("[{\"species\":\"Charmander\"," +
+                "\"nickname\":\"Ember\",\"level\":12,\"height\":30," +
+                "\"weight\":30,\"dateCaught\":\"18/08/2015\"," +
+                "\"locationCaught\":\"Cinnabar Island\",\"currentHp\":356}," +
+                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2" +
+                ",\"height\":30,\"weight\":30,\"dateCaught\":\"18/08/2015\"," +
+                "\"locationCaught\":\"Cinnabar Island\",\"currentHp\":356}]");
+        box.store(new Pokemon("Koffing", "Cloud", 20, 30, 30, "18/08/2016", "Cinnabar Island", 356));
+        box.store(new Pokemon("Lapras", "Shell", 56, 30, 30, "18/08/2016", "Cinnabar Island", 356));
         Pokemon p0 = box.retrieve().get(0);
         assertEquals("Charmander", p0.getSpecies()); 
         assertEquals("Ember", p0.getNickname()); 
