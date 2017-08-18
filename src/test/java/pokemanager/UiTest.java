@@ -36,7 +36,8 @@ public class UiTest {
 
     @Test
     public void DisplaysPokemonWithNullHeight() throws Exception {
-        ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, null, null));
+        ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, null, null,
+                    "18/08/2016", "Cinnabar Island", 22));
         assertEquals("Hana - lv.13 Bulbasaur\n", out.toString());
     }
 

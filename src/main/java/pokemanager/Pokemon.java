@@ -23,18 +23,6 @@ public class Pokemon {
         this.currentHp = currentHp;
     }
 
-    public Pokemon(String species, String nickname, Integer level,
-            Integer height, Integer weight) {
-        this.species = species;
-        this.nickname = nickname;
-        this.level = level;
-        this.height = height;
-        this.weight = weight;
-        this.dateCaught = null;
-        this.locationCaught = null;
-        this.currentHp = null;
-    }
-
     public String getSpecies() {
         return this.species;
     }

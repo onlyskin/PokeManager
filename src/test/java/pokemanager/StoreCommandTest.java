@@ -23,12 +23,16 @@ public class StoreCommandTest {
        assertTrue(uiSpy.getLevelCalled);
        assertTrue(uiSpy.getSpeciesCalled);
        assertTrue(uiSpy.getNicknameCalled);
+       assertTrue(uiSpy.getDateCaughtCalled);
+       assertTrue(uiSpy.getLocationCaughtCalled);
+       assertTrue(uiSpy.getCurrentHpCalled);
        assertTrue(uiSpy.storeSuccessCalled);
     }
 
     @Test
     public void CallsFindDetailsOnSpeciesFinderWithSpecies() throws Exception {
-       Ui ui = makeUiWithInputStreamString("Charmander\nEmber\n21\n");
+       Ui ui = makeUiWithInputStreamString("Charmander\nEmber\n21\n" +
+               "18/08/2015\nCinnabar Island\n356");
        StoreCommand sc = new StoreCommand(boxSpy, speciesFinderSpy, ui);
        sc.execute("store");
        assertTrue(speciesFinderSpy.findDetailsCalled); 
@@ -36,21 +40,9 @@ public class StoreCommandTest {
     }
 
     @Test
-    public void StoresSpeciesWithDetailsFromSpeciesFinder() throws Exception {
-       Ui ui = makeUiWithInputStreamString("Charmander\nEmber\n21\n");
-       StoreCommand sc = new StoreCommand(boxSpy, speciesFinderSpy, ui);
-       sc.execute("store");
-       Pokemon p = boxSpy.stored.get(0);
-       assertEquals("Charmander", p.getSpecies());
-       assertEquals("Ember", p.getNickname());
-       assertEquals(new Integer(21), p.getLevel());
-       assertEquals(new Integer(6), p.getHeight());
-       assertEquals(new Integer(85), p.getWeight());
-    }
-
-    @Test
     public void CallsStoreOnBoxWithArgs() throws Exception {
-       Ui ui = makeUiWithInputStreamString("Charmander\nEmber\n21\n");
+       Ui ui = makeUiWithInputStreamString("Charmander\nEmber\n21\n" +
+               "18/08/2015\nCinnabar Island\n356");
        StoreCommand sc = new StoreCommand(boxSpy, speciesFinderSpy, ui);
        sc.execute("store");
        assertTrue(boxSpy.storeCalled);
@@ -58,6 +50,9 @@ public class StoreCommandTest {
        assertEquals("Charmander", p.getSpecies());
        assertEquals("Ember", p.getNickname());
        assertEquals(new Integer(21), p.getLevel());
+       assertEquals("18/08/2015", p.getDateCaught());
+       assertEquals("Cinnabar Island", p.getLocationCaught());
+       assertEquals(new Integer(356), p.getCurrentHp());
     }
 
     @Test

@@ -15,10 +15,15 @@ public class FileBoxTest {
 
     @Test
     public void RetrievesPokemonFromBox() throws Exception {
-        makeBoxWithStringAsFile("[{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":12,\"height\":30,\"weight\":30}," +
-                                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2,\"height\":30,\"weight\":30}]");
-        box.store(new Pokemon("Koffing", "Cloud", 20, 30, 30));
-        box.store(new Pokemon("Lapras", "Shell", 56, 30, 30));
+        makeBoxWithStringAsFile("[{\"species\":\"Charmander\"," +
+                "\"nickname\":\"Ember\",\"level\":12,\"height\":30," +
+                "\"weight\":30,\"dateCaught\":\"18/08/2015\"," +
+                "\"locationCaught\":\"Cinnabar Island\",\"currentHp\":356}," +
+                "{\"species\":\"Squirtle\",\"nickname\":\"Mizu\",\"level\":2" +
+                ",\"height\":30,\"weight\":30,\"dateCaught\":\"18/08/2015\"," +
+                "\"locationCaught\":\"Cinnabar Island\",\"currentHp\":356}]");
+        box.store(new Pokemon("Koffing", "Cloud", 20, 30, 30, "18/08/2016", "Cinnabar Island", 356));
+        box.store(new Pokemon("Lapras", "Shell", 56, 30, 30, "18/08/2016", "Cinnabar Island", 356));
         Pokemon p0 = box.retrieve().get(0);
         assertEquals("Charmander", p0.getSpecies()); 
         assertEquals("Ember", p0.getNickname()); 
@@ -32,14 +37,16 @@ public class FileBoxTest {
        File tempFile = File.createTempFile("temp-", "-testfile");
        tempFile.deleteOnExit();
        FileBox box = new FileBox(tempFile.toString());
-       box.store(new Pokemon("Koffing", "Cloud", 20, 30, 30));
-       box.store(new Pokemon("Lapras", "Shell", 56, 30, 30));
+        box.store(new Pokemon("Koffing", "Cloud", 20, 30, 30, "18/08/2016", "Cinnabar Island", 356));
+        box.store(new Pokemon("Lapras", "Shell", 56, 30, 30, "18/08/2016", "Cinnabar Island", 356));
        String beforeSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
        assertEquals("", beforeSave);
        box.save();
        String afterSave = inputStreamToString(new FileInputStream(tempFile.toString())); 
-       assertEquals("[{\"level\":20,\"species\":\"Koffing\",\"nickname\":\"Cloud\",\"height\":30,\"weight\":30}," +
-                    "{\"level\":56,\"species\":\"Lapras\",\"nickname\":\"Shell\",\"height\":30,\"weight\":30}]", afterSave);
+       assertEquals("[{\"level\":20,\"species\":\"Koffing\",\"nickname\":\"Cloud\",\"height\":30,\"weight\":30," +
+               "\"dateCaught\":\"18/08/2016\",\"locationCaught\":\"Cinnabar Island\",\"currentHp\":356}," +
+               "{\"level\":56,\"species\":\"Lapras\",\"nickname\":\"Shell\",\"height\":30,\"weight\":30," +
+               "\"dateCaught\":\"18/08/2016\",\"locationCaught\":\"Cinnabar Island\",\"currentHp\":356}]", afterSave);
     }
 
     private void makeBoxWithStringAsFile(String fileContents) throws IOException {
