@@ -74,4 +74,16 @@ public class MessageProviderStub implements MessageProvider {
     public String languageCommandString() {
         return "language";
     }
+
+    public String locationCaughtRequestMessage() {
+        return "locationCaught request message";
+    }
+
+    public String dateCaughtRequestMessage() {
+        return "dateCaught request message";
+    }
+
+    public String currentHpRequestMessage() {
+        return "currentHp request message";
+    }
 }

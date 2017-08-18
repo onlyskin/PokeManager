@@ -76,4 +76,16 @@ public class ItalianMessageProvider implements MessageProvider {
     public String languageCommandString() {
         return "lingua";
     }
+
+    public String locationCaughtRequestMessage() {
+        return "Luogo di caccia";
+    }
+
+    public String dateCaughtRequestMessage() {
+        return "Data di caccia";
+    }
+
+    public String currentHpRequestMessage() {
+        return "Attuale HP";
+    }
 }

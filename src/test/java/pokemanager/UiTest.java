@@ -42,8 +42,10 @@ public class UiTest {
 
     @Test
     public void DisplaysPokemon() throws Exception {
-        ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, 7, 69));
-        assertEquals("Hana - lv.13 Bulbasaur, 0.7m, 6.9kg\n", out.toString());
+        ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, 7, 69,
+                    "18/08/2016", "Cinnabar Island", 22));
+        assertEquals("~Hana~ lv.13 Bulbasaur - 0.7m, 6.9kg - 22HP - caught on " + 
+                "18/08/2016 at Cinnabar Island\n", out.toString());
     }
 
     @Test
@@ -79,6 +81,33 @@ public class UiTest {
         Ui ui = makeUiWithInputStreamString("Hana");
         assertEquals("Hana", ui.getNickname());
         assertEquals("nickname request message\n", out.toString());
+    }
+
+    @Test
+    public void GetsLocationCaught() throws Exception {
+        Ui ui = makeUiWithInputStreamString("Cinnabar Island");
+        assertEquals("Cinnabar Island", ui.getLocationCaught());
+        assertEquals("locationCaught request message\n", out.toString());
+    }
+
+    @Test
+    public void GetsCurrentHp() throws Exception {
+        Ui ui = makeUiWithInputStreamString("356\n");
+        assertEquals(new Integer(356), ui.getCurrentHp());
+        assertEquals("currentHp request message\n", out.toString());
+    }
+
+    @Test
+    public void GetsDateCaught() throws Exception {
+        Ui ui = makeUiWithInputStreamString("18/08/2016\n");
+        assertEquals("18/08/2016", ui.getDateCaught());
+        assertEquals("dateCaught request message\n", out.toString());
+    }
+
+    @Test
+    public void RejectsFutureDate() throws Exception {
+        Ui ui = makeUiWithInputStreamString("18/08/2050\n18/08/2010");
+        assertEquals("18/08/2010", ui.getDateCaught());
     }
 
     @Test
