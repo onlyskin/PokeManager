@@ -68,8 +68,10 @@ public class Ui {
         } catch (IOException e) {}
         try {
             level = Integer.parseInt(input);
-            assert 1 <= level && level <= 99;
-        } catch (NumberFormatException|AssertionError e) {
+            if (level <= 0 || level > 99) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
             return getLevel();
         }
         return level;
@@ -117,10 +119,10 @@ public class Ui {
         return level;
     }
 
-    private boolean dateNotInFuture(String dateString) {
+    private boolean dateInFuture(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(dateString, formatter);
-        return !date.isAfter(LocalDate.now());
+        return date.isAfter(LocalDate.now());
     }
 
     public String getDateCaught() {
@@ -129,11 +131,9 @@ public class Ui {
         try {
             dateCaught = getInputLine();
         } catch (IOException e) {}
-        try {
-            assert dateNotInFuture(dateCaught);
-        } catch (AssertionError e) {
+        if (dateInFuture(dateCaught)) {
             return getDateCaught();
-        }
+        };
         return dateCaught;
     }
 

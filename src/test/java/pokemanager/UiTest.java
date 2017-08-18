@@ -66,7 +66,7 @@ public class UiTest {
 
     @Test
     public void RejectsLevelOutsideRange() throws Exception {
-        Ui ui = makeUiWithInputStreamString("100\n0\n3\n");
+        Ui ui = makeUiWithInputStreamString("999\n0\n3\n");
         assertEquals(new Integer(3), ui.getLevel());
     }
 
