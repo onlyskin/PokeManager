@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Ui {
     private final PrintStream printStream;
-    private MessageProvider messageProvider;
+    private final MessageProvider messageProvider;
     private final BufferedReader reader;
     private final DateValidator dateValidator;
     private final LevelValidator levelValidator;
@@ -72,40 +72,18 @@ public class Ui {
         return line;
     }
 
-    private String getString(String prompt) {
-        display(prompt);
-        String input = null;
-        try {
-            input = getInputLine();
-        } catch (IOException e) {}
-        return input;
-    }
-
     private String getString(String prompt, StringValidator validator) {
         display(prompt);
         String input = null;
         try {
             input = getInputLine();
         } catch (IOException e) {}
-        if (!validator.validate(input)) {
-            return getString(prompt, validator);
+        if (!(validator == null)) {
+            if (!validator.validate(input)) {
+                return getString(prompt, validator);
+            }
         }
         return input;
-    }
-
-    private Integer getInteger(String prompt) {
-        display(prompt);
-        Integer value = null;
-        String input = null;
-        try {
-            input = getInputLine();
-        } catch (IOException e) {}
-        try {
-            value = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            return getInteger(prompt);
-        }
-        return value;
     }
 
     private Integer getInteger(String prompt, IntegerValidator validator) {
@@ -117,8 +95,10 @@ public class Ui {
         } catch (IOException e) {}
         try {
             value = Integer.parseInt(input);
-            if (!validator.validate(value)) {
-                throw new NumberFormatException();
+            if (!(validator == null)) {
+                if (!validator.validate(value)) {
+                    throw new NumberFormatException();
+                }
             }
         } catch (NumberFormatException e) {
             return getInteger(prompt, validator);
@@ -137,19 +117,19 @@ public class Ui {
     }
 
     public String getSpecies() {
-        return getString(messageProvider.speciesRequestMessage());
+        return getString(messageProvider.speciesRequestMessage(), null);
     }
 
     public String getNickname() {
-        return getString(messageProvider.nicknameRequestMessage());
+        return getString(messageProvider.nicknameRequestMessage(), null);
     }
 
     public String getLocationCaught() {
-        return getString(messageProvider.locationCaughtRequestMessage());
+        return getString(messageProvider.locationCaughtRequestMessage(), null);
     }
 
     public Integer getCurrentHp() {
-        return getInteger(messageProvider.currentHpRequestMessage());
+        return getInteger(messageProvider.currentHpRequestMessage(), null);
     }
 
     public void storeSuccessMessage() {
@@ -175,7 +155,7 @@ public class Ui {
     }
 
     public String getSpeciesSearchInput() {
-        return getString(messageProvider.searchMessage());
+        return getString(messageProvider.searchMessage(), null);
     }
 
     public String getRetrieveCommandString() {
