@@ -56,8 +56,11 @@ public class Ui {
                           p.getSpecies() + " - " +
                           String.format("%.1f", p.getHeight() / 10.0) + "m, " +
                           String.format("%.1f", p.getWeight() / 10.0) + "kg - " +
-                          p.getCurrentHp().toString() + "HP - caught on " +
-                          p.getDateCaught() + " at " + p.getLocationCaught();
+                          p.getCurrentHp().toString() + "HP - " +
+                          messageProvider.caughtOnPhrase() + " " +
+                          p.getDateCaught() + " " +
+                          messageProvider.caughtAtPhrase() + " " +
+                          p.getLocationCaught();
         display(prettyOutput);
     }
 

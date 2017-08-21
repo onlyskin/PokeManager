@@ -40,4 +40,8 @@ public interface MessageProvider {
     String dateCaughtRequestMessage();
 
     String currentHpRequestMessage();
+
+    String caughtOnPhrase();
+
+    String caughtAtPhrase();
 }

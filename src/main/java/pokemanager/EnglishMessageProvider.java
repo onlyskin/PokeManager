@@ -84,4 +84,12 @@ public class EnglishMessageProvider implements MessageProvider {
     public String currentHpRequestMessage() {
         return "Current HP:";
     }
+
+    public String caughtOnPhrase() {
+        return "caught on";
+    }
+
+    public String caughtAtPhrase() {
+        return "at";
+    }
 }
