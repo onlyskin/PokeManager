@@ -13,19 +13,40 @@ public class UiTest {
     private final ByteArrayInputStream inputStream = new ByteArrayInputStream("".getBytes());
     private final BufferedReader reader = new BufferedReader(
             new InputStreamReader(inputStream));
-    private final MessageProvider messageProvider = new MessageProviderStub();
-    private Ui ui = new Ui(reader, printStream, messageProvider);
+    private EnglishMessageProvider em = new EnglishMessageProvider();
+    private Ui ui = new Ui(reader, printStream, "en");
 
     @Test
     public void PrintsStartupMessage() throws Exception {
         ui.startupMessage();
-        assertEquals("startup message\n", out.toString());
+        assertEquals(em.startupMessage() + "\n", out.toString());
     }
 
     @Test
+    public void PrintsEnStartupMessage() throws Exception {
+        ui = new Ui(reader, printStream, "en");
+        ui.badCommandMessage();
+        assertEquals("Please enter a valid command.\n\n", out.toString());
+    }
+
+    @Test
+    public void PrintsItStartupMessage() throws Exception {
+        ui = new Ui(reader, printStream, "it");
+        ui.badCommandMessage();
+        assertEquals("Scegliere un istruzione valida.\n\n", out.toString());
+    }
+    
+    @Test
+    public void PrintsEnInOtherCase() throws Exception {
+        ui = new Ui(reader, printStream, "invalid");
+        ui.badCommandMessage();
+        assertEquals("Please enter a valid command.\n\n", out.toString());
+    }
+    
+    @Test
     public void PrintsBadCommandMessage() throws Exception {
         ui.badCommandMessage();
-        assertEquals("bad command message\n\n", out.toString());
+        assertEquals(em.badCommandMessage() + "\n", out.toString());
     }
 
     @Test
@@ -53,15 +74,15 @@ public class UiTest {
     public void GetsLevel() throws Exception {
         Ui ui = makeUiWithInputStreamString("3\n");
         assertEquals(new Integer(3), ui.getLevel());
-        assertEquals("level request message\n", out.toString());
+        assertEquals(em.levelRequestMessage() + "\n", out.toString());
     }
 
     @Test
     public void AsksAgainIfCantParseNumber() throws Exception {
         Ui ui = makeUiWithInputStreamString("three\n3\n");
         assertEquals(new Integer(3), ui.getLevel());
-        assertEquals("level request message\nlevel request message\n",
-                out.toString());
+        assertEquals(em.levelRequestMessage() + "\n" +
+                em.levelRequestMessage() + "\n", out.toString());
     }
 
     @Test
@@ -74,35 +95,35 @@ public class UiTest {
     public void GetsSpecies() throws Exception {
         Ui ui = makeUiWithInputStreamString("Bulbasaur");
         assertEquals("Bulbasaur", ui.getSpecies());
-        assertEquals("species request message\n", out.toString());
+        assertEquals(em.speciesRequestMessage() + "\n", out.toString());
     }
 
     @Test
     public void GetsNickname() throws Exception {
         Ui ui = makeUiWithInputStreamString("Hana");
         assertEquals("Hana", ui.getNickname());
-        assertEquals("nickname request message\n", out.toString());
+        assertEquals(em.nicknameRequestMessage() + "\n", out.toString());
     }
 
     @Test
     public void GetsLocationCaught() throws Exception {
         Ui ui = makeUiWithInputStreamString("Cinnabar Island");
         assertEquals("Cinnabar Island", ui.getLocationCaught());
-        assertEquals("locationCaught request message\n", out.toString());
+        assertEquals(em.locationCaughtRequestMessage() + "\n", out.toString());
     }
 
     @Test
     public void GetsCurrentHp() throws Exception {
         Ui ui = makeUiWithInputStreamString("356\n");
         assertEquals(new Integer(356), ui.getCurrentHp());
-        assertEquals("currentHp request message\n", out.toString());
+        assertEquals(em.currentHpRequestMessage() + "\n", out.toString());
     }
 
     @Test
     public void GetsDateCaught() throws Exception {
         Ui ui = makeUiWithInputStreamString("18/08/2016\n");
         assertEquals("18/08/2016", ui.getDateCaught());
-        assertEquals("dateCaught request message\n", out.toString());
+        assertEquals(em.dateCaughtRequestMessage() + "\n", out.toString());
     }
 
     @Test
@@ -114,27 +135,27 @@ public class UiTest {
     @Test
     public void PrintsStoreSuccess() throws Exception {
         ui.storeSuccessMessage();
-        assertEquals("store success message\n\n", out.toString());
+        assertEquals(em.storeSuccessMessage() + "\n\n", out.toString());
     }
 
     @Test
     public void PrintsSaveSuccess() throws Exception {
         ui.saveSuccessMessage();
-        assertEquals("save success message\n\n", out.toString());
+        assertEquals(em.saveSuccessMessage() + "\n\n", out.toString());
     }
 
     @Test
     public void DisplaysSpecies() throws Exception {
         ui.displaySpecies(new Species("Bulbasaur", 5, 10));
-        assertEquals("species fieldname: Bulbasaur\n" +
-                     "height fieldname: 5\n" +
-                     "weight fieldname: 10\n", out.toString());
+        assertEquals(em.speciesFieldname() + ": Bulbasaur\n" +
+                     em.heightFieldname() + ": 5\n" +
+                     em.weightFieldname() + ": 10\n", out.toString());
     }
 
     @Test
     public void DisplaysNoneFoundMessage() throws Exception {
         ui.noneFoundMessage();
-        assertEquals("none found message\n\n", out.toString());
+        assertEquals(em.noneFoundMessage() + "\n\n", out.toString());
     }
 
     @Test
@@ -142,12 +163,12 @@ public class UiTest {
         Ui ui = makeUiWithInputStreamString("Bulbasaur\n");
         String inputString = ui.getSpeciesSearchInput();
         assertEquals("Bulbasaur", inputString);
-        assertEquals("search message\n", out.toString());
+        assertEquals(em.searchMessage() + "\n", out.toString());
     }
 
     private Ui makeUiWithInputStreamString(String inputString) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                         new ByteArrayInputStream(inputString.getBytes())));
-        return new Ui(reader, printStream, messageProvider);
+        return new Ui(reader, printStream, "en");
     }
 }

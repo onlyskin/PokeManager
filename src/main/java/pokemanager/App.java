@@ -71,11 +71,12 @@ public class App {
     }
 
     public static void main(String[] args) throws IOException {
+        String language = args[0];
         String filepath = "/Users/sam/Documents/pokemanager/data/data";
         FileBox box = new FileBox(filepath);
         HttpGetRequester getRequester = new HttpGetRequester();
         Ui ui = new Ui(new BufferedReader(new InputStreamReader(System.in)),
-                    System.out, new EnglishMessageProvider());
+                    System.out, language);
         App app = new App(box,
                           getRequester,
                           ui);

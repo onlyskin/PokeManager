@@ -6,14 +6,18 @@ import java.time.format.DateTimeFormatter;
 
 public class Ui {
     private final PrintStream printStream;
-    private final MessageProvider messageProvider;
+    private MessageProvider messageProvider;
     private final BufferedReader reader;
 
     public Ui(BufferedReader reader, PrintStream printStream,
-            MessageProvider messageProvider) {
+            String language) {
         this.printStream = printStream;
-        this.messageProvider = messageProvider;
         this.reader = reader;
+        if (language.equals("it")) {
+            this.messageProvider = new ItalianMessageProvider();
+        } else {
+            this.messageProvider = new EnglishMessageProvider(); 
+        }
     }
 
     private void display(String output) {

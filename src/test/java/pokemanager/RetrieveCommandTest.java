@@ -30,7 +30,7 @@ public class RetrieveCommandTest {
 
     @Test
     public void RespondsToBox() throws Exception {
-        rc = new RetrieveCommand(boxSpy, new Ui(null, null, new MessageProviderStub()));
+        rc = new RetrieveCommand(boxSpy, new Ui(null, null, "en"));
         assertTrue(rc.respondsTo("box"));
     }
 }

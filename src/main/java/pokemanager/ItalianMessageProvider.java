@@ -14,7 +14,7 @@ public class ItalianMessageProvider implements MessageProvider {
     }
 
     public String levelRequestMessage() {
-        return "Level:";
+        return "Livello:";
     }
 
     public String speciesRequestMessage() {
