@@ -23,6 +23,27 @@ public class UiTest {
     }
 
     @Test
+    public void PrintsEnStartupMessage() throws Exception {
+        ui = new Ui(reader, printStream, "en");
+        ui.badCommandMessage();
+        assertEquals("Please enter a valid command.\n\n", out.toString());
+    }
+
+    @Test
+    public void PrintsItStartupMessage() throws Exception {
+        ui = new Ui(reader, printStream, "it");
+        ui.badCommandMessage();
+        assertEquals("Scegliere un istruzione valida.\n\n", out.toString());
+    }
+    
+    @Test
+    public void PrintsEnInOtherCase() throws Exception {
+        ui = new Ui(reader, printStream, "invalid");
+        ui.badCommandMessage();
+        assertEquals("Please enter a valid command.\n\n", out.toString());
+    }
+    
+    @Test
     public void PrintsBadCommandMessage() throws Exception {
         ui.badCommandMessage();
         assertEquals("bad command message\n\n", out.toString());

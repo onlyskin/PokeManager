@@ -18,7 +18,7 @@ public class UiSpy extends Ui {
 
     public UiSpy() {
         super(new BufferedReader(new InputStreamReader(new ByteArrayInputStream("".getBytes()))),
-                new PrintStream(new ByteArrayOutputStream()), null);
+                new PrintStream(new ByteArrayOutputStream()), "");
         this.displayPokemonCalled = false;
         this.getLevelCalled = false;
         this.getSpeciesCalled = false;

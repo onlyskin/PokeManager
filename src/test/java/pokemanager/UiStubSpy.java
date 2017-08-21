@@ -9,7 +9,7 @@ public class UiStubSpy extends Ui{
 
     public UiStubSpy(boolean badInput) {
         super(new BufferedReader(new InputStreamReader(new ByteArrayInputStream("".getBytes()))),
-                new PrintStream(new ByteArrayOutputStream()), null);
+                new PrintStream(new ByteArrayOutputStream()), "");
         this.badInput = badInput;
         this.displaySpeciesCalled = false;
         this.noneFoundCalled = false;
