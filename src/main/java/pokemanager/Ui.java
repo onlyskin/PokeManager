@@ -13,7 +13,7 @@ public class Ui {
             String language) {
         this.printStream = printStream;
         this.reader = reader;
-        if (language == "it") {
+        if (language.equals("it")) {
             this.messageProvider = new ItalianMessageProvider();
         } else {
             this.messageProvider = new EnglishMessageProvider(); 
