@@ -35,8 +35,6 @@ public interface MessageProvider {
 
     String speciesCommandString();
 
-    String languageCommandString();
-
     String locationCaughtRequestMessage();
 
     String dateCaughtRequestMessage();

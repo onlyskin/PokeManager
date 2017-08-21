@@ -73,10 +73,6 @@ public class ItalianMessageProvider implements MessageProvider {
         return "ricercare";
     }
 
-    public String languageCommandString() {
-        return "lingua";
-    }
-
     public String locationCaughtRequestMessage() {
         return "Luogo di caccia";
     }

@@ -1,8 +1,6 @@
 package pokemanager;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Ui {
     private final PrintStream printStream;
@@ -176,9 +174,5 @@ public class Ui {
 
     public String getSpeciesCommandString() {
         return messageProvider.speciesCommandString();
-    }
-
-    public String getLanguageCommandString() {
-        return messageProvider.languageCommandString();
     }
 }

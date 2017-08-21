@@ -73,10 +73,6 @@ public class EnglishMessageProvider implements MessageProvider {
         return "search";
     }
 
-    public String languageCommandString() {
-        return "language";
-    }
-
     public String locationCaughtRequestMessage() {
         return "Location caught";
     }
