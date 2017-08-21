@@ -29,8 +29,7 @@ public class SaveCommandTest {
 
 	@Test
 	public void RespondsToSave() throws Exception {
-        Ui ui = new Ui(null, null, new MessageProviderStub());
-        sc = new SaveCommand(null, ui);
+        sc = new SaveCommand(null, new Ui(null, null, "en"));
 		assertTrue(sc.respondsTo("save"));
 	}
 }	

@@ -20,13 +20,6 @@ public class Ui {
         }
     }
 
-    public Ui(BufferedReader reader, PrintStream printStream,
-            MessageProvider messageProvider) {
-        this.printStream = printStream;
-        this.messageProvider = messageProvider;
-        this.reader = reader;
-    }
-
     private void display(String output) {
         printStream.println(output);
     }

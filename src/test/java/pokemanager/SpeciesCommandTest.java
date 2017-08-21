@@ -57,6 +57,6 @@ public class SpeciesCommandTest {
         PrintStream printStream = new PrintStream(out);
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                         new ByteArrayInputStream(inputString.getBytes())));
-        return new Ui(reader, printStream, new MessageProviderStub());
+        return new Ui(reader, printStream, "en");
     }
 }

@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class ExitCommandTest {
     private final AppSpy app = new AppSpy();
-    private final Ui ui = new Ui(null, null, new MessageProviderStub());
+    private final Ui ui = new Ui(null, null, "en");
     private final ExitCommand ec = new ExitCommand(app, ui);
 
     public ExitCommandTest() throws IOException {}
