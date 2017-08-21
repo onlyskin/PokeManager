@@ -1,1 +1,1 @@
-java -jar build/libs/pokemanager-1.0-SNAPSHOT.jar
+java -jar build/libs/pokemanager-1.0-SNAPSHOT.jar $1
