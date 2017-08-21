@@ -145,9 +145,9 @@ public class Ui {
         String prettyOutput = messageProvider.speciesFieldname() + ": " +
             s.getSpecies()  + "\n" +
             messageProvider.heightFieldname() + ": " +
-            s.getHeight()  + "\n" +
+            String.format("%.1f", s.getHeight() / 10.0) + "m\n" +
             messageProvider.weightFieldname() + ": " +
-            s.getWeight();
+            String.format("%.1f", s.getWeight() / 10.0) + "kg";
         display(prettyOutput);
     }
 

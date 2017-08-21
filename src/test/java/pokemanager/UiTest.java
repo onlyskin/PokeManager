@@ -143,8 +143,8 @@ public class UiTest {
     public void DisplaysSpecies() throws Exception {
         ui.displaySpecies(new Species("Bulbasaur", 5, 10));
         assertEquals(em.speciesFieldname() + ": Bulbasaur\n" +
-                     em.heightFieldname() + ": 5\n" +
-                     em.weightFieldname() + ": 10\n", out.toString());
+                     em.heightFieldname() + ": 0.5m\n" +
+                     em.weightFieldname() + ": 1.0kg\n", out.toString());
     }
 
     @Test

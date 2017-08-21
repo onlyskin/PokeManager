@@ -50,7 +50,7 @@ public class ItalianMessageProvider implements MessageProvider {
     }
 
     public String searchMessage() {
-        return "Ricercare:";
+        return "Specie da ricerca:";
     }
 
     public String retrieveCommandString() {

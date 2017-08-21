@@ -80,8 +80,8 @@ public class AppTest {
         assertEquals(em.startupMessage() + "\n" +
                 em.searchMessage() + "\n" +
                 em.speciesFieldname() + ": bulbasaur\n" +
-                em.heightFieldname() + ": 7\n" +
-                em.weightFieldname() + ": 69\n", out.toString());
+                em.heightFieldname() + ": 0.7m\n" +
+                em.weightFieldname() + ": 6.9kg\n", out.toString());
     }
 
     @Test
