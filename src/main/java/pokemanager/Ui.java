@@ -8,11 +8,15 @@ public class Ui {
     private final PrintStream printStream;
     private MessageProvider messageProvider;
     private final BufferedReader reader;
+    private final DateValidator dateValidator;
+    private final LevelValidator levelValidator;
 
     public Ui(BufferedReader reader, PrintStream printStream,
             String language) {
         this.printStream = printStream;
         this.reader = reader;
+        this.dateValidator = new DateValidator();
+        this.levelValidator = new LevelValidator();
         if (language.equals("it")) {
             this.messageProvider = new ItalianMessageProvider();
         } else {
@@ -22,6 +26,11 @@ public class Ui {
 
     private void display(String output) {
         printStream.println(output);
+    }
+
+    private void displayPlusSpace(String output) {
+        display(output);
+        emptySpace();
     }
 
     public void startupMessage() {
@@ -63,92 +72,92 @@ public class Ui {
         return line;
     }
 
-    public Integer getLevel() {
-        display(messageProvider.levelRequestMessage());
-        Integer level = null;
+    private String getString(String prompt) {
+        display(prompt);
+        String input = null;
+        try {
+            input = getInputLine();
+        } catch (IOException e) {}
+        return input;
+    }
+
+    private String getString(String prompt, StringValidator validator) {
+        display(prompt);
+        String input = null;
+        try {
+            input = getInputLine();
+        } catch (IOException e) {}
+        if (!validator.validate(input)) {
+            return getString(prompt, validator);
+        }
+        return input;
+    }
+
+    private Integer getInteger(String prompt) {
+        display(prompt);
+        Integer value = null;
         String input = null;
         try {
             input = getInputLine();
         } catch (IOException e) {}
         try {
-            level = Integer.parseInt(input);
-            if (level <= 0 || level > 99) {
+            value = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return getInteger(prompt);
+        }
+        return value;
+    }
+
+    private Integer getInteger(String prompt, IntegerValidator validator) {
+        display(prompt);
+        Integer value = null;
+        String input = null;
+        try {
+            input = getInputLine();
+        } catch (IOException e) {}
+        try {
+            value = Integer.parseInt(input);
+            if (!validator.validate(value)) {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            return getLevel();
+            return getInteger(prompt, validator);
         }
-        return level;
-    }
-
-    public String getSpecies() {
-        display(messageProvider.speciesRequestMessage());
-        String species = null;
-        try {
-            species = getInputLine();
-        } catch (IOException e) {}
-        return species;
-    }
-
-    public String getNickname() {
-        display(messageProvider.nicknameRequestMessage());
-        String nickname = null;
-        try {
-            nickname = getInputLine();
-        } catch (IOException e) {}
-        return nickname;
-    }
-
-    public String getLocationCaught() {
-        display(messageProvider.locationCaughtRequestMessage());
-        String locationCaught = null;
-        try {
-            locationCaught = getInputLine();
-        } catch (IOException e) {}
-        return locationCaught;
-    }
-
-    public Integer getCurrentHp() {
-        display(messageProvider.currentHpRequestMessage());
-        Integer level = null;
-        String input = null;
-        try {
-            input = getInputLine();
-        } catch (IOException e) {}
-        try {
-            level = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            return getLevel();
-        }
-        return level;
-    }
-
-    private boolean dateInFuture(String dateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(dateString, formatter);
-        return date.isAfter(LocalDate.now());
+        return value;
     }
 
     public String getDateCaught() {
-        display(messageProvider.dateCaughtRequestMessage());
-        String dateCaught = null;
-        try {
-            dateCaught = getInputLine();
-        } catch (IOException e) {}
-        if (dateInFuture(dateCaught)) {
-            return getDateCaught();
-        };
-        return dateCaught;
+        return getString(messageProvider.dateCaughtRequestMessage(),
+                dateValidator);
+    }
+
+    public Integer getLevel() {
+        return getInteger(messageProvider.levelRequestMessage(),
+                levelValidator);
+    }
+
+    public String getSpecies() {
+        return getString(messageProvider.speciesRequestMessage());
+    }
+
+    public String getNickname() {
+        return getString(messageProvider.nicknameRequestMessage());
+    }
+
+    public String getLocationCaught() {
+        return getString(messageProvider.locationCaughtRequestMessage());
+    }
+
+    public Integer getCurrentHp() {
+        return getInteger(messageProvider.currentHpRequestMessage());
     }
 
     public void storeSuccessMessage() {
-        display(messageProvider.storeSuccessMessage());
-        emptySpace();
+        displayPlusSpace(messageProvider.storeSuccessMessage());
     }
 
     public void saveSuccessMessage() {
-        display(messageProvider.saveSuccessMessage());
-        emptySpace();
+        displayPlusSpace(messageProvider.saveSuccessMessage());
     }
     
     public void displaySpecies(Species s) {
@@ -162,17 +171,11 @@ public class Ui {
     }
 
     public void noneFoundMessage() {
-        display(messageProvider.noneFoundMessage());
-        emptySpace();
+        displayPlusSpace(messageProvider.noneFoundMessage());
     }
 
     public String getSpeciesSearchInput() {
-        display(messageProvider.searchMessage());
-        String searchString = null;
-        try {
-            searchString = getInputLine();
-        } catch (IOException e) {}
-        return searchString;
+        return getString(messageProvider.searchMessage());
     }
 
     public String getRetrieveCommandString() {
