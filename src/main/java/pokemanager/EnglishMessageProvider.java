@@ -74,14 +74,14 @@ public class EnglishMessageProvider implements MessageProvider {
     }
 
     public String locationCaughtRequestMessage() {
-        return "Location caught";
+        return "Location caught:";
     }
 
     public String dateCaughtRequestMessage() {
-        return "Date caught";
+        return "Date caught:";
     }
 
     public String currentHpRequestMessage() {
-        return "Current HP";
+        return "Current HP:";
     }
 }

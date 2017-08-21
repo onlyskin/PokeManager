@@ -74,14 +74,14 @@ public class ItalianMessageProvider implements MessageProvider {
     }
 
     public String locationCaughtRequestMessage() {
-        return "Luogo di caccia";
+        return "Luogo di caccia:";
     }
 
     public String dateCaughtRequestMessage() {
-        return "Data di caccia";
+        return "Data di caccia:";
     }
 
     public String currentHpRequestMessage() {
-        return "Attuale HP";
+        return "Attuale HP:";
     }
 }
