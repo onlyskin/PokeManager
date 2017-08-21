@@ -18,6 +18,7 @@ public class AppTest {
     private final HttpGetRequester getRequester;
     private App app;
     private Ui ui;
+    private EnglishMessageProvider em;
 
     public AppTest() throws IOException {
         out = new ByteArrayOutputStream();
@@ -32,23 +33,33 @@ public class AppTest {
         fw.close();
         box = new FileBox(tempFile.toString());
         getRequester = new HttpGetRequesterSpy();
+        em = new EnglishMessageProvider();
     }
 
     @Test
     public void PrintsBox() throws Exception {
         RunAppWithUserInput("box\nexit\n");
-        assertEquals("startup message\n~Hana~ lv.5 Bulbasaur - 0.7m, 6.9kg - 356HP - caught on " +
-                "18/08/2015 at Cinnabar Island\n\n", out.toString());
+        assertEquals(em.startupMessage() + "\n~Hana~ lv.5 Bulbasaur - 0.7m," +
+                " 6.9kg - 356HP - caught on 18/08/2015 at Cinnabar Island\n\n",
+                out.toString());
     }
 
     @Test
-    public void StoresThenPrintsUpdatedBoxForPokemonInApiAndPokemonNotFoundInApi() throws Exception {
-        RunAppWithUserInput("store\nCharmander\nEmber\n6\n18/06/2015\nCinnabar Island\n356\nbox\nexit\n");
-        assertEquals("startup message\nspecies request message\nnickname request message\n" +
-                "level request message\ndateCaught request message\nlocationCaught request message\n" +
-                "currentHp request message\nstore success message\n\n" +
-            "~Hana~ lv.5 Bulbasaur - 0.7m, 6.9kg - 356HP - caught on 18/08/2015 at Cinnabar Island\n" +
-            "~Ember~ lv.6 Charmander - 0.7m, 6.9kg - 356HP - caught on 18/06/2015 at Cinnabar Island\n\n", out.toString());
+    public void StoresThenPrintsUpdatedBox() throws Exception {
+        RunAppWithUserInput("store\nCharmander\nEmber\n6\n18/06/2015\n" +
+                "Cinnabar Island\n356\nbox\nexit\n");
+        assertEquals(em.startupMessage() + "\n" +
+                em.speciesRequestMessage() + "\n" +
+                em.nicknameRequestMessage() + "\n" +
+                em.levelRequestMessage() + "\n" +
+                em.dateCaughtRequestMessage() + "\n" +
+                em.locationCaughtRequestMessage() + "\n" +
+                em.currentHpRequestMessage() + "\n" +
+                em.storeSuccessMessage() + "\n\n" +
+                "~Hana~ lv.5 Bulbasaur - 0.7m, 6.9kg - 356HP - " +
+                "caught on 18/08/2015 at Cinnabar Island\n" +
+                "~Ember~ lv.6 Charmander - 0.7m, 6.9kg - 356HP - " +
+                "caught on 18/06/2015 at Cinnabar Island\n\n", out.toString());
     }
 
     @Test
@@ -67,25 +78,24 @@ public class AppTest {
     @Test
     public void GetsPokemonDataFromGetRequester() throws Exception {
         RunAppWithUserInput("search\nBulbasaur\nexit\n");
-        assertEquals("startup message\n" +
-                "search message\n" +
-                "species fieldname: bulbasaur\n" +
-                "height fieldname: 7\n" +
-                "weight fieldname: 69\n",
-                out.toString());
+        assertEquals(em.startupMessage() + "\n" +
+                em.searchMessage() + "\n" +
+                em.speciesFieldname() + ": bulbasaur\n" +
+                em.heightFieldname() + ": 7\n" +
+                em.weightFieldname() + ": 69\n", out.toString());
     }
 
     @Test
     public void PrintsErrorMessageOnInvalidCommand() throws Exception {
         RunAppWithUserInput("invalidcommand\nexit\n");
-        assertEquals("startup message\nbad command message\n\n",
-                out.toString());
+        assertEquals(em.startupMessage() + "\n" +
+                em.badCommandMessage() + "\n", out.toString());
     }
 
     private void RunAppWithUserInput(String userInput) {
         input = new ByteArrayInputStream(userInput.getBytes());
         ui = new Ui(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(userInput.getBytes()))),
-                printStream, new MessageProviderStub());
+                printStream, "en");
         app = new App(box, getRequester, ui);
         app.run();
     }
