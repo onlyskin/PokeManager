@@ -6,11 +6,9 @@ import java.util.List;
 
 public class App {
     private Box box;
-    private String storageFilename;
     private List<Command> commands;
     private boolean run;
     private SpeciesFinder speciesFinder;
-    private HttpGetRequester getRequester;
     private Ui ui;
 
     public App(Box box,
@@ -19,7 +17,6 @@ public class App {
         this.box = box;
         this.speciesFinder = new SpeciesFinder(getRequester);
         this.run = false;
-        this.getRequester = getRequester;
         this.ui = ui;
         this.commands = buildCommands(this);
     }
@@ -42,13 +39,6 @@ public class App {
         return null;
     }
 
-	private void acceptInput() {
-        try {
-            String line = ui.getInputLine();
-            handleInputLine(line);
-        } catch (Exception IOException) {}
-    }
-
     public void run() {
         run = true;
         ui.startupMessage();
@@ -59,6 +49,13 @@ public class App {
 
     public void exit() {
         run = false;
+    }
+
+    private void acceptInput() {
+        try {
+            String line = ui.getInputLine();
+            handleInputLine(line);
+        } catch (Exception IOException) {}
     }
 
     private void handleInputLine(String line) throws IOException {

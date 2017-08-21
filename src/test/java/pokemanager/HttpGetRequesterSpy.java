@@ -17,8 +17,7 @@ public class HttpGetRequesterSpy extends HttpGetRequester {
             return "{\"detail\":\"Not found.\"}";
         } else if (calledWith.equals("Charmander")) {
             return "{\"name\": \"charmander\", \"weight\": 30, \"height\": 30}";
-        }
-        else {
+        } else {
             return "{\"name\": \"bulbasaur\", \"weight\": 69, \"height\": 7}";
         }
     }

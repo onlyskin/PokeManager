@@ -2,7 +2,7 @@ package pokemanager;
 
 import java.io.*;
 
-public class UiStubSpy extends Ui{
+public class UiStubSpy extends Ui {
     public boolean badInput;
     public boolean displaySpeciesCalled;
     public boolean noneFoundCalled;

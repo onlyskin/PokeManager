@@ -1,7 +1,6 @@
 package pokemanager;
 
 import org.junit.Test;
-import org.junit.Ignore;
 
 import java.io.*;
 
@@ -9,15 +8,14 @@ import static org.junit.Assert.*;
 
 public class StoreCommandTest {
 
-    private ByteArrayOutputStream out;
     private BoxSpy boxSpy = new BoxSpy();
     private SpeciesFinderSpy speciesFinderSpy = new SpeciesFinderSpy();
+    private UiSpy uiSpy = new UiSpy();
 
     public StoreCommandTest() throws IOException {}
 
     @Test
     public void CallsMethodsOnUI() throws Exception {
-       UiSpy uiSpy = new UiSpy();
        StoreCommand sc = new StoreCommand(boxSpy, new SpeciesFinderStub(), uiSpy);
        sc.execute("store");
        assertTrue(uiSpy.getLevelCalled);

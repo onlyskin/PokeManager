@@ -4,11 +4,11 @@ public class Pokemon {
     private final String species;
     private final String nickname;
     private final Integer level;
-    private Integer height;
-    private Integer weight;
+    private final Integer height;
+    private final Integer weight;
     private final String dateCaught;
     private final String locationCaught;
-    private Integer currentHp;
+    private final Integer currentHp;
     
     public Pokemon(String species, String nickname, Integer level,
             Integer height, Integer weight, String dateCaught,

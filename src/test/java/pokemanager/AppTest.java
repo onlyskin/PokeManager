@@ -1,6 +1,5 @@
 package pokemanager;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -66,9 +65,9 @@ public class AppTest {
     public void SavesBoxToFile() throws Exception {
         RunAppWithUserInput("store\nCharmander\nEmber\n6\n18/06/2015\nCinnabar Island\n356\nsave\nexit\n");
         String fileContents = inputStreamToString(new FileInputStream(tempFile.toString()));
-        assertEquals("[{\"species\":\"Charmander\"," +
-                "\"nickname\":\"Ember\",\"level\":12,\"height\":30," +
-                "\"weight\":30,\"dateCaught\":\"18/08/2015\"," +
+        assertEquals("[{\"species\":\"Bulbasaur\"," +
+                "\"nickname\":\"Hana\",\"level\":5,\"height\":7," +
+                "\"weight\":69,\"dateCaught\":\"18/08/2015\"," +
                 "\"locationCaught\":\"Cinnabar Island\",\"currentHp\":356}," +
                 "{\"species\":\"Charmander\",\"nickname\":\"Ember\",\"level\":6" +
                 ",\"height\":30,\"weight\":30,\"dateCaught\":\"18/06/2015\"," +

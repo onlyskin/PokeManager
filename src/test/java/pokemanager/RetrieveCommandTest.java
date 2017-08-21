@@ -1,7 +1,6 @@
 package pokemanager;
 
 import org.junit.Test;
-import org.junit.Ignore;
 
 import java.io.*;
 

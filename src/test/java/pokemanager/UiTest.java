@@ -1,7 +1,6 @@
 package pokemanager;
 
 import org.junit.Test;
-import org.junit.Ignore;
 
 import java.io.*;
 
@@ -56,18 +55,18 @@ public class UiTest {
     }
 
     @Test
-    public void DisplaysPokemonWithNullHeight() throws Exception {
-        ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, null, null,
-                    "18/08/2016", "Cinnabar Island", 22));
-        assertEquals("Hana - lv.13 Bulbasaur\n", out.toString());
-    }
-
-    @Test
     public void DisplaysPokemon() throws Exception {
         ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, 7, 69,
                     "18/08/2016", "Cinnabar Island", 22));
         assertEquals("~Hana~ lv.13 Bulbasaur - 0.7m, 6.9kg - 22HP - caught on " + 
                 "18/08/2016 at Cinnabar Island\n", out.toString());
+    }
+
+    @Test
+    public void DisplaysPokemonWithNullHeight() throws Exception {
+        ui.displayPokemon(new Pokemon("Bulbasaur", "Hana", 13, null, null,
+                    "18/08/2016", "Cinnabar Island", 22));
+        assertEquals("Hana - lv.13 Bulbasaur\n", out.toString());
     }
 
     @Test
@@ -133,6 +132,22 @@ public class UiTest {
     }
 
     @Test
+    public void GetsSpeciesSearchInput() throws Exception {
+        Ui ui = makeUiWithInputStreamString("Bulbasaur\n");
+        String inputString = ui.getSpeciesSearchInput();
+        assertEquals("Bulbasaur", inputString);
+        assertEquals(em.searchMessage() + "\n", out.toString());
+    }
+
+    @Test
+    public void DisplaysSpecies() throws Exception {
+        ui.displaySpecies(new Species("Bulbasaur", 5, 10));
+        assertEquals(em.speciesFieldname() + ": Bulbasaur\n" +
+                     em.heightFieldname() + ": 5\n" +
+                     em.weightFieldname() + ": 10\n", out.toString());
+    }
+
+    @Test
     public void PrintsStoreSuccess() throws Exception {
         ui.storeSuccessMessage();
         assertEquals(em.storeSuccessMessage() + "\n\n", out.toString());
@@ -145,25 +160,9 @@ public class UiTest {
     }
 
     @Test
-    public void DisplaysSpecies() throws Exception {
-        ui.displaySpecies(new Species("Bulbasaur", 5, 10));
-        assertEquals(em.speciesFieldname() + ": Bulbasaur\n" +
-                     em.heightFieldname() + ": 5\n" +
-                     em.weightFieldname() + ": 10\n", out.toString());
-    }
-
-    @Test
     public void DisplaysNoneFoundMessage() throws Exception {
         ui.noneFoundMessage();
         assertEquals(em.noneFoundMessage() + "\n\n", out.toString());
-    }
-
-    @Test
-    public void GetsSpeciesSearchInput() throws Exception {
-        Ui ui = makeUiWithInputStreamString("Bulbasaur\n");
-        String inputString = ui.getSpeciesSearchInput();
-        assertEquals("Bulbasaur", inputString);
-        assertEquals(em.searchMessage() + "\n", out.toString());
     }
 
     private Ui makeUiWithInputStreamString(String inputString) {

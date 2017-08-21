@@ -1,7 +1,5 @@
 package pokemanager;
 
-import java.io.*;
-
 public class AppSpy extends App {
     public boolean exitCalled;
     

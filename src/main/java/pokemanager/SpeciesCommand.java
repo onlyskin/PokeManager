@@ -7,7 +7,6 @@ public class SpeciesCommand implements Command {
     private Ui ui;
 
     public SpeciesCommand(SpeciesFinder speciesFinder, Ui ui) {
-        super();
         this.speciesFinder = speciesFinder;
         this.ui = ui;
     }
