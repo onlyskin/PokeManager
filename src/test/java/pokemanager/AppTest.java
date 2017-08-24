@@ -5,7 +5,11 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.junit.Assert.*;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Collectors;
+
+// import ioc.Container;
 
 public class AppTest {
 
@@ -91,11 +95,20 @@ public class AppTest {
                 em.badCommandMessage() + "\n", out.toString());
     }
 
-    private void RunAppWithUserInput(String userInput) {
+    private void RunAppWithUserInput(String userInput) throws
+            IllegalAccessException, InvocationTargetException, InstantiationException {
         input = new ByteArrayInputStream(userInput.getBytes());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(userInput.getBytes())));
         ui = new Ui(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(userInput.getBytes()))),
                 printStream, "en");
         app = new App(box, getRequester, ui);
+        // Container container = new Container();
+        // container.registerType(FileBox.class);
+        // container.registerType(HttpGetRequester.class);
+        // container.registerType(Ui.class);
+        // container.registerInstance(reader);
+        // container.registerInstance(printStream);
+        // App app2 = container.construct(App.class, tempFile.toString(), "en");
         app.run();
     }
 

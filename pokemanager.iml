@@ -17,8 +17,26 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.json:json:20170516" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.json:json:20170516" level="project" />
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library name="Gradle: java-ioc">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../java-ioc/build/libs/java-ioc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="TEST" name="Gradle: org.json:json:20170516" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: java-ioc">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../java-ioc/build/libs/java-ioc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
