@@ -8,6 +8,8 @@ public class Ui {
     private final BufferedReader reader;
     private final DateValidator dateValidator;
     private final LevelValidator levelValidator;
+    private final NullValidator nullValidator;
+    private final IntegerValidator integerValidator;
 
     public Ui(BufferedReader reader, PrintStream printStream,
             String language) {
@@ -15,6 +17,8 @@ public class Ui {
         this.reader = reader;
         this.dateValidator = new DateValidator();
         this.levelValidator = new LevelValidator();
+        this.nullValidator = new NullValidator();
+        this.integerValidator = new IntegerValidator();
         if (language.equals("it")) {
             this.messageProvider = new ItalianMessageProvider();
         } else {
@@ -73,64 +77,42 @@ public class Ui {
         return line;
     }
 
-    private String getString(String prompt, StringValidator validator) {
+    private <T> T get(String prompt, Validator<T> validator) {
         display(prompt);
         String input = null;
         try {
             input = getInputLine();
         } catch (IOException e) {}
-        if (!(validator == null)) {
-            if (!validator.validate(input)) {
-                return getString(prompt, validator);
-            }
+        if (!validator.validate(input)) {
+            return get(prompt, validator);
         }
-        return input;
-    }
-
-    private Integer getInteger(String prompt, IntegerValidator validator) {
-        display(prompt);
-        Integer value = null;
-        String input = null;
-        try {
-            input = getInputLine();
-        } catch (IOException e) {}
-        try {
-            value = Integer.parseInt(input);
-            if (!(validator == null)) {
-                if (!validator.validate(value)) {
-                    throw new NumberFormatException();
-                }
-            }
-        } catch (NumberFormatException e) {
-            return getInteger(prompt, validator);
-        }
-        return value;
+        return validator.getValue(input);
     }
 
     public String getDateCaught() {
-        return getString(messageProvider.dateCaughtRequestMessage(),
+        return get(messageProvider.dateCaughtRequestMessage(),
                 dateValidator);
     }
 
     public Integer getLevel() {
-        return getInteger(messageProvider.levelRequestMessage(),
+        return get(messageProvider.levelRequestMessage(),
                 levelValidator);
     }
 
     public String getSpecies() {
-        return getString(messageProvider.speciesRequestMessage(), null);
+        return get(messageProvider.speciesRequestMessage(), nullValidator);
     }
 
     public String getNickname() {
-        return getString(messageProvider.nicknameRequestMessage(), null);
+        return get(messageProvider.nicknameRequestMessage(), nullValidator);
     }
 
     public String getLocationCaught() {
-        return getString(messageProvider.locationCaughtRequestMessage(), null);
+        return get(messageProvider.locationCaughtRequestMessage(), nullValidator);
     }
 
     public Integer getCurrentHp() {
-        return getInteger(messageProvider.currentHpRequestMessage(), null);
+        return get(messageProvider.currentHpRequestMessage(), integerValidator);
     }
 
     public void storeSuccessMessage() {
@@ -156,7 +138,7 @@ public class Ui {
     }
 
     public String getSpeciesSearchInput() {
-        return getString(messageProvider.searchMessage(), null);
+        return get(messageProvider.searchMessage(), nullValidator);
     }
 
     public String getRetrieveCommandString() {
