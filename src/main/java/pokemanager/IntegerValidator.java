@@ -9,7 +9,7 @@ public class IntegerValidator implements Validator<Integer> {
         } catch (NumberFormatException e) {
             return false;
         }
-            return true;
+        return true;
     }
 
     public Integer getValue(String input) {

@@ -2,14 +2,16 @@ package pokemanager;
 
 public class LevelValidator implements Validator<Integer> {
 
+    private Validator[] childValidators = new Validator[]{
+        new IntegerValidator(),
+        new RangeValidator()
+    };
+
     public boolean validate(String input) {
-        Integer level = null;
-        try {
-            level = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            return false;
+        for (Validator validator : childValidators) {
+            if (!validator.validate(input)) return false;
         }
-        return level > 0 && level < 100;
+        return true;
     }
 
     public Integer getValue(String input) {
