@@ -45,7 +45,7 @@ public class UiTest {
     @Test
     public void PrintsBadCommandMessage() throws Exception {
         ui.badCommandMessage();
-        assertEquals(em.badCommandMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("badCommand") + "\n", out.toString());
     }
 
     @Test
@@ -73,15 +73,15 @@ public class UiTest {
     public void GetsLevel() throws Exception {
         Ui ui = makeUiWithInputStreamString("3\n");
         assertEquals(new Integer(3), ui.getLevel());
-        assertEquals(em.levelRequestMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("levelInput") + "\n", out.toString());
     }
 
     @Test
     public void AsksAgainIfCantParseNumber() throws Exception {
         Ui ui = makeUiWithInputStreamString("three\n3\n");
         assertEquals(new Integer(3), ui.getLevel());
-        assertEquals(em.levelRequestMessage() + "\n" +
-                em.levelRequestMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("levelInput") + "\n" +
+                em.getMessage("levelInput") + "\n", out.toString());
     }
 
     @Test
@@ -94,35 +94,35 @@ public class UiTest {
     public void GetsSpecies() throws Exception {
         Ui ui = makeUiWithInputStreamString("Bulbasaur");
         assertEquals("Bulbasaur", ui.getSpecies());
-        assertEquals(em.speciesRequestMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("speciesInput") + "\n", out.toString());
     }
 
     @Test
     public void GetsNickname() throws Exception {
         Ui ui = makeUiWithInputStreamString("Hana");
         assertEquals("Hana", ui.getNickname());
-        assertEquals(em.nicknameRequestMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("nicknameInput") + "\n", out.toString());
     }
 
     @Test
     public void GetsLocationCaught() throws Exception {
         Ui ui = makeUiWithInputStreamString("Cinnabar Island");
         assertEquals("Cinnabar Island", ui.getLocationCaught());
-        assertEquals(em.locationCaughtRequestMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("locationInput") + "\n", out.toString());
     }
 
     @Test
     public void GetsCurrentHp() throws Exception {
         Ui ui = makeUiWithInputStreamString("356\n");
         assertEquals(new Integer(356), ui.getCurrentHp());
-        assertEquals(em.currentHpRequestMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("hpInput") + "\n", out.toString());
     }
 
     @Test
     public void GetsDateCaught() throws Exception {
         Ui ui = makeUiWithInputStreamString("18/08/2016\n");
         assertEquals("18/08/2016", ui.getDateCaught());
-        assertEquals(em.dateCaughtRequestMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("dateInput") + "\n", out.toString());
     }
 
     @Test
@@ -136,33 +136,33 @@ public class UiTest {
         Ui ui = makeUiWithInputStreamString("Bulbasaur\n");
         String inputString = ui.getSpeciesSearchInput();
         assertEquals("Bulbasaur", inputString);
-        assertEquals(em.searchMessage() + "\n", out.toString());
+        assertEquals(em.getMessage("searchInput") + "\n", out.toString());
     }
 
     @Test
     public void DisplaysSpecies() throws Exception {
         ui.displaySpecies(new Species("Bulbasaur", 5, 10));
-        assertEquals(em.speciesFieldname() + ": Bulbasaur\n" +
-                     em.heightFieldname() + ": 0.5m\n" +
-                     em.weightFieldname() + ": 1.0kg\n", out.toString());
+        assertEquals(em.getMessage("speciesField") + ": Bulbasaur\n" +
+                     em.getMessage("heightField") + ": 0.5m\n" +
+                     em.getMessage("weightField") + ": 1.0kg\n", out.toString());
     }
 
     @Test
     public void PrintsStoreSuccess() throws Exception {
         ui.storeSuccessMessage();
-        assertEquals(em.storeSuccessMessage() + "\n\n", out.toString());
+        assertEquals(em.getMessage("storedSuccess") + "\n\n", out.toString());
     }
 
     @Test
     public void PrintsSaveSuccess() throws Exception {
         ui.saveSuccessMessage();
-        assertEquals(em.saveSuccessMessage() + "\n\n", out.toString());
+        assertEquals(em.getMessage("savedSuccess") + "\n\n", out.toString());
     }
 
     @Test
     public void DisplaysNoneFoundMessage() throws Exception {
         ui.noneFoundMessage();
-        assertEquals(em.noneFoundMessage() + "\n\n", out.toString());
+        assertEquals(em.getMessage("noSpecies") + "\n\n", out.toString());
     }
 
     private Ui makeUiWithInputStreamString(String inputString) {

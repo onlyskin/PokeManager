@@ -1,5 +1,9 @@
 package pokemanager;
 
-public interface Validator {
+public interface Validator<T> {
+
+    boolean validate(String input);
+
+    T getValue(String input);
 
 }

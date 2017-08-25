@@ -1,95 +1,44 @@
 package pokemanager;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class EnglishMessageProvider implements MessageProvider {
+    private Map<String, String> messages = new HashMap<>();
+    
+    public EnglishMessageProvider() {
+        messages.put("badCommand", "Please enter a valid command.\n");
+        messages.put("noSpecies", "No species found");
+        messages.put("levelInput", "Level:");
+        messages.put("speciesInput", "Species:");
+        messages.put("nicknameInput", "Nickname:");
+        messages.put("locationInput", "Location caught:");
+        messages.put("dateInput", "Date caught:");
+        messages.put("hpInput", "Current HP:");
+        messages.put("storedSuccess", "Stored!");
+        messages.put("savedSuccess", "Saved!");
+        messages.put("speciesField", "Species");
+        messages.put("heightField", "Height");
+        messages.put("weightField", "Weight");
+        messages.put("searchInput", "Search for:");
+        messages.put("onPhrase", "caught on");
+        messages.put("atPhrase", "at");
+        messages.put("retrieveCommand", "box");
+        messages.put("storeCommand", "store");
+        messages.put("saveCommand", "save");
+        messages.put("exitCommand", "exit");
+        messages.put("searchCommand", "search");
+    }
+
     public String startupMessage() {
         return "Commands:" +
-                "\n'" + retrieveCommandString()  + "' to see stored Pokemon" +
-                "\n'" + storeCommandString() + "' to store a Pokemon" +
-                "\n'" + saveCommandString() + "' to save your stored Pokemon for next time" +
-                "\n'" + speciesCommandString() + "' to search the Pokedex";
+            "\n'" + getMessage("retrieveCommand")  + "' to see stored Pokemon" +
+            "\n'" + getMessage("storeCommand") + "' to store a Pokemon" +
+            "\n'" + getMessage("saveCommand") + "' to save your stored Pokemon for next time" +
+            "\n'" + getMessage("searchCommand") + "' to search the Pokedex";
     }
 
-    public String badCommandMessage() {
-        return "Please enter a valid command.\n";
-    }
-
-    public String levelRequestMessage() {
-        return "Level:";
-    }
-
-    public String speciesRequestMessage() {
-        return "Species:";
-    }
-
-    public String nicknameRequestMessage() {
-        return "Nickname:";
-    }
-
-    public String storeSuccessMessage() {
-        return "Stored!";
-    }
-
-    public String saveSuccessMessage() {
-        return "Saved!";
-    }
-
-    public String noneFoundMessage() {
-        return "No species found";
-    }
-
-    public String speciesFieldname() {
-        return "Species";
-    }
-
-    public String heightFieldname() {
-        return "Height";
-    }
-
-    public String weightFieldname() {
-        return "Weight";
-    }
-
-    public String searchMessage() {
-        return "Search for:";
-    }
-
-    public String retrieveCommandString() {
-        return "box";
-    }
-
-    public String storeCommandString() {
-        return "store";
-    }
-
-    public String saveCommandString() {
-        return "save";
-    }
-
-    public String exitCommandString() {
-        return "exit";
-    }
-
-    public String speciesCommandString() {
-        return "search";
-    }
-
-    public String locationCaughtRequestMessage() {
-        return "Location caught:";
-    }
-
-    public String dateCaughtRequestMessage() {
-        return "Date caught:";
-    }
-
-    public String currentHpRequestMessage() {
-        return "Current HP:";
-    }
-
-    public String caughtOnPhrase() {
-        return "caught on";
-    }
-
-    public String caughtAtPhrase() {
-        return "at";
-    }
+    public String getMessage(String id) {
+        return messages.get(id);
+    };
 }

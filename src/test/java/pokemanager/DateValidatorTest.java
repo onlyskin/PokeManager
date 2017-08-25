@@ -16,4 +16,9 @@ public class DateValidatorTest {
     public void FutureDateNotValid() {
         assertFalse(dv.validate("18/08/2050"));
     }
+
+    @Test
+    public void GetsValue() {
+        assertEquals("18/08/2016", dv.getValue("18/08/2016"));
+    }
 }
