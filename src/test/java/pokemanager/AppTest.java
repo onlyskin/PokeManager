@@ -48,13 +48,13 @@ public class AppTest {
         RunAppWithUserInput("store\nCharmander\nEmber\n6\n18/06/2015\n" +
                 "Cinnabar Island\n356\nbox\nexit\n");
         assertEquals(em.startupMessage() + "\n" +
-                em.speciesRequestMessage() + "\n" +
-                em.nicknameRequestMessage() + "\n" +
-                em.levelRequestMessage() + "\n" +
-                em.dateCaughtRequestMessage() + "\n" +
-                em.locationCaughtRequestMessage() + "\n" +
-                em.currentHpRequestMessage() + "\n" +
-                em.storeSuccessMessage() + "\n\n" +
+                em.getMessage("speciesInput") + "\n" +
+                em.getMessage("nicknameInput") + "\n" +
+                em.getMessage("levelInput") + "\n" +
+                em.getMessage("dateInput") + "\n" +
+                em.getMessage("locationInput") + "\n" +
+                em.getMessage("hpInput") + "\n" +
+                em.getMessage("storedSuccess") + "\n\n" +
                 "~Hana~ lv.5 Bulbasaur - 0.7m, 6.9kg - 356HP - " +
                 "caught on 18/08/2015 at Cinnabar Island\n" +
                 "~Ember~ lv.6 Charmander - 0.7m, 6.9kg - 356HP - " +
@@ -78,17 +78,17 @@ public class AppTest {
     public void GetsPokemonDataFromGetRequester() throws Exception {
         RunAppWithUserInput("search\nBulbasaur\nexit\n");
         assertEquals(em.startupMessage() + "\n" +
-                em.searchMessage() + "\n" +
-                em.speciesFieldname() + ": bulbasaur\n" +
-                em.heightFieldname() + ": 0.7m\n" +
-                em.weightFieldname() + ": 6.9kg\n", out.toString());
+                em.getMessage("searchInput") + "\n" +
+                em.getMessage("speciesField") + ": bulbasaur\n" +
+                em.getMessage("heightField") + ": 0.7m\n" +
+                em.getMessage("weightField") + ": 6.9kg\n", out.toString());
     }
 
     @Test
     public void PrintsErrorMessageOnInvalidCommand() throws Exception {
         RunAppWithUserInput("invalidcommand\nexit\n");
         assertEquals(em.startupMessage() + "\n" +
-                em.badCommandMessage() + "\n", out.toString());
+                em.getMessage("badCommand") + "\n", out.toString());
     }
 
     private void RunAppWithUserInput(String userInput) {

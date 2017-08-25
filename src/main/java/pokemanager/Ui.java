@@ -40,7 +40,7 @@ public class Ui {
     }
 
     public void badCommandMessage() {
-        display(messageProvider.badCommandMessage());
+        display(messageProvider.getMessage("badCommand"));
     }
 
     public void displayOldPokemon(Pokemon p) {
@@ -61,9 +61,9 @@ public class Ui {
                           String.format("%.1f", p.getHeight() / 10.0) + "m, " +
                           String.format("%.1f", p.getWeight() / 10.0) + "kg - " +
                           p.getCurrentHp().toString() + "HP - " +
-                          messageProvider.caughtOnPhrase() + " " +
+                          messageProvider.getMessage("onPhrase") + " " +
                           p.getDateCaught() + " " +
-                          messageProvider.caughtAtPhrase() + " " +
+                          messageProvider.getMessage("atPhrase") + " " +
                           p.getLocationCaught();
         display(prettyOutput);
     }
@@ -90,74 +90,74 @@ public class Ui {
     }
 
     public String getDateCaught() {
-        return get(messageProvider.dateCaughtRequestMessage(),
+        return get(messageProvider.getMessage("dateInput"),
                 dateValidator);
     }
 
     public Integer getLevel() {
-        return get(messageProvider.levelRequestMessage(),
+        return get(messageProvider.getMessage("levelInput"),
                 levelValidator);
     }
 
     public String getSpecies() {
-        return get(messageProvider.speciesRequestMessage(), nullValidator);
+        return get(messageProvider.getMessage("speciesInput"), nullValidator);
     }
 
     public String getNickname() {
-        return get(messageProvider.nicknameRequestMessage(), nullValidator);
+        return get(messageProvider.getMessage("nicknameInput"), nullValidator);
     }
 
     public String getLocationCaught() {
-        return get(messageProvider.locationCaughtRequestMessage(), nullValidator);
+        return get(messageProvider.getMessage("locationInput"), nullValidator);
     }
 
     public Integer getCurrentHp() {
-        return get(messageProvider.currentHpRequestMessage(), integerValidator);
+        return get(messageProvider.getMessage("hpInput"), integerValidator);
     }
 
     public void storeSuccessMessage() {
-        displayPlusSpace(messageProvider.storeSuccessMessage());
+        displayPlusSpace(messageProvider.getMessage("storedSuccess"));
     }
 
     public void saveSuccessMessage() {
-        displayPlusSpace(messageProvider.saveSuccessMessage());
+        displayPlusSpace(messageProvider.getMessage("savedSuccess"));
     }
     
     public void displaySpecies(Species s) {
-        String prettyOutput = messageProvider.speciesFieldname() + ": " +
+        String prettyOutput = messageProvider.getMessage("speciesField") + ": " +
             s.getSpecies()  + "\n" +
-            messageProvider.heightFieldname() + ": " +
+            messageProvider.getMessage("heightField") + ": " +
             String.format("%.1f", s.getHeight() / 10.0) + "m\n" +
-            messageProvider.weightFieldname() + ": " +
+            messageProvider.getMessage("weightField") + ": " +
             String.format("%.1f", s.getWeight() / 10.0) + "kg";
         display(prettyOutput);
     }
 
     public void noneFoundMessage() {
-        displayPlusSpace(messageProvider.noneFoundMessage());
+        displayPlusSpace(messageProvider.getMessage("noSpecies"));
     }
 
     public String getSpeciesSearchInput() {
-        return get(messageProvider.searchMessage(), nullValidator);
+        return get(messageProvider.getMessage("searchInput"), nullValidator);
     }
 
     public String getRetrieveCommandString() {
-        return messageProvider.retrieveCommandString();
+        return messageProvider.getMessage("retrieveCommand");
     }
 
     public String getStoreCommandString() {
-        return messageProvider.storeCommandString();
+        return messageProvider.getMessage("storeCommand");
     }
 
     public String getSaveCommandString() {
-        return messageProvider.saveCommandString();
+        return messageProvider.getMessage("saveCommand");
     }
 
     public String getExitCommandString() {
-        return messageProvider.exitCommandString();
+        return messageProvider.getMessage("exitCommand");
     }
 
     public String getSpeciesCommandString() {
-        return messageProvider.speciesCommandString();
+        return messageProvider.getMessage("searchCommand");
     }
 }
