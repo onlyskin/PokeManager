@@ -4,7 +4,7 @@ public class LevelValidator implements Validator<Integer> {
 
     private Validator[] childValidators = new Validator[]{
         new IntegerValidator(),
-        new RangeValidator()
+        new RangeValidator(1, 99)
     };
 
     public boolean validate(String input) {
