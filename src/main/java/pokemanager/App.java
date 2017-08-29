@@ -1,6 +1,9 @@
 package pokemanager;
 
+import ioc.Container;
+
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +14,7 @@ public class App {
     private SpeciesFinder speciesFinder;
     private Ui ui;
 
-    public App(Box box,
+    public App(FileBox box,
                HttpGetRequester getRequester,
                Ui ui) {
         this.box = box;
@@ -67,16 +70,18 @@ public class App {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, IllegalAccessException, InvocationTargetException, InstantiationException {
         String language = args[0];
         String filepath = "/Users/sam/Documents/pokemanager/data/data";
-        FileBox box = new FileBox(filepath);
-        HttpGetRequester getRequester = new HttpGetRequester();
-        Ui ui = new Ui(new BufferedReader(new InputStreamReader(System.in)),
-                    System.out, language);
-        App app = new App(box,
-                          getRequester,
-                          ui);
+        Container container = new Container();
+        container.registerType(FileBox.class);
+        container.registerType(HttpGetRequester.class);
+        container.registerType(Ui.class);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        PrintStream printStream = System.out;
+        container.registerInstance(bufferedReader);
+        container.registerInstance(printStream);
+        App app = container.construct(App.class, filepath, language);
         app.run();
     }
 }
